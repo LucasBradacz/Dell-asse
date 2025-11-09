@@ -3,8 +3,6 @@ package com.dellasse.backend.models;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,7 +11,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +22,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,6 +33,7 @@ public class Users {
     private String email;
     private String username;
     private String password;
+    private boolean active;
 
     @ManyToMany
     @JoinTable(
@@ -45,5 +45,8 @@ public class Users {
     
     @ManyToOne
     private Enterprise enterprise;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Cart> carts;
     
 }
