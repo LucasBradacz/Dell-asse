@@ -1,6 +1,11 @@
 package com.dellasse.backend.models;
 
+import java.util.List;
 import java.util.Set;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.dellasse.backend.contracts.user.LoginRequest;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,12 +46,32 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private List<Role> roles;
     
     @ManyToOne
     private Enterprise enterprise;
+<<<<<<< Updated upstream:backend/src/main/java/com/dellasse/backend/models/User.java
 
     @OneToMany(mappedBy = "user")
     private Set<Cart> carts;
+=======
+<<<<<<< Updated upstream:backend/src/main/java/com/dellasse/backend/models/Users.java
+>>>>>>> Stashed changes:backend/src/main/java/com/dellasse/backend/models/Users.java
     
+=======
+
+    @OneToMany(mappedBy = "user")
+    private Set<Cart> carts;
+
+    public User(String name, String email, String username, String password){
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }  
+
+    public boolean isLoginCorret(LoginRequest user, PasswordEncoder passwordEncoder){
+       return passwordEncoder.matches(user.password(), this.password);
+    }
+>>>>>>> Stashed changes:backend/src/main/java/com/dellasse/backend/models/User.java
 }
