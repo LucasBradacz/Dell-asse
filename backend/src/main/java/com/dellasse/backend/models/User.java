@@ -25,8 +25,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -50,15 +50,6 @@ public class User {
     
     @ManyToOne
     private Enterprise enterprise;
-<<<<<<< Updated upstream:backend/src/main/java/com/dellasse/backend/models/User.java
-
-    @OneToMany(mappedBy = "user")
-    private Set<Cart> carts;
-=======
-<<<<<<< Updated upstream:backend/src/main/java/com/dellasse/backend/models/Users.java
->>>>>>> Stashed changes:backend/src/main/java/com/dellasse/backend/models/Users.java
-    
-=======
 
     @OneToMany(mappedBy = "user")
     private Set<Cart> carts;
@@ -73,5 +64,4 @@ public class User {
     public boolean isLoginCorret(LoginRequest user, PasswordEncoder passwordEncoder){
        return passwordEncoder.matches(user.password(), this.password);
     }
->>>>>>> Stashed changes:backend/src/main/java/com/dellasse/backend/models/User.java
 }

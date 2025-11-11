@@ -9,7 +9,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class BackendApplication {
 
 	public static void main(String[] args) {
-		Dotenv env = Dotenv.load();
+		Dotenv env = Dotenv.configure().ignoreIfMissing().load();
 		System.setProperty("DB_USERNAME", env.get("DB_USERNAME"));
 		System.setProperty("DB_PASSWORD", env.get("DB_PASSWORD"));
 		SpringApplication.run(BackendApplication.class, args);
