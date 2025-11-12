@@ -42,7 +42,7 @@ public class SecurityConfig {
     private RSAPrivateKey privateKey;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationToken token) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         var auth = UsernamePasswordAuthenticationFilter.class;
         http
                 .addFilterBefore(new JwtCookieAuthenticationFilter(), auth)
