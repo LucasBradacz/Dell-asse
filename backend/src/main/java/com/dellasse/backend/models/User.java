@@ -2,6 +2,7 @@ package com.dellasse.backend.models;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -32,7 +33,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String uuid;
+    private UUID uuid;
 
     private String name;
     private String email;

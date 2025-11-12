@@ -2,6 +2,7 @@ package com.dellasse.backend.models;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Enterprise {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
     private String name;
     private String document;
     private String address;

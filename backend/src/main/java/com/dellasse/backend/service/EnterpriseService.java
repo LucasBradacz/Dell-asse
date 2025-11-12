@@ -32,7 +32,7 @@ public class EnterpriseService {
             throw new UserExeception("User not found");
         }
 
-        boolean temRole = userRepository.existsByUuidAndRoles(userUUID, Role.Values.ADMIN.getRoleId());
+        boolean temRole = userRepository.existsByUuidAndRoles_Id(userUUID, Role.Values.ADMIN.getRoleId());
         if (!temRole){
             throw new UserExeception("User not admin");
         }
