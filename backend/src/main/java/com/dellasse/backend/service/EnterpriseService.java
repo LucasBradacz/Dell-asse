@@ -36,7 +36,7 @@ public class EnterpriseService {
         if (!temRole){
             throw new UserExeception("User not admin");
         }
-        if (enterpriseRepository.existsByNameOrDocument(request.name())) {
+        if (enterpriseRepository.existsByNameOrDocument(request.name(), request.document())) {
             throw new UserExeception("Enterprise already exists");
         }
 

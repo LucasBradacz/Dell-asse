@@ -9,5 +9,5 @@ import com.dellasse.backend.models.Enterprise;
 
 @Repository
 public interface EnterpriseRepository extends JpaRepository<Enterprise, UUID> {
-    boolean existsByNameOrDocument(String name);
+    boolean existsByNameOrDocument(String name, String document);
 }

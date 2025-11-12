@@ -7,6 +7,9 @@ public record CreateEnterprise(
     @NotBlank(message = "Name is required") 
     String name, 
     
+    @NotBlank(message = "Document is required")
+    String document,
+
     @NotBlank(message = "Address is required") 
     String address, 
 
