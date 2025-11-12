@@ -7,5 +7,4 @@ import com.dellasse.backend.models.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-
 }

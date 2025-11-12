@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +107,7 @@ public class UserService {
         }
 
         Map<String, Object> response = new HashMap<>();
-        response.put("scope", jwtValue);
+        response.put("token", jwtValue);
         response.put("roles", rolesList);
         return ResponseEntity.ok(response);
     }

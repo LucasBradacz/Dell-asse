@@ -29,7 +29,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequest loginRequest, HttpServletRequest httpRequest) {
         String url = httpRequest.getRequestURL().toString();
-        System.out.println("Login attempt: " + loginRequest.username());
         return userService.loginUser(loginRequest, url);
     }
 }

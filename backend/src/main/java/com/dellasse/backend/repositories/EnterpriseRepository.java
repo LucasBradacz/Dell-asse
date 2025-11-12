@@ -7,5 +7,5 @@ import com.dellasse.backend.models.Enterprise;
 
 @Repository
 public interface EnterpriseRepository extends JpaRepository<Enterprise, String> {
-    
+    boolean existsByNameOrDocument(String name);
 }
