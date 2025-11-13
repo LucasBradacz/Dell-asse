@@ -27,8 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequest loginRequest, HttpServletRequest httpRequest) {
-        String url = httpRequest.getRequestURL().toString();
-        return userService.loginUser(loginRequest, url);
+    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequest loginRequest) {
+        return userService.loginUser(loginRequest);
     }
 }

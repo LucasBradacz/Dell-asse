@@ -59,12 +59,14 @@ public class UserService {
         User user = UserMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.password()));
         defaultValues(user);
-        User savedUser = userRepository.save(user);
+        User userCreated = userRepository.save(user);
 
-        return ResponseEntity.ok(savedUser);
+        loginUser(new LoginRequest(userCreated.getUsername(), userCreated.getPassword(), ));
+
+        return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> loginUser(LoginRequest loginRequest, String url){
+    public ResponseEntity<?> loginUser(LoginRequest loginRequest){
         boolean userExists = userRepository.existsByUsername(loginRequest.username());
         if (!userExists){
             throw new UserExeception("User not found");
