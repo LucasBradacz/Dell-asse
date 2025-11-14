@@ -61,7 +61,7 @@ public class UserService {
         defaultValues(user);
         User userCreated = userRepository.save(user);
 
-        loginUser(new LoginRequest(userCreated.getUsername(), userCreated.getPassword(), ));
+        loginUser(new LoginRequest(userCreated.getUsername(), userCreated.getPassword()));
 
         return ResponseEntity.ok().build();
     }
