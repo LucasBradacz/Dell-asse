@@ -1,6 +1,7 @@
 package com.dellasse.backend.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -8,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +37,9 @@ public class Enterprise {
 
     @OneToMany(mappedBy = "enterprise")
     private Set<User> users;
+
+    @OneToMany(mappedBy = "enterprise")
+    private List<Product> product;
 
     public Enterprise(String name, String address, String phoneNumber, String email, String urlImage) {
         this.name = name;
