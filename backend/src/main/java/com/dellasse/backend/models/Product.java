@@ -1,5 +1,8 @@
 package com.dellasse.backend.models;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,8 +31,31 @@ public class Product {
     private Integer stockQuantity;
     private String category;
     private String imageUrl;
+    private LocalDateTime dateCreate;
+    private LocalDateTime dateUpdate;
 
     @ManyToOne
     @JoinColumn(name = "enterprise_id")
     private Enterprise enterprise;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Product(
+        String name,
+        String description,
+        Double price,
+        Integer stockQuantity,
+        String category,
+        String imageUrl ) 
+    {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.category = category;
+        this.imageUrl = imageUrl;
+    }
+
 }

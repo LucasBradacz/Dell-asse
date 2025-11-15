@@ -6,13 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -24,7 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.dellasse.backend.contracts.user.CreateRequest;
 import com.dellasse.backend.contracts.user.LoginRequest;
 import com.dellasse.backend.contracts.user.UpdateRequest;
-import com.dellasse.backend.exceptions.UserExeception;
+import com.dellasse.backend.exceptions.DomainError;
+import com.dellasse.backend.exceptions.DomainException;
 import com.dellasse.backend.mappers.UserMapper;
 import com.dellasse.backend.models.Role;
 import com.dellasse.backend.models.User;
@@ -51,11 +50,11 @@ public class UserService {
     public ResponseEntity<?> createUser(CreateRequest request){
 
         if (userRepository.existsByUsername(request.username())) {
-            throw new UserExeception("Username already exists");
+            throw new DomainException(DomainError.USER_ALREADY_EXISTS);
         }
 
         if (userRepository.existsByEmail(request.email())){
-            throw new UserExeception("Email already exists");
+            throw new DomainException(DomainError.USER_ALREADY_EXISTS);
         }
 
         User user = UserMapper.toEntity(request);
@@ -69,14 +68,14 @@ public class UserService {
     public ResponseEntity<?> loginUser(LoginRequest loginRequest){
         boolean userExists = userRepository.existsByUsername(loginRequest.username());
         if (!userExists){
-            throw new UserExeception("User not found");
+            throw new DomainException(DomainError.USER_NOT_FOUND);
         }
 
         var user = userRepository.findByUsername(loginRequest.username())
-            .orElseThrow(() -> new UserExeception("User not found"));
+            .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND));
         
         if (!user.isLoginCorret(loginRequest, passwordEncoder)){
-            throw new UserExeception("Invalid password");
+            throw new DomainException(DomainError.USER_INVALID_PASSWORD);
         }
 
         var now = Instant.now();
@@ -126,24 +125,39 @@ public class UserService {
         UUID userUUID = ConvertString.toUUID(token);
         
         if (!userRepository.existsById(userUUID)){
-            throw new UserExeception("User not found");
+            throw new DomainException(DomainError.USER_NOT_FOUND);
         }
 
         User user = userRepository.findById(userUUID)
-            .orElseThrow(() -> new UserExeception("User not found"));
+            .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND));
 
         if (!user.getUuid().equals(userUUID)){
-            throw new UserExeception("The user does not have permission to change the data.");
+            throw new DomainException(DomainError.USER_CANNOT_UPDATE_DATA);
         }
-        
-        if (request.name() != null) user.setName(request.name());
-        if (request.email() != null) user.setEmail(request.email());
+
+        if(request.username() != null){
+            if (request.username().isBlank()){
+                throw new DomainException(DomainError.USER_REQUIRE_USERNAME);
+            }
+            if (userRepository.existsByUsername(request.username())) {
+                throw new DomainException(DomainError.USER_ALREADY_EXISTS);
+            }
+            user.setName(request.name());
+        }
+     
+        if (request.email() != null){
+            if (userRepository.existsByEmail(request.email())) {
+                throw new DomainException(DomainError.USER_EMAIL_ALREADY_EXISTS);
+            }
+            user.setEmail(request.email());
+        }
+   
         if (request.username() != null) user.setUsername(request.username());
         if (request.password() != null) user.setPassword(passwordEncoder.encode(request.password()));
 
         Boolean active = request.active();
         if (active != null) user.setActive(request.active());
-
+        
         return ResponseEntity.ok(UserMapper.toResponse(userRepository.save(user)));
     }
 }

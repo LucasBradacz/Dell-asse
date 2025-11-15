@@ -39,6 +39,10 @@ public class Enterprise {
     @OneToMany(mappedBy = "enterprise")
     private List<Product> product;
 
+    public Enterprise(UUID id) {
+        this.id = id;
+    }
+
     public Enterprise(String name, String address, String phoneNumber, String email, String urlImage) {
         this.name = name;
         this.address = address;

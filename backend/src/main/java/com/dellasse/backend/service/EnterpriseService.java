@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity;
 
 import com.dellasse.backend.contracts.enterprise.CreateRequest;
 import com.dellasse.backend.contracts.enterprise.UpdateRequest;
-import com.dellasse.backend.exceptions.UserExeception;
+import com.dellasse.backend.exceptions.DomainError;
+import com.dellasse.backend.exceptions.DomainException;
 import com.dellasse.backend.mappers.EnterpriseMapper;
 import com.dellasse.backend.models.Enterprise;
 import com.dellasse.backend.models.Role;
@@ -30,15 +31,15 @@ public class EnterpriseService {
         UUID userUUID = ConvertString.toUUID(id);
 
         if (!userRepository.existsById(userUUID)){
-            throw new UserExeception("User not found");
+            throw new DomainException(DomainError.USER_NOT_FOUND);
         }
 
         boolean temRole = userRepository.existsByUuidAndRoles_Id(userUUID, Role.Values.ADMIN.getRoleId());
         if (!temRole){
-            throw new UserExeception("User not admin");
+            throw new DomainException(DomainError.USER_NOT_ADMIN);
         }
         if (enterpriseRepository.existsByNameOrDocument(request.name(), request.document())) {
-            throw new UserExeception("Enterprise already exists");
+            throw new DomainException(DomainError.ENTERPRISE_EXISTS);
         }
 
 
@@ -52,11 +53,11 @@ public class EnterpriseService {
         UUID user = ConvertString.toUUID(id);
 
         if (!enterpriseRepository.existsById(enterpriseId)){
-            throw new UserExeception("Enterprise not found");
+            throw new DomainException(DomainError.ENTERPRISE_NOT_FOUND);
         }
 
         if (!userRepository.existsByUuidAndEnterprise_Id(user, enterpriseId)){
-            throw new UserExeception("The user is not linked.");
+            throw new DomainException(DomainError.USER_NOT_LINKED);
         }
 
         Enterprise enterprise = enterpriseRepository.findById(enterpriseId).get();

@@ -3,6 +3,8 @@ package com.dellasse.backend.exceptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,12 +32,15 @@ public class GlobalException {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGenericException(Exception ex) {
-        return ResponseEntity.status(500).body(ex.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Internal server error");
+
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
-    @ExceptionHandler(UserExeception.class)
-    public ResponseEntity<?> handleUserExeception(UserExeception ex) {
-        return ResponseEntity.status(400).body(ex.getMessage());
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<?> handleUserException(DomainException ex) {
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
     }
-
 }

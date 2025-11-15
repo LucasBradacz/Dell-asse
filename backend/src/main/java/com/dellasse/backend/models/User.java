@@ -55,6 +55,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Cart> carts;
 
+
+    public User(UUID uuid){
+        this.uuid = uuid;
+    }
+
     public User(String name, String email, String username, String password){
         this.name = name;
         this.email = email;
