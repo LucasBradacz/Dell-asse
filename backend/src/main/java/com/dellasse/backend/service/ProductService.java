@@ -18,6 +18,7 @@ import com.dellasse.backend.repositories.ProductRepository;
 import com.dellasse.backend.repositories.UserRepository;
 import com.dellasse.backend.util.ConvertString;
 import com.dellasse.backend.util.DateUtils;
+import com.dellasse.backend.util.MapperUtils;
 
 import jakarta.persistence.EntityManager;
 
@@ -81,7 +82,7 @@ private ProductMapper productMapper;
 
         UUID enterpriseId = validateUserEnterprise(userId);
 
-        validateProductUpdate(productMapper.toEntity(request));
+        validateProductUpdate(MapperUtils.toEntity(request, productMapper));
 
         if (!productRepository.existsById(productId)){
             throw new DomainException(DomainError.PRODUCT_NOT_FOUND);

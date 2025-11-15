@@ -9,17 +9,6 @@ import com.dellasse.backend.models.Product;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-
-    default Product toEntity(Object dto) {
-        if (dto instanceof CreateRequest create) {
-            return toEntity(create);
-        } else if (dto instanceof UpdateRequest update) {
-            return toEntity(update);
-        }
-        throw new IllegalArgumentException("DTO type not supported");
-    }
-
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "enterprise", ignore = true)
