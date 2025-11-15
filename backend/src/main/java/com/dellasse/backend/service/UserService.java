@@ -23,12 +23,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.dellasse.backend.contracts.user.CreateRequest;
 import com.dellasse.backend.contracts.user.LoginRequest;
+import com.dellasse.backend.contracts.user.UpdateRequest;
 import com.dellasse.backend.exceptions.UserExeception;
 import com.dellasse.backend.mappers.UserMapper;
 import com.dellasse.backend.models.Role;
 import com.dellasse.backend.models.User;
 import com.dellasse.backend.repositories.RoleRepository;
 import com.dellasse.backend.repositories.UserRepository;
+import com.dellasse.backend.util.ConvertString;
 
 @Service
 public class UserService {
@@ -59,9 +61,7 @@ public class UserService {
         User user = UserMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.password()));
         defaultValues(user);
-        User userCreated = userRepository.save(user);
-
-        loginUser(new LoginRequest(userCreated.getUsername(), userCreated.getPassword()));
+        userRepository.save(user);
 
         return ResponseEntity.ok().build();
     }
@@ -120,5 +120,30 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("Default role not found"));
         user.setRoles(List.of(role));
 
+    }
+
+    public  ResponseEntity<?>  updateUser(UpdateRequest request, String token){
+        UUID userUUID = ConvertString.toUUID(token);
+        
+        if (!userRepository.existsById(userUUID)){
+            throw new UserExeception("User not found");
+        }
+
+        User user = userRepository.findById(userUUID)
+            .orElseThrow(() -> new UserExeception("User not found"));
+
+        if (!user.getUuid().equals(userUUID)){
+            throw new UserExeception("The user does not have permission to change the data.");
+        }
+        
+        if (request.name() != null) user.setName(request.name());
+        if (request.email() != null) user.setEmail(request.email());
+        if (request.username() != null) user.setUsername(request.username());
+        if (request.password() != null) user.setPassword(passwordEncoder.encode(request.password()));
+
+        Boolean active = request.active();
+        if (active != null) user.setActive(request.active());
+
+        return ResponseEntity.ok(UserMapper.toResponse(userRepository.save(user)));
     }
 }

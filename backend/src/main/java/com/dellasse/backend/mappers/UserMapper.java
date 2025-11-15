@@ -1,6 +1,7 @@
 package com.dellasse.backend.mappers;
 
 import com.dellasse.backend.contracts.user.CreateRequest;
+import com.dellasse.backend.contracts.user.UpdateResponse;
 import com.dellasse.backend.models.User;
 
 public class UserMapper {
@@ -13,5 +14,16 @@ public class UserMapper {
             dtoRequest.username(),
             dtoRequest.password()
         );
+    }
+
+
+    public static UpdateResponse toResponse(User user) {
+        return new UpdateResponse(
+                user.getName(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getPassword(),
+                user.isActive()
+            );
     }
 }
