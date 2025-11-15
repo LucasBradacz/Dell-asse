@@ -60,6 +60,16 @@ public class User {
         this.uuid = uuid;
     }
 
+    public User(String name, String email, String username, String password, boolean active, List<Role> listRole, Enterprise enterprise){
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.roles = listRole;
+        this.enterprise = enterprise;
+    }
+
     public User(String name, String email, String username, String password){
         this.name = name;
         this.email = email;

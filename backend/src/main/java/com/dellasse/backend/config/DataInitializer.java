@@ -1,17 +1,47 @@
 package com.dellasse.backend.config;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.dellasse.backend.models.Enterprise;
+import com.dellasse.backend.repositories.EnterpriseRepository;
 import com.dellasse.backend.repositories.RoleRepository;
+import com.dellasse.backend.repositories.UserRepository;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
     
     @Autowired
+    private EnterpriseRepository enterpriseRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     
+    @Autowired
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
     @Override
     public void run(String... args) throws Exception {
         if (roleRepository.count() == 0) {
@@ -19,5 +49,24 @@ public class DataInitializer implements CommandLineRunner {
             roleRepository.save(new com.dellasse.backend.models.Role(null, "FUNCIONARIO"));
             roleRepository.save(new com.dellasse.backend.models.Role(null, "BASIC"));
         }
+
+        if (enterpriseRepository.count() == 0) {
+            enterpriseRepository.save(new com.dellasse.backend.models.Enterprise("dellasse", "12334567890", "rua das flores, 123", "99999-999", "interno@interno.com", "", LocalDateTime.now()));
+        }
+
+        if(userRepository.count() == 0){
+            userRepository.save(new com.dellasse.backend.models.User(
+                "teste", 
+                "teste@teste.com", 
+                "teste", 
+                passwordEncoder.encode("123456"),
+                true, 
+                List.of(roleRepository.findByName("BASIC")),
+                enterpriseRepository.findAll().stream().findFirst().orElse(null)
+            ));
+        }
+
+
+
     }
 }

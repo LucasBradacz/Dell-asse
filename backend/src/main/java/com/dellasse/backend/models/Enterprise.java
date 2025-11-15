@@ -43,6 +43,16 @@ public class Enterprise {
         this.id = id;
     }
 
+    public Enterprise(String name, String document, String address, String phoneNumber, String email, String urlImage, LocalDateTime dateExpiration){
+        this.name = name;
+        this.document = document;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.urlImage = urlImage;
+        this.dateExpiration = dateExpiration;
+    }
+
     public Enterprise(String name, String address, String phoneNumber, String email, String urlImage) {
         this.name = name;
         this.address = address;
