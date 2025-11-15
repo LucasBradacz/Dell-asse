@@ -13,16 +13,12 @@ import com.dellasse.backend.mappers.EnterpriseMapper;
 import com.dellasse.backend.models.Enterprise;
 import com.dellasse.backend.models.Role;
 import com.dellasse.backend.repositories.EnterpriseRepository;
-import com.dellasse.backend.repositories.RoleRepository;
 import com.dellasse.backend.repositories.UserRepository;
 import com.dellasse.backend.util.ConvertString;
 public class EnterpriseService {
     
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private EnterpriseRepository enterpriseRepository;
