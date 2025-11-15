@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.dellasse.backend.models.Cart;
 
 @Repository
-public interface CartRepository extends JpaRepository<Cart, String> {
+public interface CartRepository extends JpaRepository<Cart, Long> {
     
 }

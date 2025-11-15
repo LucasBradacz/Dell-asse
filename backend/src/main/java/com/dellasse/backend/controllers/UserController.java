@@ -13,7 +13,6 @@ import com.dellasse.backend.contracts.user.LoginRequest;
 import com.dellasse.backend.contracts.user.UpdateRequest;
 import com.dellasse.backend.service.UserService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
