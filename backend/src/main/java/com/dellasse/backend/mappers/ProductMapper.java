@@ -7,7 +7,7 @@ import com.dellasse.backend.contracts.product.CreateRequest;
 import com.dellasse.backend.contracts.product.UpdateRequest;
 import com.dellasse.backend.models.Product;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface ProductMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
