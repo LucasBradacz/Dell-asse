@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
-
+                        .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable()
                     //    .ignoringRequestMatchers(
