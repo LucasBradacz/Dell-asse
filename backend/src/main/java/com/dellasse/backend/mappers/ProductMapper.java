@@ -2,12 +2,13 @@ package com.dellasse.backend.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.dellasse.backend.contracts.product.CreateRequest;
 import com.dellasse.backend.contracts.product.UpdateRequest;
 import com.dellasse.backend.models.Product;
 
-@Mapper
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ProductMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
