@@ -122,7 +122,7 @@ public class UserService {
 
     }
 
-    public  ResponseEntity<?>  updateUser(UpdateRequest request, String token){
+    public  ResponseEntity<?>  updateUser(UpdateRequest request, UUID userId, String token){
         UUID userUUID = ConvertString.toUUID(token);
         
         if (!userRepository.existsById(userUUID)){

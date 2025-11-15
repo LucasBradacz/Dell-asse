@@ -5,7 +5,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-import com.dellasse.backend.contracts.enterprise.CreateEnterprise;
+import com.dellasse.backend.contracts.enterprise.CreateRequest;
+import com.dellasse.backend.contracts.enterprise.UpdateRequest;
 import com.dellasse.backend.exceptions.UserExeception;
 import com.dellasse.backend.mappers.EnterpriseMapper;
 import com.dellasse.backend.models.Enterprise;
@@ -25,7 +26,7 @@ public class EnterpriseService {
     @Autowired
     private EnterpriseRepository enterpriseRepository;
 
-    public ResponseEntity<?> create(CreateEnterprise request, String id){
+    public ResponseEntity<?> create(CreateRequest request, String id){
         UUID userUUID = ConvertString.toUUID(id);
 
         if (!userRepository.existsById(userUUID)){
@@ -42,6 +43,24 @@ public class EnterpriseService {
 
 
         Enterprise enterprise = EnterpriseMapper.toEntity(request);
+        enterpriseRepository.save(enterprise);
+
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<?> update(UpdateRequest request, UUID enterpriseId, String id){
+        UUID user = ConvertString.toUUID(id);
+
+        if (!enterpriseRepository.existsById(enterpriseId)){
+            throw new UserExeception("Enterprise not found");
+        }
+
+        if (!userRepository.existsByUuidAndEnterprise_Id(user, enterpriseId)){
+            throw new UserExeception("The user is not linked.");
+        }
+
+        Enterprise enterprise = enterpriseRepository.findById(enterpriseId).get();
+        // EnterpriseMapper.toUpdateEntity(request, enterprise);
         enterpriseRepository.save(enterprise);
 
         return ResponseEntity.ok().build();

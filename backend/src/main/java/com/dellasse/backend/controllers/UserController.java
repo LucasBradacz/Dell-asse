@@ -1,8 +1,11 @@
 package com.dellasse.backend.controllers;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +35,8 @@ public class UserController {
         return userService.loginUser(loginRequest);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody @Valid UpdateRequest request, JwtAuthenticationToken token) {
-        return userService.updateUser(request, token.getName());
+    @PostMapping("/update/{userId}")
+    public ResponseEntity<?> updateUser(@RequestBody @Valid UpdateRequest request, @PathVariable UUID userId, JwtAuthenticationToken token) {
+        return userService.updateUser(request, userId, token.getName());
     }
 }

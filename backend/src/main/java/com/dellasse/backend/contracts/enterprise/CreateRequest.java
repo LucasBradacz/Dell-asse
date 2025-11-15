@@ -2,7 +2,7 @@ package com.dellasse.backend.contracts.enterprise;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record CreateEnterprise(
+public record CreateRequest(
     
     @NotBlank(message = "Name is required") 
     String name, 
