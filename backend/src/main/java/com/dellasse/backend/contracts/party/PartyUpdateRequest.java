@@ -1,6 +1,6 @@
 package com.dellasse.backend.contracts.party;
 
-public record UpdateRequest (
+public record PartyUpdateRequest (
     String title,
     String description, 
     String observations, 

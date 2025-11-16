@@ -1,6 +1,10 @@
 package com.dellasse.backend.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.dellasse.backend.contracts.enterprise.UpdateRequest;
 import com.dellasse.backend.contracts.product.CreateRequest;
+import com.dellasse.backend.contracts.product.Internal;
 import com.dellasse.backend.contracts.product.UpdateResponse;
 import com.dellasse.backend.mappers.ProductMapper;
 import com.dellasse.backend.models.Enterprise;
@@ -37,8 +42,8 @@ public class ProductService {
     @Autowired
     private EntityManager entityManager;
 
- @Autowired
-private ProductMapper productMapper; 
+    @Autowired
+    private ProductMapper productMapper; 
 
     public ResponseEntity<?> create(CreateRequest createRequest, String token){
         UUID userId = ConvertString.toUUID(token);
@@ -110,7 +115,4 @@ private ProductMapper productMapper;
             throw new DomainException(DomainError.PRODUCT_INVALID_QUANTITY);
         }
     }
-
-
-
 }

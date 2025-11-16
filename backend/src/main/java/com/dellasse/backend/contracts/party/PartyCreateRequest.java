@@ -6,7 +6,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record CreateRequest(
+public record PartyCreateRequest(
 
     @NotBlank(message = "Title is required")
     String title,
@@ -14,7 +14,7 @@ public record CreateRequest(
     @NotBlank(message = "Description is required")
     String description,
 
-    List<Long> productListID,
+    List<Long> productList,
 
     @NotNull(message = "Generate Budget is required")
     @DecimalMin(value = "0.0", inclusive = true, message = "Generate Budget must be zero or greater")
