@@ -10,7 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,4 +51,39 @@ public class Party {
         inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> productList;
+
+    public Party(
+            Long id,
+            String title,
+            String description,
+            String observations,
+            String lastAtualization,
+            String status,
+            List<Long> products,
+            String imgExample,
+            Double generateBudget
+    ){
+            this.id = id;
+            this.title = title;
+            this.description = description;
+            this.observations = observations;
+            this.lastAtualization = lastAtualization;
+            this.productList = products.stream().map(productId -> new Product(productId)).toList();
+            this.status = status;
+            this.imgExample = imgExample;
+            this.generateBudget = generateBudget;
+    }
+
+    public Party(String title,
+            String description, List<Product> list,
+            Double budget,
+            String observations2, String imageURL) 
+    {
+            this.title = title;
+            this.description = description;
+            this.productList = list;
+            this.generateBudget = budget;
+            this.observations = observations2;
+            this.imgExample = imageURL;
+    }
 }

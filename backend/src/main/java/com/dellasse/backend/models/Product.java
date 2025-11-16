@@ -40,6 +40,10 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Product(Long id) {
+        this.id = id;
+    }
+    
     public Product(
         String name,
         String description,

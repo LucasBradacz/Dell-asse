@@ -2,29 +2,16 @@ package com.dellasse.backend.config;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.dellasse.backend.models.Enterprise;
 import com.dellasse.backend.repositories.EnterpriseRepository;
 import com.dellasse.backend.repositories.RoleRepository;
 import com.dellasse.backend.repositories.UserRepository;
-
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -65,8 +52,5 @@ public class DataInitializer implements CommandLineRunner {
                 enterpriseRepository.findAll().stream().findFirst().orElse(null)
             ));
         }
-
-
-
     }
 }
