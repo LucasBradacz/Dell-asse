@@ -10,16 +10,15 @@ import com.dellasse.backend.models.Party;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface PartyMapper {
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "lastAtualization", ignore = true)
-    @Mapping(target = "status", ignore = true)
-    Party toEntity(PartyCreateRequest createRequest);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "lastAtualization", ignore = true)
-    @Mapping(target = "status", ignore = true)
-    @Mapping(target = "productList", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    Party toEntity(PartyUpdateRequest updateRequest);
+    public static Party toEntity(PartyCreateRequest createRequest){
+        return new Party(
+            createRequest.title(),
+            createRequest.description(),
+            createRequest.productList(),
+            createRequest.generateBudget(),
+            createRequest.observations(),
+            createRequest.imageURL()
+        );
+    }
 }
 

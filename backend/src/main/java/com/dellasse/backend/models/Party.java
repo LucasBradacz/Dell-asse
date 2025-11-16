@@ -75,15 +75,17 @@ public class Party {
     }
 
     public Party(String title,
-            String description, List<Product> list,
+            String description, List<Long> productList,
             Double budget,
-            String observations2, String imageURL) 
-    {
-            this.title = title;
-            this.description = description;
-            this.productList = list;
-            this.generateBudget = budget;
-            this.observations = observations2;
-            this.imgExample = imageURL;
+            String observations, String imageURL) {
+        
+        this.title = title;
+        this.description = description;
+        this.productList = productList.stream().map(productId -> new Product(productId)).toList();
+        this.generateBudget = budget;
+        this.observations = observations;
+        this.imgExample = imageURL;
     }
+
+
 }
