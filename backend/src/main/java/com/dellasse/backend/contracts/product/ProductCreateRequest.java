@@ -4,7 +4,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record CreateRequest(
+public record ProductCreateRequest(
 
     @NotBlank(message = "Name is required")
     String name,

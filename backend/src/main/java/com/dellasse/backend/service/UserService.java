@@ -2,10 +2,12 @@ package com.dellasse.backend.service;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -77,6 +79,15 @@ public class UserService {
             throw new DomainException(DomainError.USER_INVALID_PASSWORD);
         }
 
+        var enterprise = user.getEnterprise();
+        if (enterprise == null){
+            throw new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE);
+        }
+        var expiration = enterprise.getDateExpiration();
+        if (expiration != null && expiration.isBefore(LocalDateTime.now())){
+            throw new DomainException(DomainError.ENTERPRISE_EXPIRED);
+        }
+
         var now = Instant.now();
         var expiresIn = 30000L;  // em segundos (8h20min)
 
@@ -123,8 +134,8 @@ public class UserService {
     public  ResponseEntity<?>  updateUser(UpdateRequest request, UUID userId, String token){
         UUID userUUID = ConvertString.toUUID(token);
         
-        if (!userRepository.existsById(userUUID)){
-            throw new DomainException(DomainError.USER_NOT_FOUND);
+        if (userUUID == null){
+            throw new DomainException(DomainError.USER_NOT_FOUND_INTERNAL);
         }
 
         User user = userRepository.findById(userUUID)
@@ -134,6 +145,50 @@ public class UserService {
             throw new DomainException(DomainError.USER_CANNOT_UPDATE_DATA);
         }
 
+        user = setValuesUpdate(request, user);
+        if (user == null){
+            throw new DomainException(DomainError.USER_NOT_FOUND_INTERNAL);
+        }
+
+        User userSaved = userRepository.save(user);
+
+        return ResponseEntity.ok(UserMapper.toResponse(userSaved));
+    }
+
+    public UUID validateUserEnterprise(UUID userId){
+
+        if (userId == null){
+            throw new DomainException(DomainError.USER_NOT_FOUND_INTERNAL);
+        }
+
+        if (!userRepository.existsById(userId)){
+            throw new DomainException(DomainError.USER_NOT_FOUND);
+        }
+
+        UUID enterpriseId = userRepository.findEnterpriseIdByUuid(userId)
+                                    .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE));
+
+        if (!userRepository.existsByUuidAndEnterprise_Id(userId, enterpriseId)){
+            throw new DomainException(DomainError.ENTERPRISE_FORBIDDEN);
+        }
+
+        return enterpriseId;
+    }
+
+    public List<Role> getRoles(UUID userId){
+        if (userId == null){
+            throw new DomainException(DomainError.USER_NOT_FOUND_INTERNAL);
+        }
+        
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND));
+
+        return user.getRoles()
+            .stream()
+            .toList();
+    }
+
+    private User setValuesUpdate(UpdateRequest request, User user){
         if(request.username() != null){
             if (request.username().isBlank()){
                 throw new DomainException(DomainError.USER_REQUIRE_USERNAME);
@@ -156,23 +211,8 @@ public class UserService {
 
         Boolean active = request.active();
         if (active != null) user.setActive(request.active());
-        
-        return ResponseEntity.ok(UserMapper.toResponse(userRepository.save(user)));
-    }
 
-    public UUID validateUserEnterprise(UUID userId){
-
-        if (!userRepository.existsById(userId)){
-            throw new DomainException(DomainError.USER_NOT_FOUND);
-        }
-
-        UUID enterpriseId = userRepository.findEnterpriseIdByUuid(userId)
-                                    .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE));
-
-        if (!userRepository.existsByUuidAndEnterprise_Id(userId, enterpriseId)){
-            throw new DomainException(DomainError.ENTERPRISE_FORBIDDEN);
-        }
-        return enterpriseId;
+        return user;
     }
 
 }

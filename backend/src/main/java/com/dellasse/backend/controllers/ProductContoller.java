@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dellasse.backend.contracts.product.CreateRequest;
+import com.dellasse.backend.contracts.product.ProductCreateRequest;
 import com.dellasse.backend.contracts.product.ProductUpdateRequest;
 import com.dellasse.backend.contracts.product.UpdateResponse;
 import com.dellasse.backend.service.ProductService;
@@ -25,7 +25,7 @@ public class ProductContoller {
     private ProductService productService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@Valid @RequestBody CreateRequest createRequest, JwtAuthenticationToken token){
+    public ResponseEntity<?> create(@Valid @RequestBody ProductCreateRequest createRequest, JwtAuthenticationToken token){
         return productService.create(createRequest, token.getName());
     }
 

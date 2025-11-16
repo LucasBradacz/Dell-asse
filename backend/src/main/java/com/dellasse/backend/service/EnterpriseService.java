@@ -23,14 +23,18 @@ public class EnterpriseService {
     @Autowired
     private EnterpriseRepository enterpriseRepository;
 
-    public ResponseEntity<?> create(CreateRequest request, String id){
-        UUID userUUID = ConvertString.toUUID(id);
+    @Autowired
+    private UserService userService;
 
-        if (!userRepository.existsById(userUUID)){
+    @SuppressWarnings("null")
+    public ResponseEntity<?> create(CreateRequest request, String id){
+        UUID userId = ConvertString.toUUID(id);
+
+        if (!userRepository.existsById(userId)){
             throw new DomainException(DomainError.USER_NOT_FOUND);
         }
 
-        boolean temRole = userRepository.existsByUuidAndRoles_Id(userUUID, Role.Values.ADMIN.getRoleId());
+        boolean temRole = userRepository.existsByUuidAndRoles_Id(userId, Role.Values.ADMIN.getRoleId());
         if (!temRole){
             throw new DomainException(DomainError.USER_NOT_ADMIN);
         }
@@ -45,19 +49,22 @@ public class EnterpriseService {
         return ResponseEntity.ok().build();
     }
 
+    @SuppressWarnings("null")
     public ResponseEntity<?> update(UpdateRequest request, UUID enterpriseId, String id){
-        UUID user = ConvertString.toUUID(id);
+        UUID userId = ConvertString.toUUID(id);
 
-        if (!enterpriseRepository.existsById(enterpriseId)){
+        UUID enterpriseUuid = userService.validateUserEnterprise(userId);
+
+        if (enterpriseUuid != null){
             throw new DomainException(DomainError.ENTERPRISE_NOT_FOUND);
         }
 
-        if (!userRepository.existsByUuidAndEnterprise_Id(user, enterpriseId)){
-            throw new DomainException(DomainError.USER_NOT_LINKED);
+        Enterprise enterprise = EnterpriseMapper.toEntityUpdate(request);
+        
+        if (enterprise != null){
+            throw new DomainException(DomainError.ENTERPRISE_NOT_FOUND);
         }
 
-        Enterprise enterprise = enterpriseRepository.findById(enterpriseId).get();
-        // EnterpriseMapper.toUpdateEntity(request, enterprise);
         enterpriseRepository.save(enterprise);
 
         return ResponseEntity.ok().build();
