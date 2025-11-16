@@ -2,7 +2,9 @@ package com.dellasse.backend.util;
 
 import com.dellasse.backend.contracts.product.CreateRequest;
 import com.dellasse.backend.contracts.product.UpdateRequest;
+import com.dellasse.backend.mappers.PartyMapper;
 import com.dellasse.backend.mappers.ProductMapper;
+import com.dellasse.backend.models.Party;
 import com.dellasse.backend.models.Product;
 
 public class MapperUtils {
@@ -13,6 +15,15 @@ public class MapperUtils {
         if (dto instanceof CreateRequest create) {
             return mapper.toEntity(create);
         } else if (dto instanceof UpdateRequest update) {
+            return mapper.toEntity(update);
+        }
+        throw new IllegalArgumentException("DTO type not supported");
+    }
+
+    public static Party toEntity(Object dto, PartyMapper mapper){
+        if (dto instanceof CreateRequest create){
+            return mapper.toEntity(create);
+        } else if (dto instanceof UpdateRequest update){
             return mapper.toEntity(update);
         }
         throw new IllegalArgumentException("DTO type not supported");
