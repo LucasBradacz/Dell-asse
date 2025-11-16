@@ -1,5 +1,6 @@
 package com.dellasse.backend.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +62,8 @@ public class ProductService {
             throw new DomainException(DomainError.USER_NOT_FOUND);
         }
 
-        UUID enterpriseId = userRepository.findEnterprise_IdByUuid(userId);
-
-        if (enterpriseId == null) {
-            throw new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE);
-        }
+        UUID enterpriseId = userRepository.findEnterpriseIdByUuid(userId)
+                                    .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE));
 
         if (!userRepository.existsByUuidAndEnterprise_Id(userId, enterpriseId)){
             throw new DomainException(DomainError.ENTERPRISE_FORBIDDEN);

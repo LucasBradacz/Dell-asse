@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;  
 
 @Repository
@@ -15,5 +16,6 @@ public interface UserRepository extends JpaRepository<User, UUID>  {
     boolean existsByUuidAndRoles_Id(UUID id, Long role);
     boolean existsByUuidAndEnterprise_Id(UUID userId, UUID enterpriseId);
  
-    UUID findEnterprise_IdByUuid(UUID userId);
+    @Query("SELECT u.enterprise.id FROM User u WHERE u.uuid = :uuid")
+    Optional<UUID> findEnterpriseIdByUuid(UUID uuid);
 }
