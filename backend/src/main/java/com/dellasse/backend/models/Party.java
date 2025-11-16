@@ -1,6 +1,10 @@
 package com.dellasse.backend.models;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +24,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id")
 public class Party {
 
     @Id
@@ -28,7 +35,7 @@ public class Party {
     private String title;
     private String description;
     private String observations;
-    private String lastAtualization;
+    private LocalDateTime lastAtualization;
     private String status;
     private String imgExample;
     private Double generateBudget;
@@ -54,7 +61,7 @@ public class Party {
             String title,
             String description,
             String observations,
-            String lastAtualization,
+            LocalDateTime lastAtualization,
             String status,
             List<Long> products,
             String imgExample,

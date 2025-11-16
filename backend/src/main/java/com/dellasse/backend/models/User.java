@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dellasse.backend.contracts.user.LoginRequest;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "uuid")
+    
 public class User {
 
     @Id

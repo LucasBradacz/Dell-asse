@@ -42,7 +42,6 @@ public class UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
     
     @Autowired
     private JwtEncoder jwtEncoder;
@@ -160,4 +159,20 @@ public class UserService {
         
         return ResponseEntity.ok(UserMapper.toResponse(userRepository.save(user)));
     }
+
+    public UUID validateUserEnterprise(UUID userId){
+
+        if (!userRepository.existsById(userId)){
+            throw new DomainException(DomainError.USER_NOT_FOUND);
+        }
+
+        UUID enterpriseId = userRepository.findEnterpriseIdByUuid(userId)
+                                    .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE));
+
+        if (!userRepository.existsByUuidAndEnterprise_Id(userId, enterpriseId)){
+            throw new DomainException(DomainError.ENTERPRISE_FORBIDDEN);
+        }
+        return enterpriseId;
+    }
+
 }

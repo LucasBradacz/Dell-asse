@@ -32,7 +32,7 @@ public class ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private EntityManager entityManager;
@@ -42,7 +42,7 @@ public class ProductService {
 
         var product = ProductMapper.toEntityCreateProduct(createRequest);
 
-        UUID enterpriseId = validateUserEnterprise(userId);
+        UUID enterpriseId = userService.validateUserEnterprise(userId);
 
         setValueDefault(product, userId, enterpriseId);
         productRepository.save(product);
@@ -56,25 +56,10 @@ public class ProductService {
         product.setDateUpdate(DateUtils.now());
     }
 
-    private UUID validateUserEnterprise(UUID userId){
-
-        if (!userRepository.existsById(userId)){
-            throw new DomainException(DomainError.USER_NOT_FOUND);
-        }
-
-        UUID enterpriseId = userRepository.findEnterpriseIdByUuid(userId)
-                                    .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE));
-
-        if (!userRepository.existsByUuidAndEnterprise_Id(userId, enterpriseId)){
-            throw new DomainException(DomainError.ENTERPRISE_FORBIDDEN);
-        }
-        return enterpriseId;
-    }
-
     public UpdateResponse update(ProductUpdateRequest request, Long productId, String token){
         UUID userId = ConvertString.toUUID(token);
 
-        UUID enterpriseId = validateUserEnterprise(userId);
+        UUID enterpriseId = userService.validateUserEnterprise(userId);
 
         validateProductUpdate(ProductMapper.toEntityUpdateProduct(request));
 
