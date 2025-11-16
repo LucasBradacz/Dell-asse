@@ -9,7 +9,7 @@ public class PartyMapper {
         return new Party(
             create.title(),
             create.description(),
-            create.productList(),
+            create.products(),
             create.generateBudget(),
             create.observations(),
             create.imageURL()

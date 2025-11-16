@@ -3,9 +3,6 @@ package com.dellasse.backend.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,9 +21,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id")
 public class Party {
 
     @Id
@@ -54,7 +48,7 @@ public class Party {
         joinColumns = @JoinColumn(name = "party_id"),
         inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private List<Product> productList;
+    private List<Product> products;
 
     public Party(
             Long id,
@@ -72,20 +66,20 @@ public class Party {
             this.description = description;
             this.observations = observations;
             this.lastAtualization = lastAtualization;
-            this.productList = products.stream().map(productId -> new Product(productId)).toList();
+            this.products = products.stream().map(productId -> new Product(productId)).toList();
             this.status = status;
             this.imgExample = imgExample;
             this.generateBudget = generateBudget;
     }
 
     public Party(String title,
-            String description, List<Long> productList,
+            String description, List<Long> products,
             Double budget,
             String observations, String imageURL) {
         
         this.title = title;
         this.description = description;
-        this.productList = productList.stream().map(productId -> new Product(productId)).toList();
+        this.products = products.stream().map(productId -> new Product(productId)).toList();
         this.generateBudget = budget;
         this.observations = observations;
         this.imgExample = imageURL;

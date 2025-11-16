@@ -14,7 +14,7 @@ public record PartyCreateRequest(
     @NotBlank(message = "Description is required")
     String description,
 
-    List<Long> productList,
+    List<Long> products,
 
     @NotNull(message = "Generate Budget is required")
     @DecimalMin(value = "0.0", inclusive = true, message = "Generate Budget must be zero or greater")

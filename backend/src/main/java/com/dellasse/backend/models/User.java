@@ -1,14 +1,11 @@
 package com.dellasse.backend.models;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dellasse.backend.contracts.user.LoginRequest;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,11 +26,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "uuid")
-    
+@Table(name = "users") 
 public class User {
 
     @Id
@@ -57,10 +49,6 @@ public class User {
     
     @ManyToOne
     private Enterprise enterprise;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Cart> carts;
-
 
     public User(UUID uuid){
         this.uuid = uuid;

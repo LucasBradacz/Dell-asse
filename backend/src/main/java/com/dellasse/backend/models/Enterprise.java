@@ -34,12 +34,6 @@ public class Enterprise {
     private String urlImage;
     private LocalDateTime dateExpiration;
 
-    @OneToMany(mappedBy = "enterprise")
-    private Set<User> users;
-
-    @OneToMany(mappedBy = "enterprise")
-    private List<Product> product;
-
     public Enterprise(UUID id) {
         this.id = id;
     }
