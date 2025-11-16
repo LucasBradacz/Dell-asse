@@ -1,26 +1,30 @@
 package com.dellasse.backend.mappers;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-
 import com.dellasse.backend.contracts.product.CreateRequest;
-import com.dellasse.backend.contracts.product.UpdateRequest;
+import com.dellasse.backend.contracts.product.ProductUpdateRequest;
 import com.dellasse.backend.models.Product;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface ProductMapper {
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "enterprise", ignore = true)
-    @Mapping(target = "dateCreate", ignore = true)
-    @Mapping(target = "dateUpdate", ignore = true)
-    Product toEntity(CreateRequest createRequest);
+public class ProductMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "enterprise", ignore = true)
-    @Mapping(target = "dateCreate", ignore = true)
-    @Mapping(target = "dateUpdate", ignore = true)
-    Product toEntity(UpdateRequest updateRequest);
+    public static Product toEntityCreateProduct(CreateRequest createRequest) {
+        return new Product(
+            createRequest.name(), 
+            createRequest.description(), 
+            createRequest.price(), 
+            createRequest.stockQuantity(), 
+            createRequest.category(), 
+            createRequest.imageUrl());
+    }
+
+    public static Product toEntityUpdateProduct(ProductUpdateRequest request) {
+        return new Product(
+            request.name(), 
+            request.description(), 
+            request.price(), 
+            request.stockQuantity(), 
+            request.category(), 
+            request.imageUrl()
+        );
+    }
+    
 }

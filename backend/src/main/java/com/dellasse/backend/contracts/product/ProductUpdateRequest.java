@@ -1,6 +1,6 @@
 package com.dellasse.backend.contracts.product;
 
-public record UpdateRequest(
+public record ProductUpdateRequest(
     String name,
     String description,
     Double price,
