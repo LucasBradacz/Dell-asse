@@ -8,12 +8,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Configuração global de CORS para a aplicação.
- * - Define as origens, métodos, cabeçalhos permitidos e outras configurações de CORS.
- */
 @Configuration
 public class CorsGlobalConfig {
 

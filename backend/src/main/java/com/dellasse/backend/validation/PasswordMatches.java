@@ -7,12 +7,6 @@ import java.lang.annotation.Target;
 
 import jakarta.validation.Constraint;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Anotação personalizada para validar se as senhas coincidem.
- * Utilizada em classes que possuem campos de senha e confirmação de senha.
- */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordMatchesValidator.class)

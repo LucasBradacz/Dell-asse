@@ -17,12 +17,6 @@ import com.dellasse.backend.service.ProductService;
 
 import jakarta.validation.Valid;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Controlador para gerenciar operações relacionadas a produtos.
- * - As operações incluem criação e atualização de produtos.
- */
 @RestController
 @RequestMapping("product")
 public class ProductContoller {

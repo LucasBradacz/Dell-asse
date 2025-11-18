@@ -15,16 +15,6 @@ import com.dellasse.backend.models.Role;
 import com.dellasse.backend.repositories.EnterpriseRepository;
 import com.dellasse.backend.repositories.UserRepository;
 import com.dellasse.backend.util.ConvertString;
-
-/*
- * @author Equipe Compilador 
- * @version 1.0
- * Serviço para a entidade Enterprise, responsável por operações de negócio relacionadas a empresas.
- * - Contém métodos para criar e atualizar empresas.
- * - Realiza validações de permissões de usuário e existência de empresas.
- * - Utiliza repositórios para interagir com a camada de persistência.
- * - Retorna respostas HTTP apropriadas para as operações realizadas.
- */
 public class EnterpriseService {
     
     @Autowired

@@ -23,36 +23,6 @@ import jakarta.persistence.EntityManager;
 import com.dellasse.backend.exceptions.DomainError;
 import com.dellasse.backend.exceptions.DomainException;
 
-/*
- * @author Equipe Compilador 
- * @version 1.0
- * Serviço para a entidade Product, responsável por operações de negócio relacionadas a produtos.
- * - Contém métodos para criar e atualizar produtos.
- * - Realiza validações de usuário e empresa associada.
- * - Utiliza repositórios para interagir com a camada de persistência.
- * - Retorna respostas HTTP apropriadas para as operações realizadas.
- * - Define valores padrão para novos produtos.
- * - Lança exceções de domínio para erros específicos.
- * - Utiliza mapeadores para converter entre entidades e contratos.
- * - Gerencia datas de criação e atualização dos produtos.
- * - Assegura que o produto pertence à empresa do usuário autenticado.
- * - Garante a integridade dos dados durante as operações de criação e atualização.
- * - Facilita a manutenção e evolução do código relacionado a produtos.
- * - Promove boas práticas de desenvolvimento, como injeção de dependências e separação de responsabilidades.
- * - Fornece uma interface clara para outras partes do sistema interagirem com a lógica de negócios dos produtos.
- * - Contribui para a robustez e confiabilidade do sistema como um todo.
- * - Suporta a escalabilidade do sistema ao permitir fácil adição de novas funcionalidades relacionadas a produtos.
- * - Melhora a experiência do desenvolvedor ao fornecer um código bem estruturado e documentado.
- * - Facilita a integração com outras partes do sistema, como controladores e repositórios.
- * - Ajuda a garantir a conformidade com os requisitos de negócios e regras de validação específicas.
- * - Promove a reutilização de código através do uso de mapeadores e serviços compartilhados.
- * - Contribui para a clareza e legibilidade do código, facilitando a colaboração entre desenvolvedores.
- * - Auxilia na identificação e resolução de problemas relacionados a produtos através de mensagens de erro claras e específicas.
- * - Suporta a evolução contínua do sistema, permitindo ajustes e melhorias na lógica de negócios dos produtos conforme necessário.
- * - Facilita a implementação de testes automatizados para garantir a qualidade do código relacionado a produtos.
- * - Ajuda a manter a consistência dos dados relacionados a produtos em todo o sistema.
- * - Promove a adoção de padrões de design e melhores práticas no desenvolvimento de software.
- */
 @Service
 public class ProductService {
     

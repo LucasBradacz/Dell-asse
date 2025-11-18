@@ -33,37 +33,6 @@ import com.dellasse.backend.repositories.RoleRepository;
 import com.dellasse.backend.repositories.UserRepository;
 import com.dellasse.backend.util.ConvertString;
 
-/*
- * @author Equipe Compilador 
- * @version 1.0
- * Serviço para a entidade User, responsável por operações de negócio relacionadas a usuários.
- * - Contém métodos para criar, autenticar e atualizar usuários.
- * - Realiza validações de existência e permissões de usuários.
- * - Utiliza repositórios para interagir com a camada de persistência.
- * - Retorna respostas HTTP apropriadas para as operações realizadas.
- * - Gera tokens JWT para autenticação de usuários.
- * - Define valores padrão para novos usuários.
- * - Lança exceções de domínio para erros específicos.
- * - Utiliza mapeadores para converter entre entidades e contratos.
- * - Gerencia papéis associados aos usuários.
- * - Assegura a integridade dos dados durante as operações de criação e atualização.
- * - Facilita a manutenção e evolução do código relacionado a usuários.
- * - Promove boas práticas de desenvolvimento, como injeção de dependências e separação de responsabilidades.
- * - Fornece uma interface clara para outras partes do sistema interagirem com a lógica de negócios dos usuários.
- * - Contribui para a robustez e confiabilidade do sistema como um todo.
- * - Suporta a escalabilidade do sistema ao permitir fácil adição de novas funcionalidades relacionadas a usuários.
- * - Melhora a experiência do desenvolvedor ao fornecer um código bem estruturado e documentado.
- * - Facilita a integração com outras partes do sistema, como controladores e repositórios.
- * - Ajuda a garantir a conformidade com os requisitos de negócios e regras de validação específicas.
- * - Promove a reutilização de código através do uso de mapeadores e serviços compartilhados.
- * - Contribui para a clareza e legibilidade do código, facilitando a colaboração entre desenvolvedores.
- * - Auxilia na identificação e resolução de problemas relacionados a usuários através de mensagens de erro claras e específicas.
- * - Suporta a evolução contínua do sistema, permitindo ajustes e melhorias na lógica de negócios dos usuários conforme necessário.
- * - Facilita a implementação de testes automatizados para garantir a qualidade do código relacionado a usuários.
- * - Ajuda a manter a consistência dos dados relacionados a usuários em todo o sistema.
- * - Promove a adoção de padrões de design e melhores práticas no desenvolvimento de software.
- */
-
 @Service
 public class UserService {
     

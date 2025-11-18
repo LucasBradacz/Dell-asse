@@ -16,13 +16,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Entidade que representa uma festa (Party) no sistema.
- * - Contém informações como título, descrição, observações, data de última atualização, status, URL da imagem e orçamento gerado.
- * - Está associada a um usuário, uma empresa e uma lista de produtos.
- */
 @Entity
 @Getter
 @Setter

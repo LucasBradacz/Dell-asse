@@ -21,14 +21,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Filtro para verificar se o usuário autenticado pertence a uma empresa válida.
- * - Verifica se o usuário está autenticado.
- * - Valida se o usuário está associado a uma empresa.
- * - Verifica se a empresa não está expirada.
- */
 @Component
 public class UserEnterpriseCheckFilter extends OncePerRequestFilter {
 

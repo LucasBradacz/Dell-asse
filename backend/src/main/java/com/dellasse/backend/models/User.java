@@ -21,13 +21,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Entidade que representa um usuário (User) no sistema.
- * - Contém informações como nome, email, nome de usuário, senha, status ativo e papéis associados.
- * - Está associada a uma empresa.
- */
 @Entity
 @Getter
 @Setter

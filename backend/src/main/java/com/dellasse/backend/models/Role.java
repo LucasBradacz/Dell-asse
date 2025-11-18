@@ -10,13 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Entidade que representa um papel (Role) no sistema.
- * - Contém informações como o nome do papel.
- * - Define uma enumeração interna para os valores padrão dos papéis.
- */
 @Entity
 @Getter
 @Setter

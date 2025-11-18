@@ -10,12 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Classe para tratamento global de exceções na aplicação.
- * - Trata exceções de validação, exceções genéricas e exceções de domínio.
- */
 @RestControllerAdvice
 public class GlobalException {
     

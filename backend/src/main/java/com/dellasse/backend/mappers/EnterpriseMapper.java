@@ -4,12 +4,8 @@ import com.dellasse.backend.contracts.enterprise.CreateRequest;
 import com.dellasse.backend.contracts.enterprise.UpdateRequest;
 import com.dellasse.backend.models.Enterprise;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Classe para mapear entre DTOs de requisição e a entidade Enterprise.
- */
 public class EnterpriseMapper {
+    
 
     public static Enterprise toEntity(CreateRequest dtoRequest) {
         return new Enterprise(

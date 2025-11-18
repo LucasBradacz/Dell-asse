@@ -13,12 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * @author Equipe Compilador 
- * @version 1.0
- * Entidade que representa uma empresa (Enterprise) no sistema.
- * - Contém informações como nome, documento, endereço, telefone, email, URL da imagem e data de expiração.
- */
 @Entity
 @Getter
 @Setter
