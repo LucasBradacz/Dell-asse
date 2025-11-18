@@ -1,5 +1,11 @@
 package com.dellasse.backend.exceptions;
 
+/**
+ * @author Equipe Compilador 
+ * @version 1.0
+ * Enum para representar erros de domínio na aplicação.
+ * Cada erro possui uma mensagem e um código de status HTTP associado.
+ */
 public enum DomainError {
 
     USER_NOT_FOUND("User not found", 404),

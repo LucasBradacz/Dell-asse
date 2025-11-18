@@ -16,6 +16,14 @@ import com.dellasse.backend.service.EnterpriseService;
 
 import jakarta.validation.Valid;
 
+/**
+ * @author Equipe Compilador 
+ * @version 1.0
+ * Controlador para gerenciar operações relacionadas a empresas.
+ * - As operações incluem criação e atualização de empresas.
+ * - As operações são protegidas e requerem que o usuário tenha a função ADMIN.
+ * - Utiliza o serviço EnterpriseService para realizar a lógica de negócio.
+ */
 @RequestMapping("enterprise")
 public class EnterpriseController {
     

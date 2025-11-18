@@ -10,6 +10,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * @author Equipe Compilador 
+ * @version 1.0
+ * Filtro de autenticação JWT que extrai o token de um cookie, se presente.
+ * - Se o cabeçalho Authorization não estiver presente, verifica os cookies para um cookie chamado "token".
+ * - Se o cookie for encontrado, adiciona o token ao cabeçalho Authorization da requisição.
+ */
 public class JwtCookieAuthenticationFilter extends OncePerRequestFilter {
 
     @Override

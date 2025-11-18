@@ -13,6 +13,17 @@ import com.dellasse.backend.repositories.EnterpriseRepository;
 import com.dellasse.backend.repositories.RoleRepository;
 import com.dellasse.backend.repositories.UserRepository;
 
+/*
+ * @author Equipe Compilador
+ * @version 1.0
+ * Classe responsável por inicializar dados no banco de dados ao iniciar a aplicação.
+ * - Cria papéis (roles) padrão se não existirem.
+ * - Cria uma empresa padrão se não existir.
+ * - Cria um usuário padrão se não existir.
+ * - Implementa CommandLineRunner para executar a lógica de inicialização após o contexto da aplicação ser carregado.
+ * - Utiliza repositórios para persistir dados no banco de dados.
+ * - Utiliza PasswordEncoder para codificar a senha do usuário padrão.
+ */
 @Component
 public class DataInitializer implements CommandLineRunner {
     

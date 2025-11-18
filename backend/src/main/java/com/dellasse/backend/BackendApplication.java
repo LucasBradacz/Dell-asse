@@ -5,6 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
+/*
+ * @author Equipe Compilador 
+ * @version 1.0
+ * Classe principal da aplicação Spring Boot.
+ * - Configura variáveis de ambiente para o banco de dados a partir de um arquivo .env.
+ * - Inicia a aplicação Spring Boot.
+ */
 @SpringBootApplication
 public class BackendApplication {
 

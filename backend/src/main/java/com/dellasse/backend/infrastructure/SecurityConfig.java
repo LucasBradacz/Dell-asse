@@ -27,6 +27,12 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
+/**
+ * @author Equipe Compilador 
+ * @version 1.0
+ * Configuração de segurança para a aplicação.
+ * - Define filtros de segurança, políticas de sessão e configurações de autenticação JWT.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

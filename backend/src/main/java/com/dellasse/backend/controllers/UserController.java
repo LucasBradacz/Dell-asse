@@ -18,6 +18,12 @@ import com.dellasse.backend.service.UserService;
 
 import jakarta.validation.Valid;
 
+/**
+ * @author Equipe Compilador 
+ * @version 1.0
+ * Controlador para gerenciar operações relacionadas a usuários.
+ * - As operações incluem criação, login e atualização de usuários.
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
