@@ -27,14 +27,16 @@ public class Role {
 
     @Getter
     public enum Values {
-        ADMIN(1L),
-        FUNCIONARIO(2L),
-        BASIC(3L);
+        ADMIN(1L, "ADMIN"),
+        FUNCIONARIO(2L, "FUNCIONARIO"),
+        BASIC(3L, "BASIC"); 
 
         private final long roleId;
+        private final String name;
 
-        Values(long roleId) {
+        Values(long roleId, String name) {
             this.roleId = roleId;
+            this.name = name;
         }
 
     }

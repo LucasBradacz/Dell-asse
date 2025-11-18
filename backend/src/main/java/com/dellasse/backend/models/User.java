@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.dellasse.backend.util.ConvertString;
 
 @Entity
 @Getter
@@ -64,11 +65,12 @@ public class User {
         this.enterprise = enterprise;
     }
 
-    public User(String name, String email, String username, String password){
+    public User(String name, String email, String username, String password, UUID enterpriseId){
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.enterprise = new Enterprise(enterpriseId);
     }  
 
     public boolean isLoginCorret(UserLoginRequest user, PasswordEncoder passwordEncoder){

@@ -104,7 +104,7 @@ public class UserService {
             .issuer("dellasse.com")
             .expiresAt(now.plusSeconds(expiresIn))
             .subject(user.getUuid().toString())
-            .claim("scope", scope)
+            .claim("roles", scope)
             .build();
 
         var jwt = jwtEncoder.encode(JwtEncoderParameters.from(claims));
