@@ -1,6 +1,6 @@
 package com.dellasse.backend.contracts.user;
 
-public record UpdateRequest(
+public record UserUpdateRequest(
     String name,
     String email,
     String username,

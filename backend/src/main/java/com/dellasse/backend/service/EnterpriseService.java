@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-import com.dellasse.backend.contracts.enterprise.CreateRequest;
-import com.dellasse.backend.contracts.enterprise.UpdateRequest;
+import com.dellasse.backend.contracts.enterprise.EnterpriseCreateRequest;
+import com.dellasse.backend.contracts.enterprise.EnterpriseUpdateRequest;
 import com.dellasse.backend.exceptions.DomainError;
 import com.dellasse.backend.exceptions.DomainException;
 import com.dellasse.backend.mappers.EnterpriseMapper;
@@ -27,7 +27,7 @@ public class EnterpriseService {
     private UserService userService;
 
     @SuppressWarnings("null")
-    public ResponseEntity<?> create(CreateRequest request, String id){
+    public ResponseEntity<?> create(EnterpriseCreateRequest request, String id){
         UUID userId = ConvertString.toUUID(id);
 
         if (!userRepository.existsById(userId)){
@@ -50,7 +50,7 @@ public class EnterpriseService {
     }
 
     @SuppressWarnings("null")
-    public ResponseEntity<?> update(UpdateRequest request, UUID enterpriseId, String id){
+    public ResponseEntity<?> update(EnterpriseUpdateRequest request, UUID enterpriseId, String id){
         UUID userId = ConvertString.toUUID(id);
 
         UUID enterpriseUuid = userService.validateUserEnterprise(userId);

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dellasse.backend.contracts.product.ProductCreateRequest;
 import com.dellasse.backend.contracts.product.ProductUpdateRequest;
-import com.dellasse.backend.contracts.product.UpdateResponse;
+import com.dellasse.backend.contracts.product.ProductUpdateResponse;
 import com.dellasse.backend.mappers.ProductMapper;
 import com.dellasse.backend.models.Enterprise;
 import com.dellasse.backend.models.Product;
@@ -57,9 +57,13 @@ public class ProductService {
         product.setDateUpdate(DateUtils.now());
     }
 
-    public UpdateResponse update(ProductUpdateRequest request, Long productId, String token) {
+    public ProductUpdateResponse update(ProductUpdateRequest request, Long productId, String token) {
         UUID userId = ConvertString.toUUID(token);
         UUID enterpriseId = userService.validateUserEnterprise(userId);
+
+        if (productId == null){
+            throw new DomainException(DomainError.PRODUCT_NOT_FOUND_INTERNAL);
+        }
 
         Product entity = productRepository.findById(productId)
                 .orElseThrow(() -> new DomainException(DomainError.PRODUCT_NOT_FOUND));

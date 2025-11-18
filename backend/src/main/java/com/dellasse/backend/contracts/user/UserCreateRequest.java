@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @PasswordMatches
-public record CreateRequest(
+public record UserCreateRequest(
     @NotBlank(message = "Name is required") 
     String name, 
     

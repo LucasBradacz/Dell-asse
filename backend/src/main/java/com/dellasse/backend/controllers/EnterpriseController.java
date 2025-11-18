@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dellasse.backend.contracts.enterprise.CreateRequest;
-import com.dellasse.backend.contracts.enterprise.UpdateRequest;
+import com.dellasse.backend.contracts.enterprise.EnterpriseCreateRequest;
+import com.dellasse.backend.contracts.enterprise.EnterpriseUpdateRequest;
 import com.dellasse.backend.service.EnterpriseService;
 
 import jakarta.validation.Valid;
@@ -24,13 +24,13 @@ public class EnterpriseController {
     
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> create(@Valid CreateRequest request, JwtAuthenticationToken token) {
+    public ResponseEntity<?> create(@Valid EnterpriseCreateRequest request, JwtAuthenticationToken token) {
         return enterpriseService.create(request, token.getName()); 
     }
 
     @PostMapping("/update/{enterpriseId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> update(@Valid UpdateRequest request, @PathVariable UUID enterpriseId, JwtAuthenticationToken token) {
+    public ResponseEntity<?> update(@Valid EnterpriseUpdateRequest request, @PathVariable UUID enterpriseId, JwtAuthenticationToken token) {
         return enterpriseService.update(request, enterpriseId, token.getName());
     }
 }

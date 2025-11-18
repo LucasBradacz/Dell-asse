@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.dellasse.backend.contracts.user.LoginRequest;
+import com.dellasse.backend.contracts.user.UserLoginRequest;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -71,7 +71,7 @@ public class User {
         this.password = password;
     }  
 
-    public boolean isLoginCorret(LoginRequest user, PasswordEncoder passwordEncoder){
+    public boolean isLoginCorret(UserLoginRequest user, PasswordEncoder passwordEncoder){
        return passwordEncoder.matches(user.password(), this.password);
     }
 }

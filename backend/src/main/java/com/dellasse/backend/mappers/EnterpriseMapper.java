@@ -1,13 +1,13 @@
 package com.dellasse.backend.mappers;
 
-import com.dellasse.backend.contracts.enterprise.CreateRequest;
-import com.dellasse.backend.contracts.enterprise.UpdateRequest;
+import com.dellasse.backend.contracts.enterprise.EnterpriseCreateRequest;
+import com.dellasse.backend.contracts.enterprise.EnterpriseUpdateRequest;
 import com.dellasse.backend.models.Enterprise;
 
 public class EnterpriseMapper {
     
 
-    public static Enterprise toEntity(CreateRequest dtoRequest) {
+    public static Enterprise toEntity(EnterpriseCreateRequest dtoRequest) {
         return new Enterprise(
             dtoRequest.name(),
             dtoRequest.address(),
@@ -17,7 +17,7 @@ public class EnterpriseMapper {
         );
     }
 
-    public static Enterprise toEntityUpdate(UpdateRequest dtoRequest){
+    public static Enterprise toEntityUpdate(EnterpriseUpdateRequest dtoRequest){
         return new Enterprise(
             dtoRequest.name(),
             dtoRequest.document(),

@@ -1,13 +1,13 @@
 package com.dellasse.backend.mappers;
 
-import com.dellasse.backend.contracts.user.CreateRequest;
-import com.dellasse.backend.contracts.user.UpdateResponse;
+import com.dellasse.backend.contracts.user.UserCreateRequest;
+import com.dellasse.backend.contracts.user.UserUpdateResponse;
 import com.dellasse.backend.models.User;
 
 public class UserMapper {
     
 
-    public static User toEntity(CreateRequest dtoRequest) {
+    public static User toEntity(UserCreateRequest dtoRequest) {
         return new User(
             dtoRequest.name(),
             dtoRequest.email(),
@@ -17,8 +17,8 @@ public class UserMapper {
     }
 
 
-    public static UpdateResponse toResponse(User user) {
-        return new UpdateResponse(
+    public static UserUpdateResponse toResponse(User user) {
+        return new UserUpdateResponse(
                 user.getName(),
                 user.getEmail(),
                 user.getUsername(),
