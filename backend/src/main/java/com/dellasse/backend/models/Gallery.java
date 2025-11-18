@@ -1,10 +1,10 @@
 package com.dellasse.backend.models;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,30 +15,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
-    
+public class Gallery {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
     private Long id;
-
-    @Column(nullable = false, unique = true)
-    private String name;
-
-    @Getter
-    public enum Values {
-        ADMIN(1L, "ADMIN"),
-        FUNCIONARIO(2L, "FUNCIONARIO"),
-        BASIC(3L, "BASIC"); 
-
-        private final long roleId;
-        private final String name;
-
-        Values(long roleId, String name) {
-            this.roleId = roleId;
-            this.name = name;
-        }
-
-    }
     
+    private String name;
+    private String description;
+
+    @ManyToOne
+    private Enterprise enterprise;
 }

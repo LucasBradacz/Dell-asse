@@ -1,6 +1,6 @@
 package com.dellasse.backend.contracts.product;
 
-public record UpdateResponse(
+public record ProductUpdateResponse(
     Long id,
     String name,
     String description,

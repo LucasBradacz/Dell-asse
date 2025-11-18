@@ -1,7 +1,7 @@
 package com.dellasse.backend.validation;
 
-import com.dellasse.backend.contracts.user.CreateRequest;
-import com.dellasse.backend.contracts.user.UpdateRequest;
+import com.dellasse.backend.contracts.user.UserCreateRequest;
+import com.dellasse.backend.contracts.user.UserUpdateRequest;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -11,11 +11,11 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
      
-        if (value instanceof CreateRequest req) {
+        if (value instanceof UserCreateRequest req) {
             return req.password().equals(req.confirmPassword());
         }
      
-        if (value instanceof UpdateRequest request){
+        if (value instanceof UserUpdateRequest request){
             if (request.password() == null || request.confirmPassword() == null) {
                 return true;
             }

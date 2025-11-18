@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dellasse.backend.contracts.user.CreateRequest;
-import com.dellasse.backend.contracts.user.LoginRequest;
-import com.dellasse.backend.contracts.user.UpdateRequest;
+import com.dellasse.backend.contracts.user.UserCreateRequest;
+import com.dellasse.backend.contracts.user.UserLoginRequest;
+import com.dellasse.backend.contracts.user.UserUpdateRequest;
 import com.dellasse.backend.service.UserService;
 
 import jakarta.validation.Valid;
@@ -26,17 +26,17 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody @Valid CreateRequest request) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid UserCreateRequest request) {
         return userService.createUser(request);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequest loginRequest) {
+    public ResponseEntity<?> loginUser(@RequestBody @Valid UserLoginRequest loginRequest) {
         return userService.loginUser(loginRequest);
     }
 
     @PostMapping("/update/{userId}")
-    public ResponseEntity<?> updateUser(@RequestBody @Valid UpdateRequest request, @PathVariable UUID userId, JwtAuthenticationToken token) {
+    public ResponseEntity<?> updateUser(@RequestBody @Valid UserUpdateRequest request, @PathVariable UUID userId, JwtAuthenticationToken token) {
         return userService.updateUser(request, userId, token.getName());
     }
 }

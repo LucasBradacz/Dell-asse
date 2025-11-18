@@ -1,5 +1,7 @@
 package com.dellasse.backend.contracts.user;
 
+import java.util.UUID;
+
 import com.dellasse.backend.validation.PasswordMatches;
 
 import jakarta.validation.constraints.Email;
@@ -7,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @PasswordMatches
-public record CreateRequest(
+public record UserCreateRequest(
     @NotBlank(message = "Name is required") 
     String name, 
     
@@ -26,5 +28,8 @@ public record CreateRequest(
 
     @NotBlank(message = "Confirm Password is required")
     @Size(min = 6, message = "Confirm Password must be at least 6 characters long")
-    String confirmPassword
+    String confirmPassword,
+
+    @NotBlank(message = "Enterprise ID is required")
+    UUID enterpriseId
 ) {}

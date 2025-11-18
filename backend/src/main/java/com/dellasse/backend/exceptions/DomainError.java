@@ -27,7 +27,9 @@ public enum DomainError {
     PRODUCT_INVALID_PRICE("Product price is invalid", 400),
     PRODUCT_INVALID_QUANTITY("Product quantity is invalid", 400),
     PRODUCT_NOT_FOUND_INTERNAL("Product not found", 500),
-    PRODUCT_OR_ENTERPRISE_NOT_FOUND_INTERNAL("Product or enterprise not found", 500);
+    PRODUCT_OR_ENTERPRISE_NOT_FOUND_INTERNAL("Product or enterprise not found", 500),
+
+    PARTY_INVALID("Party is invalid", 500);
 
     private final String message;
     private final int status;

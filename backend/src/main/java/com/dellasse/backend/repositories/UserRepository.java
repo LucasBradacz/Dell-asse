@@ -1,6 +1,8 @@
 package com.dellasse.backend.repositories;
+import com.dellasse.backend.models.Role;
 import  com.dellasse.backend.models.User;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, UUID>  {
     Optional<User> findByUsername(String username);
     boolean existsByUuidAndRoles_Id(UUID id, Long role);
     boolean existsByUuidAndEnterprise_Id(UUID userId, UUID enterpriseId);
- 
+    List<Role> findRoleByUuid(UUID uuid);
     @Query("SELECT u.enterprise.id FROM User u WHERE u.uuid = :uuid")
     Optional<UUID> findEnterpriseIdByUuid(UUID uuid);
 }

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,9 +20,9 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.dellasse.backend.contracts.user.CreateRequest;
-import com.dellasse.backend.contracts.user.LoginRequest;
-import com.dellasse.backend.contracts.user.UpdateRequest;
+import com.dellasse.backend.contracts.user.UserCreateRequest;
+import com.dellasse.backend.contracts.user.UserLoginRequest;
+import com.dellasse.backend.contracts.user.UserUpdateRequest;
 import com.dellasse.backend.exceptions.DomainError;
 import com.dellasse.backend.exceptions.DomainException;
 import com.dellasse.backend.mappers.UserMapper;
@@ -48,7 +47,7 @@ public class UserService {
     @Autowired
     private JwtEncoder jwtEncoder;
 
-    public ResponseEntity<?> createUser(CreateRequest request){
+    public ResponseEntity<?> createUser(UserCreateRequest request){
 
         if (userRepository.existsByUsername(request.username())) {
             throw new DomainException(DomainError.USER_ALREADY_EXISTS);
@@ -66,7 +65,7 @@ public class UserService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> loginUser(LoginRequest loginRequest){
+    public ResponseEntity<?> loginUser(UserLoginRequest loginRequest){
         boolean userExists = userRepository.existsByUsername(loginRequest.username());
         if (!userExists){
             throw new DomainException(DomainError.USER_NOT_FOUND);
@@ -105,7 +104,7 @@ public class UserService {
             .issuer("dellasse.com")
             .expiresAt(now.plusSeconds(expiresIn))
             .subject(user.getUuid().toString())
-            .claim("scope", scope)
+            .claim("roles", scope)
             .build();
 
         var jwt = jwtEncoder.encode(JwtEncoderParameters.from(claims));
@@ -131,7 +130,7 @@ public class UserService {
 
     }
 
-    public  ResponseEntity<?>  updateUser(UpdateRequest request, UUID userId, String token){
+    public  ResponseEntity<?>  updateUser(UserUpdateRequest request, UUID userId, String token){
         UUID userUUID = ConvertString.toUUID(token);
         
         if (userUUID == null){
@@ -188,7 +187,7 @@ public class UserService {
             .toList();
     }
 
-    private User setValuesUpdate(UpdateRequest request, User user){
+    private User setValuesUpdate(UserUpdateRequest request, User user){
         if(request.username() != null){
             if (request.username().isBlank()){
                 throw new DomainException(DomainError.USER_REQUIRE_USERNAME);

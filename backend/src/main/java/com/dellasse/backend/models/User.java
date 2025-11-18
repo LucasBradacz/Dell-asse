@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.dellasse.backend.contracts.user.LoginRequest;
+import com.dellasse.backend.contracts.user.UserLoginRequest;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.dellasse.backend.util.ConvertString;
 
 @Entity
 @Getter
@@ -64,14 +65,15 @@ public class User {
         this.enterprise = enterprise;
     }
 
-    public User(String name, String email, String username, String password){
+    public User(String name, String email, String username, String password, UUID enterpriseId){
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.enterprise = new Enterprise(enterpriseId);
     }  
 
-    public boolean isLoginCorret(LoginRequest user, PasswordEncoder passwordEncoder){
+    public boolean isLoginCorret(UserLoginRequest user, PasswordEncoder passwordEncoder){
        return passwordEncoder.matches(user.password(), this.password);
     }
 }

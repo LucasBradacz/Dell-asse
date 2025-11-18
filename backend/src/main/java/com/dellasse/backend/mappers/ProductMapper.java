@@ -2,7 +2,7 @@ package com.dellasse.backend.mappers;
 
 import com.dellasse.backend.contracts.product.ProductCreateRequest;
 import com.dellasse.backend.contracts.product.ProductUpdateRequest;
-import com.dellasse.backend.contracts.product.UpdateResponse;
+import com.dellasse.backend.contracts.product.ProductUpdateResponse;
 import com.dellasse.backend.models.Product;
 
 public class ProductMapper {
@@ -28,8 +28,8 @@ public class ProductMapper {
         );
     }
 
-    public static UpdateResponse toContractUpdateResponse(Product product) {
-        return new UpdateResponse(
+    public static ProductUpdateResponse toContractUpdateResponse(Product product) {
+        return new ProductUpdateResponse(
             product.getId(),
             product.getName(),
             product.getDescription(),

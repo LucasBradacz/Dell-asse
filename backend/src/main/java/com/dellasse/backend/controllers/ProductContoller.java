@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dellasse.backend.contracts.product.ProductCreateRequest;
 import com.dellasse.backend.contracts.product.ProductUpdateRequest;
-import com.dellasse.backend.contracts.product.UpdateResponse;
+import com.dellasse.backend.contracts.product.ProductUpdateResponse;
 import com.dellasse.backend.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -30,7 +30,7 @@ public class ProductContoller {
     }
 
     @PatchMapping("/update/{id}")
-    public UpdateResponse update(@Valid @RequestBody ProductUpdateRequest updateRequest, @PathVariable Long id, JwtAuthenticationToken token){
+    public ProductUpdateResponse update(@Valid @RequestBody ProductUpdateRequest updateRequest, @PathVariable Long id, JwtAuthenticationToken token){
         return productService.update(updateRequest, id, token.getName());
     }
 }

@@ -1,7 +1,7 @@
 package com.dellasse.backend.contracts.enterprise;
 
 
-public record UpdateRequest(
+public record EnterpriseUpdateRequest(
     String name,
     String document,
     String address,

@@ -13,6 +13,7 @@ import java.io.IOException;
 public class JwtCookieAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
+    @SuppressWarnings("null")
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
