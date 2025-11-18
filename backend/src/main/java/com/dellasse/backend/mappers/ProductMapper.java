@@ -14,7 +14,8 @@ public class ProductMapper {
             createRequest.price(), 
             createRequest.stockQuantity(), 
             createRequest.category(), 
-            createRequest.imageUrl());
+            createRequest.imageUrl()
+        );
     }
 
     public static Product toEntityUpdateProduct(ProductUpdateRequest request) {

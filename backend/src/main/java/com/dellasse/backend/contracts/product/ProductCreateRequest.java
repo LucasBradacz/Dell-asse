@@ -4,9 +4,6 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-<<<<<<< Updated upstream:backend/src/main/java/com/dellasse/backend/contracts/product/ProductCreateRequest.java
-public record ProductCreateRequest(
-=======
 /**
  * Representa o objeto de transferência de dados (DTO) para a criação de um novo Produto.
  * <p>
@@ -20,8 +17,7 @@ public record ProductCreateRequest(
  * @param category      A categoria à qual o produto pertence. Não pode estar em branco.
  * @param imageUrl      Uma URL opcional para a imagem do produto.
  */
-public record CreateRequest(
->>>>>>> Stashed changes:backend/src/main/java/com/dellasse/backend/contracts/product/CreateRequest.java
+public record ProductCreateRequest(
 
     @NotBlank(message = "Name is required")
     String name,

@@ -2,9 +2,6 @@ package com.dellasse.backend.contracts.enterprise;
 
 import jakarta.validation.constraints.NotBlank;
 
-<<<<<<< Updated upstream:backend/src/main/java/com/dellasse/backend/contracts/enterprise/EnterpriseCreateRequest.java
-public record EnterpriseCreateRequest(
-=======
 /**
  * Representa o objeto de transferência de dados (DTO) para a criação de uma nova Empresa.
  * <p>
@@ -18,9 +15,8 @@ public record EnterpriseCreateRequest(
  * @param email       O endereço de e-mail principal de contato. Não pode estar em branco.
  * @param urlImage    Uma URL opcional para a imagem (logo) da empresa.
  */
-public record CreateRequest(
->>>>>>> Stashed changes:backend/src/main/java/com/dellasse/backend/contracts/enterprise/CreateRequest.java
-    
+public record EnterpriseCreateRequest(
+
     @NotBlank(message = "Name is required") 
     String name, 
     
