@@ -31,14 +31,12 @@ public class UserEnterpriseCheckFilter extends OncePerRequestFilter {
     private EnterpriseRepository enterpriseRepository;
     
     @Override
-    @SuppressWarnings("null")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         doInternalFilter(request);
         filterChain.doFilter(request, response);
     }
 
     @Override
-    @SuppressWarnings("null")
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
         String method = request.getMethod();
