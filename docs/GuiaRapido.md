@@ -1,4 +1,4 @@
-# Dellasse Backend — README 2.0
+# Dellasse Backend
 
 ## Guia Rápido (para quem nunca viu o código)
 
