@@ -75,7 +75,7 @@ public class UserService {
         UUID enterpriseId = validateUserEnterprise(userId);
         
         user.setEnterprise(entityManager.find(Enterprise.class, enterpriseId));
-
+        userRepository.save(user);
 
         return ResponseEntity.ok().build();
     }
