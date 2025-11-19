@@ -26,8 +26,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody @Valid UserCreateRequest request) {
-        return userService.createUser(request);
+    public ResponseEntity<?> createUser(@RequestBody @Valid UserCreateRequest request, JwtAuthenticationToken token) {
+        return userService.createUser(request, token.getName());
     }
 
     @PostMapping("/login")
