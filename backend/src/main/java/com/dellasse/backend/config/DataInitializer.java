@@ -38,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         if (enterpriseRepository.count() == 0) {
-            enterpriseRepository.save(new com.dellasse.backend.models.Enterprise("dellasse", "12334567890", "rua das flores, 123", "99999-999", "interno@interno.com", "", LocalDateTime.now()));
+            enterpriseRepository.save(new com.dellasse.backend.models.Enterprise("dellasse", "12334567890", "rua das flores, 123", "99999-999", "interno@interno.com", "", LocalDateTime.now().plusDays(30)));
         }
 
         if(userRepository.count() == 0){

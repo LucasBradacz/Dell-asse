@@ -64,12 +64,11 @@ public class User {
         this.enterprise = enterprise;
     }
 
-    public User(String name, String email, String username, String password, UUID enterpriseId){
+    public User(String name, String email, String username, String password){
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.enterprise = new Enterprise(enterpriseId);
     }  
 
     public boolean isLoginCorret(UserLoginRequest user, PasswordEncoder passwordEncoder){

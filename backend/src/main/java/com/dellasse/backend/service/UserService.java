@@ -26,11 +26,14 @@ import com.dellasse.backend.contracts.user.UserUpdateRequest;
 import com.dellasse.backend.exceptions.DomainError;
 import com.dellasse.backend.exceptions.DomainException;
 import com.dellasse.backend.mappers.UserMapper;
+import com.dellasse.backend.models.Enterprise;
 import com.dellasse.backend.models.Role;
 import com.dellasse.backend.models.User;
 import com.dellasse.backend.repositories.RoleRepository;
 import com.dellasse.backend.repositories.UserRepository;
 import com.dellasse.backend.util.ConvertString;
+
+import jakarta.persistence.EntityManager;
 
 @Service
 public class UserService {
@@ -47,7 +50,10 @@ public class UserService {
     @Autowired
     private JwtEncoder jwtEncoder;
 
-    public ResponseEntity<?> createUser(UserCreateRequest request){
+    @Autowired
+    private EntityManager entityManager;
+
+    public ResponseEntity<?> createUser(UserCreateRequest request, String token){
 
         if (userRepository.existsByUsername(request.username())) {
             throw new DomainException(DomainError.USER_ALREADY_EXISTS);
@@ -56,10 +62,19 @@ public class UserService {
         if (userRepository.existsByEmail(request.email())){
             throw new DomainException(DomainError.USER_ALREADY_EXISTS);
         }
-
         User user = UserMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.password()));
         defaultValues(user);
+
+        if(token == null){
+            userRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+
+        UUID userId = ConvertString.toUUID(token);
+        UUID enterpriseId = validateUserEnterprise(userId);
+        
+        user.setEnterprise(entityManager.find(Enterprise.class, enterpriseId));
         userRepository.save(user);
 
         return ResponseEntity.ok().build();

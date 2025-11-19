@@ -22,4 +22,5 @@ public record ProductUpdateRequest(
     Integer stockQuantity,
     String imageUrl,
     String category
+    
 ) {}
