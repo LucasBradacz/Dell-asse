@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Edit, Heart } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const Home = () => {
+  const { hasRole } = useAuth(); 
   const [currentImage, setCurrentImage] = useState(0);
 
   const carouselImages = [
@@ -113,10 +115,12 @@ const Home = () => {
 
             {/* Action Buttons */}
             <div className="space-y-3">
-              <button className="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition flex items-center justify-center space-x-2">
-                <Edit size={18} />
-                <span>Editar</span>
-              </button>
+              {hasRole('ADMIN') && (
+                <button className="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition flex items-center justify-center space-x-2">
+                  <Edit size={18} />
+                  <span>Editar</span>
+                </button>
+              )}
               <button className="w-full px-4 py-2 bg-castello-red text-white rounded-lg hover:bg-red-800 transition flex items-center justify-center space-x-2">
                 <Heart size={18} />
                 <span>Tenho interesse</span>

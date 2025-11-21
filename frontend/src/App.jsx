@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ConfigProvider } from './contexts/ConfigContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 
@@ -22,8 +23,9 @@ import UploadLogo from './pages/admin/UploadLogo';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
+      <ConfigProvider>
+        <Router>
+          <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="galeria" element={<Gallery />} />
@@ -51,7 +53,8 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
-      </Router>
+        </Router>
+      </ConfigProvider>
     </AuthProvider>
   );
 }

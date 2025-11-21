@@ -41,7 +41,7 @@ const Contact = () => {
               <Instagram size={20} className="text-white" />
             </div>
             <a
-              href="https://instagram.com/castellodelasse"
+              href="https://www.instagram.com/castellofestaseeventos/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-700 hover:text-castello-red transition"
@@ -56,7 +56,7 @@ const Contact = () => {
               <Facebook size={20} className="text-white" />
             </div>
             <a
-              href="https://facebook.com/castellodelasse"
+              href="https://www.facebook.com/p/Castello-Festas-Eventos-100063021201723/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-700 hover:text-castello-red transition"
@@ -75,9 +75,9 @@ const Contact = () => {
 
           {/* Call to Action */}
           <div className="pt-4">
-            <p className="text-lg font-bold text-castello-dark">
+            <a className="text-lg font-bold text-castello-dark" href='https://wa.me/5549991995065' target="_blank" rel="noopener noreferrer">
               Agende já uma visita!
-            </p>
+            </a>
           </div>
         </div>
 
