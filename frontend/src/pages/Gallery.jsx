@@ -1,20 +1,23 @@
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react';
 import { Filter, Edit, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { partyService } from '../services/partyService';
+import { useNavigate } from 'react-router-dom';
 
 const Gallery = () => {
+  const navigate = useNavigate();
   const { isAuthenticated, hasRole } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState({});
   
-  const [parties, setParties] = useState([]);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchParties = async () => {
       try {
         const data = await partyService.getAll();
-        setParties(data);
+        console.log("Festas carregadas:", data);
+        setItems(data);
       } catch (error) {
         console.error("Erro ao buscar festas:", error);
       } finally {
@@ -25,23 +28,41 @@ const Gallery = () => {
     fetchParties();
   }, []);
 
+  const getImageCount = (item) => {
+    if (Array.isArray(item.imageUrl)) return item.imageUrl.length;
+    return 1; 
+  };
 
-  const nextImage = (partyId) => {
+  const nextImage = (itemId, totalImages) => {
+    if (totalImages <= 1) return;
     setCurrentImageIndex((prev) => ({
       ...prev,
-      [partyId]: ((prev[partyId] || 0) + 1) % 3,
+      [itemId]: ((prev[itemId] || 0) + 1) % totalImages,
     }));
   };
 
-  const prevImage = (partyId) => {
+  const prevImage = (itemId, totalImages) => {
+    if (totalImages <= 1) return;
     setCurrentImageIndex((prev) => ({
       ...prev,
-      [partyId]: ((prev[partyId] || 0) - 1 + 3) % 3,
+      [itemId]: ((prev[itemId] || 0) - 1 + totalImages) % totalImages,
     }));
-  };  
+  };
+
+  const getItemImage = (item, index = 0) => {
+    if (item.imgExample) return item.imgExample;
+
+    if (Array.isArray(item.imageUrl) && item.imageUrl.length > 0) {
+      const validIndex = index % item.imageUrl.length;
+      return item.imageUrl[validIndex].url || item.imageUrl[validIndex];
+    }
+    if (typeof item.imageUrl === 'string') return item.imageUrl;
+
+    return null;
+  };
 
   if (loading) {
-    return <div className="text-center py-10">Carregando festas...</div>;
+    return <div className="text-center py-10">Carregando galeria...</div>;
   }
 
   return (
@@ -55,97 +76,119 @@ const Gallery = () => {
         </button>
       </div>
 
-      {/* Gallery Grid */}
+      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {parties.map((party) => (
-          <div key={party.id} className="castello-card overflow-hidden flex flex-col h-full">
-            
-            <div className="grid grid-cols-2 h-full">
+        {items.map((item) => {
+          // Identificador único (usa id ou nome se não tiver id)
+          const itemId = item.id || item.title || item.name;
+          const currentIndex = currentImageIndex[itemId] || 0;
+          const totalImages = getImageCount(item);
+          const currentImageUrl = getItemImage(item, currentIndex);
+          
+          // Título da festa ou nome do item
+          const displayTitle = item.title || item.name || "Sem Título";
+
+          return (
+            <div key={itemId} className="castello-card overflow-hidden flex flex-col h-full">
               
-              {/* Image Area */}
-              <div className="relative h-full min-h-[16rem] bg-gradient-to-br from-blue-200 via-red-200 to-yellow-200 flex items-center justify-center">
-                {/* Se o backend tiver imagem (imgExample), mostra ela, senão mostra o ícone padrão */}
-                {party.imgExample ? (
-                   <img 
-                     src={party.imgExample} 
-                     alt={party.title} 
-                     className="absolute inset-0 w-full h-full object-cover"
-                   />
-                ) : (
-                  <div className="text-center z-10">
-                    <div className="text-5xl mb-2">🎉</div>
-                    {/* Exibe o título vindo do banco */}
-                    <div className="text-sm font-semibold text-gray-700 px-2">
-                      {party.title}
+              <div className="grid grid-cols-2 h-full">
+                
+                {/* Área da Imagem */}
+                <div className="relative h-full min-h-[16rem] bg-gradient-to-br from-blue-200 via-red-200 to-yellow-200 flex items-center justify-center group">
+                  
+                  {currentImageUrl ? (
+                     <img 
+                       src={currentImageUrl} 
+                       alt={displayTitle} 
+                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                       onError={(e) => {
+                         e.target.onerror = null;
+                         // Imagem de fallback caso o link esteja quebrado
+                         e.target.src = "https://placehold.co/400x300?text=Imagem+Indisponível";
+                       }}
+                     />
+                  ) : (
+                    <div className="text-center z-10">
+                      <div className="text-5xl mb-2">🎉</div>
+                      <div className="text-sm font-semibold text-gray-700 px-2">
+                        {displayTitle}
+                      </div>
                     </div>
-                  </div>
-                )}
-
-                {/* Controles do carrossel (opcional se tiver só 1 imagem) */}
-                <button
-                  onClick={() => prevImage(party.id)}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 z-20"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  onClick={() => nextImage(party.id)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 z-20"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-4 flex flex-col justify-between h-full">
-                <div>
-                  <h3 className="font-bold text-lg text-gray-900 mb-1">
-                    {party.title}
-                  </h3>
-                  {/* Descrição vinda do backend */}
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-3">
-                    {party.description}
-                  </p>
-                  
-                  {/* Lista de produtos vinda do backend */}
-                  <ul className="text-xs text-gray-700 space-y-1 mb-4">
-                    {party.products && party.products.length > 0 ? (
-                      party.products.slice(0, 5).map((prod) => (
-                        <li key={prod.id}>• {prod.name}</li>
-                      ))
-                    ) : (
-                      <li>• Nenhum item listado</li>
-                    )}
-                  </ul>
-                </div>
-
-                {/* Buttons */}
-                <div className="space-y-2">
-                  
-                  {isAuthenticated() && (
-                    <button className="w-full px-3 py-2 bg-castello-red text-white rounded-lg hover:bg-red-800 transition text-sm">
-                      Quero editar
-                    </button>
                   )}
 
-                  <div className="flex space-x-2">
-                    {hasRole('ADMIN') && (
-                        <button className="flex-1 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-sm flex items-center justify-center space-x-1">
-                        <Edit size={14} />
-                        <span>Editar</span>
-                        </button>
-                    )}
+                  {/* Setas (só aparecem se houver mais de 1 imagem) */}
+                  {totalImages > 1 && (
+                    <>
+                      <button
+                        onClick={() => prevImage(itemId, totalImages)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 z-20 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <ChevronLeft size={20} />
+                      </button>
+                      <button
+                        onClick={() => nextImage(itemId, totalImages)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 z-20 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <ChevronRight size={20} />
+                      </button>
+                      
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 px-2 py-1 rounded text-white text-xs">
+                        {currentIndex + 1} / {totalImages}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Conteúdo */}
+                <div className="p-4 flex flex-col justify-between h-full">
+                  <div>
+                    <h3 className="font-bold text-lg text-gray-900 mb-1">
+                      {displayTitle}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-3 line-clamp-4">
+                      {item.description}
+                    </p>
                     
-                    <button className="flex-1 px-3 py-2 bg-castello-red text-white rounded-lg hover:bg-red-800 transition text-sm flex items-center justify-center space-x-1">
-                      <Heart size={14} />
-                      <span>Tenho interesse</span>
-                    </button>
+                    {/* Lista de itens (Opcional: mostra produtos se houver) */}
+                    {item.products && item.products.length > 0 && (
+                        <ul className="text-xs text-gray-500 list-disc list-inside mb-3">
+                            {item.products.slice(0, 3).map((p, i) => (
+                                <li key={i}>{p.name}</li>
+                            ))}
+                            {item.products.length > 3 && <li>...e mais</li>}
+                        </ul>
+                    )}
+                  </div>
+
+                  {/* Botões */}
+                  <div className="space-y-2">
+                    {isAuthenticated() && (
+                      <button 
+                      onClick={() => navigate('/criar-festa', { state: { partyData: item } })}
+                        className="w-full px-3 py-2 bg-castello-red text-white rounded-lg hover:bg-red-800 transition text-sm shadow-sm">
+                        Quero editar
+                      </button>
+                    )}
+
+                    <div className="flex space-x-2">
+                      {hasRole('ADMIN') && (
+                          <button className="flex-1 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-sm flex items-center justify-center space-x-1 shadow-sm">
+                          <Edit size={14} />
+                          <span>Editar</span>
+                          </button>
+                      )}
+                      
+                      <button className="flex-1 px-3 py-2 bg-castello-red text-white rounded-lg hover:bg-red-800 transition text-sm flex items-center justify-center space-x-1 shadow-sm">
+                        <Heart size={14} />
+                        <span>Tenho interesse</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
