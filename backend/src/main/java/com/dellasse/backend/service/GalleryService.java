@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dellasse.backend.contracts.gallery.GalleryCreateRequest;
+import com.dellasse.backend.contracts.gallery.GalleryResponse;
 import com.dellasse.backend.exceptions.DomainError;
 import com.dellasse.backend.exceptions.DomainException;
 import com.dellasse.backend.mappers.GalleryMapper;
@@ -56,5 +57,20 @@ public class GalleryService {
             .collect(Collectors.toList());
 
         imageRepository.saveAll(images);
+    }
+
+    public List<GalleryResponse> findAll(String token) {
+        UUID userId = ConvertString.toUUID(token);
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        UUID enterpriseId = userService.validateUserEnterprise(userId);
+         if (enterpriseId == null) {
+            throw new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE);
+        }
+        List<Gallery> filtered = galleryRepository.findAll().stream()
+            .filter(g -> g.getEnterprise() != null && enterpriseId.equals(g.getEnterprise().getId()))
+            .collect(Collectors.toList());
+        return GalleryMapper.toResponseList(filtered);
     }
 }
