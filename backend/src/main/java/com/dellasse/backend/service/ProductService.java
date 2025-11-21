@@ -58,23 +58,23 @@ public class ProductService {
     }
 
     public ProductUpdateResponse update(ProductUpdateRequest request, Long productId, String token) {
-        UUID userId = ConvertString.toUUID(token);
-        UUID enterpriseId = userService.validateUserEnterprise(userId);
-
+        
         if (productId == null){
             throw new DomainException(DomainError.PRODUCT_NOT_FOUND_INTERNAL);
         }
 
+        UUID userId = ConvertString.toUUID(token);
+        UUID enterpriseId = userService.validateUserEnterprise(userId);
         Product entity = productRepository.findById(productId)
                 .orElseThrow(() -> new DomainException(DomainError.PRODUCT_NOT_FOUND));
+        
+        if (enterpriseId == null){
+            throw new DomainException(DomainError.USER_CANNOT_UPDATE_DATA);
+        }
 
         existsProductEnterprise(productId, enterpriseId);
         setValueUpdate(entity, request);
-
-        entity.setDateUpdate(DateUtils.now());
-
         productRepository.save(entity);
-
         return ProductMapper.toContractUpdateResponse(entity);
     }
 
@@ -111,5 +111,6 @@ public class ProductService {
         if (request.imageUrl() != null){
             entity.setImageUrl(request.imageUrl());
         }
+        entity.setDateUpdate(DateUtils.now());
     }
 }

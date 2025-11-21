@@ -56,16 +56,14 @@ public class UserEnterpriseCheckFilter extends OncePerRequestFilter {
         UUID userId = ConvertString.toUUID(auth.getName());
         UUID enterpriseId = userService.validateUserEnterprise(userId);
 
-        if (enterpriseId == null){
-            throw new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE);
-        }
+        if (enterpriseId != null){
+            var enterprise = enterpriseRepository.findById(enterpriseId)
+                .orElseThrow(() -> new DomainException(DomainError.ENTERPRISE_NOT_FOUND));
 
-        var enterprise = enterpriseRepository.findById(enterpriseId)
-            .orElseThrow(() -> new DomainException(DomainError.ENTERPRISE_NOT_FOUND));
-
-        var expiration = enterprise.getDateExpiration();
-        if (expiration != null && expiration.isBefore(LocalDateTime.now())){
-            throw new DomainException(DomainError.ENTERPRISE_EXPIRED);
+            var expiration = enterprise.getDateExpiration();
+            if (expiration != null && expiration.isBefore(LocalDateTime.now())){
+                throw new DomainException(DomainError.ENTERPRISE_EXPIRED);
+            }
         }
     }
 }

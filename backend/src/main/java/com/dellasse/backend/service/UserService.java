@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.mapstruct.ap.shaded.freemarker.template.utility.NullArgumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,13 +95,13 @@ public class UserService {
         }
 
         var enterprise = user.getEnterprise();
-        if (enterprise == null){
-            throw new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE);
+        if (enterprise != null){
+            var expiration = enterprise.getDateExpiration();
+            if (expiration != null && expiration.isBefore(LocalDateTime.now())){
+                throw new DomainException(DomainError.ENTERPRISE_EXPIRED);
+            }
         }
-        var expiration = enterprise.getDateExpiration();
-        if (expiration != null && expiration.isBefore(LocalDateTime.now())){
-            throw new DomainException(DomainError.ENTERPRISE_EXPIRED);
-        }
+
 
         var now = Instant.now();
         var expiresIn = 30000L;  // em segundos (8h20min)
@@ -179,8 +180,11 @@ public class UserService {
             throw new DomainException(DomainError.USER_NOT_FOUND);
         }
 
-        UUID enterpriseId = userRepository.findEnterpriseIdByUuid(userId)
-                                    .orElseThrow(() -> new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE));
+        UUID enterpriseId = userRepository.findEnterpriseIdByUuid(userId);
+
+        if (enterpriseId == null){
+            return null;
+        }
 
         if (!userRepository.existsByUuidAndEnterprise_Id(userId, enterpriseId)){
             throw new DomainException(DomainError.ENTERPRISE_FORBIDDEN);
@@ -229,4 +233,12 @@ public class UserService {
         return user;
     }
 
+    public boolean isStaff(List<Role> roles){
+        if (roles == null || roles.isEmpty()){
+            throw new NullArgumentException("Roles must contain at least one valid entry");
+        }
+
+        return roles.stream()
+                .anyMatch(role -> role.getName().equals(Role.Values.ADMIN.getName()));
+    }
 }

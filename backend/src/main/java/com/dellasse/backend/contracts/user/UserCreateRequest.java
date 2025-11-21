@@ -1,7 +1,5 @@
 package com.dellasse.backend.contracts.user;
 
-import java.util.UUID;
-
 import com.dellasse.backend.validation.PasswordMatches;
 
 import jakarta.validation.constraints.Email;

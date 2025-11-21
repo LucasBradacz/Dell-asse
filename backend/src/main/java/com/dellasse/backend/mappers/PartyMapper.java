@@ -1,7 +1,11 @@
 package com.dellasse.backend.mappers;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.dellasse.backend.contracts.party.PartyCreateRequest;
+import com.dellasse.backend.contracts.party.PartyResponse;
 import com.dellasse.backend.models.Party;
 
 public class PartyMapper {
@@ -14,6 +18,22 @@ public class PartyMapper {
             create.observations(),
             create.imageURL()
         );
+    }
+    public static PartyResponse toResponse(Party entity) {
+        return new PartyResponse(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getObservations(),
+                String.valueOf(entity.getGenerateBudget()),
+                entity.getImgExample(),
+                entity.getStatus()
+        );
+    }
+    
+    public static List<PartyResponse> toResponse(List<Party> entity){
+        return entity.stream()
+                .map(PartyMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }
 
