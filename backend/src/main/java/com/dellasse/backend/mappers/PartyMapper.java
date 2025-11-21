@@ -35,5 +35,13 @@ public class PartyMapper {
                 .map(PartyMapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+    public static void updateEntity(Party entity, PartyCreateRequest update){
+        entity.setTitle(update.title());
+        entity.setDescription(update.description());
+        entity.setGenerateBudget(update.generateBudget());
+        entity.setObservations(update.observations());
+        entity.setImgExample(update.imageURL());
+    }
 }
 

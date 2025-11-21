@@ -1,5 +1,7 @@
 package com.dellasse.backend.models;
 
+import com.dellasse.backend.contracts.image.ImageCreateRequest;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,4 +28,11 @@ public class Image {
 
     @ManyToOne
     private Gallery gallery;
+
+
+    public Image(String url, String alt, Gallery gallery) {
+        this.url = url;
+        this.alt = alt;
+        this.gallery = gallery;
+    }
 }

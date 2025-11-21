@@ -78,5 +78,26 @@ public class PartyService {
         party.setLastAtualization(DateUtils.now());
         party.setStatus(StatusUtils.PENDING.getValue());
     }
-    
+
+    public PartyResponse getById(Long id, String token){
+        UUID userId = ConvertString.toUUID(token);
+        Party party = partyRepository.findById(id)
+                .orElseThrow(() -> new DomainException(DomainError.PARTY_NOT_FOUND));
+        if (!party.getUser().getUuid().equals(userId)) {
+            throw new DomainException(DomainError.USER_NOT_AUTHENTICATED);
+        }
+        return PartyMapper.toResponse(party);
+    }
+
+    public PartyResponse update(Long id, PartyCreateRequest request, String token){
+        UUID userId = ConvertString.toUUID(token);
+        Party party = partyRepository.findById(id)
+                .orElseThrow(() -> new DomainException(DomainError.PARTY_NOT_FOUND));
+        if (!party.getUser().getUuid().equals(userId)) {
+            throw new DomainException(DomainError.USER_NOT_AUTHENTICATED);
+        }
+        PartyMapper.updateEntity(party, request);
+        applyDefaultValues(party, userId, party.getEnterprise().getId());
+        return PartyMapper.toResponse(partyRepository.save(party));
+    }
 }
