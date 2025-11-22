@@ -1,9 +1,14 @@
 package com.dellasse.backend.contracts.user;
 
+import java.time.LocalDate;
+
 import com.dellasse.backend.validation.PasswordMatches;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -39,6 +44,14 @@ public record UserCreateRequest(
 
     @NotBlank(message = "Confirm Password is required")
     @Size(min = 6, message = "Confirm Password must be at least 6 characters long")
-    String confirmPassword
+    String confirmPassword,
+
+    @Size(min = 11, max = 15, message = "Phone must be between 11 and 15 characters")
+    String phone,
+
+    @NotNull(message = "Birthday is required")
+    @Past(message = "Birthday must be in the past")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    LocalDate birthday
 
 ) {}

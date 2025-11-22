@@ -18,6 +18,6 @@ import jakarta.validation.constraints.NotBlank;
  */
 public record GalleryCreateRequest(
         @NotBlank String name, 
-        String description, 
-        List<ImageCreateRequest> imageUrl) {
-}
+        List<ImageCreateRequest> imageUrl
+) {}
+    

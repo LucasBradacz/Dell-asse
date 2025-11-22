@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.dellasse.backend.contracts.party.PartyCreateRequest;
 import com.dellasse.backend.contracts.party.PartyResponse;
+import com.dellasse.backend.models.Gallery;
 import com.dellasse.backend.models.Party;
 
 public class PartyMapper {
@@ -16,7 +17,8 @@ public class PartyMapper {
             create.products(),
             create.generateBudget(),
             create.observations(),
-            create.imageURL()
+            create.imageURL(),
+            new Gallery(create.galleryId())
         );
     }
     public static PartyResponse toResponse(Party entity) {

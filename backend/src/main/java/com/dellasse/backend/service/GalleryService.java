@@ -52,25 +52,17 @@ public class GalleryService {
         gallery.setEnterprise(entityManager.find(Enterprise.class, enterpriseId));
         galleryRepository.save(gallery);
         
-        List<Image> images = request.imageUrl().stream()
-            .map(dto -> ImageMapper.toEntity(dto, gallery))
-            .collect(Collectors.toList());
-
-        imageRepository.saveAll(images);
+        if (request.imageUrl() != null) {
+            List<Image> images = request.imageUrl().stream()
+                .map(dto -> ImageMapper.toEntity(dto, gallery))
+                .collect(Collectors.toList());
+            imageRepository.saveAll(images);
+        }
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<GalleryResponse> findAll(String token) {
-        UUID userId = ConvertString.toUUID(token);
-        if (userId == null) {
-            throw new IllegalArgumentException("Invalid token");
-        }
-        UUID enterpriseId = userService.validateUserEnterprise(userId);
-         if (enterpriseId == null) {
-            throw new DomainException(DomainError.USER_NOT_FOUND_ENTERPRISE);
-        }
-        List<Gallery> filtered = galleryRepository.findAll().stream()
-            .filter(g -> g.getEnterprise() != null && enterpriseId.equals(g.getEnterprise().getId()))
-            .collect(Collectors.toList());
-        return GalleryMapper.toResponseList(filtered);
+        List<Gallery> galleries = galleryRepository.findAllWithRelations();
+        return GalleryMapper.toResponseList(galleries);
     }
 }

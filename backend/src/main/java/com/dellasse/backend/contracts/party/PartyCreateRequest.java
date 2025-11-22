@@ -34,7 +34,8 @@ public record PartyCreateRequest(
     Double generateBudget,
 
     String observations,
-    String imageURL
+    String imageURL,
+    Long galleryId
 
 ) {}
 

@@ -1,5 +1,6 @@
 package com.dellasse.backend.models;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +38,8 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private String phone;
+    private LocalDate birthday;
     private boolean active;
 
     @ManyToMany
@@ -54,17 +57,19 @@ public class User {
         this.uuid = uuid;
     }
 
-    public User(String name, String email, String username, String password, boolean active, List<Role> listRole, Enterprise enterprise){
+    public User(String name, String email, String username, String password, LocalDate birthday, String phone, boolean active, List<Role> listRole, Enterprise enterprise){
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.birthday = birthday;
+        this.phone = phone;
         this.active = active;
         this.roles = listRole;
         this.enterprise = enterprise;
     }
 
-    public User(String name, String email, String username, String password){
+    public User(String name, String email, String username, String password, String phone, LocalDate birthday){
         this.name = name;
         this.email = email;
         this.username = username;

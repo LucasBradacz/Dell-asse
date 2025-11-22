@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.dellasse.backend.contracts.image.ImageCreateRequest;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +30,6 @@ public class Gallery {
     private Long id;
     
     private String name;
-    private String description;
 
     @OneToMany(mappedBy = "gallery", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
@@ -37,13 +37,24 @@ public class Gallery {
     @ManyToOne
     private Enterprise enterprise;
 
+    @OneToMany(mappedBy = "gallery", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Party> partys;
 
-    public Gallery(String name, String description, List<ImageCreateRequest> images) {
+
+    public Gallery(Long id) {
+        this.id = id;
+    }
+
+    public Gallery(String name, List<ImageCreateRequest> images, List<Party> partys) {
         this.name = name;
-        this.description = description;
         if (images != null) {
             this.images = images.stream()
                                 .map(dto -> new Image(dto.url(), dto.alt(), this))
+                                .collect(Collectors.toList());
+        }
+        if (partys != null){
+            this.partys = partys.stream()
+                                .map(party -> new Party(party.getId(), party.getTitle(), party.getDescription(), party.getObservations(), null, name, name, party.getGenerateBudget(), party.getUser(), enterprise, party.getProducts(), this))
                                 .collect(Collectors.toList());
         }
     }

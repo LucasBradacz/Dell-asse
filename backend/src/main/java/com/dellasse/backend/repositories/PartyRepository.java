@@ -11,5 +11,6 @@ import com.dellasse.backend.models.Party;
 @Repository
 public interface PartyRepository extends JpaRepository<Party, Long> {
     List<Party> findAllByEnterprise_Id(UUID enterpriseId);
+    List<Party> findAllByStatus(String status);
     List<Party> findAllByUser_Uuid(UUID userId);
 }

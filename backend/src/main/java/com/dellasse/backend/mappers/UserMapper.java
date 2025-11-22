@@ -12,7 +12,10 @@ public class UserMapper {
             dtoRequest.name(),
             dtoRequest.email(),
             dtoRequest.username(),
-            dtoRequest.password()
+            dtoRequest.password(),
+            dtoRequest.phone(),
+            dtoRequest.birthday()
+    
         );
     }
 

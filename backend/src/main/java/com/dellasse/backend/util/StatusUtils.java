@@ -3,7 +3,8 @@ package com.dellasse.backend.util;
 public enum StatusUtils {
     PENDING("PENDING"),
     APPROVED("APPROVED"),
-    REJECTED("REJECTED");
+    REJECTED("REJECTED"),
+    COMPLETED("COMPLETED");
 
     private final String value;
 

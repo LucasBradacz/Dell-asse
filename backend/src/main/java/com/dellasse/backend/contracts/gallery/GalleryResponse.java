@@ -3,6 +3,7 @@ package com.dellasse.backend.contracts.gallery;
 import java.util.List;
 
 import com.dellasse.backend.contracts.image.ImageCreateRequest;
+import com.dellasse.backend.contracts.party.PartyResponse;
 
 import jakarta.validation.constraints.NotBlank;
 /**
@@ -12,15 +13,14 @@ import jakarta.validation.constraints.NotBlank;
  * para recuperar os dados de uma galeria.
  *
  * @param name        O nome oficial da galeria.
- * @param description Uma descrição opcional da galeria.
- * @param alt         Uma alternativa opcional para a galeria.
- * @param image       Uma lista de URLs de imagens que compõem a galeria.
+ * @param images      Uma lista de imagens que compõem a galeria.
+ * @param partys      Uma lista de party associadas à galeria.
  */
 public record GalleryResponse(
     
+    Long id,
     @NotBlank String name,
-    @NotBlank String description,
-    @NotBlank String alt,
-    List<ImageCreateRequest> image) {
-    
-}
+    List<ImageCreateRequest> images,
+    List<PartyResponse> partys
+
+) {}

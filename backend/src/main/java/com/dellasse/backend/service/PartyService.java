@@ -49,10 +49,13 @@ public class PartyService {
             enterpriseId = userService.validateUserEnterprise(userId);
         }
         applyDefaultValues(party, userId, enterpriseId);
-
+        
         return partyRepository.save(party);
     }
 
+
+    /// quando eu tiver um token que o usuario tiver vinculado a empresa ele vai puxar do byEnterprise.
+    /// se meu usuario nao tiver um empresa vinculada a ele vai puxar somente a galeria dele
     public List<PartyResponse> getAll(String token){
         UUID userId = ConvertString.toUUID(token);
         UUID enterpriseId = userService.validateUserEnterprise(userId);
@@ -67,6 +70,7 @@ public class PartyService {
         if (!isStaff) {
            throw new DomainException(DomainError.USER_NOT_AUTHENTICATED); 
         }
+
         return PartyMapper.toResponse(partyRepository.findAllByEnterprise_Id(enterpriseId));
     }
 

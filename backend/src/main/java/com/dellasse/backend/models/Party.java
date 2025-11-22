@@ -3,6 +3,7 @@ package com.dellasse.backend.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -50,32 +51,14 @@ public class Party {
     )
     private List<Product> products;
 
-    public Party(
-            Long id,
-            String title,
-            String description,
-            String observations,
-            LocalDateTime lastAtualization,
-            String status,
-            List<Long> products,
-            String imgExample,
-            Double generateBudget
-    ){
-            this.id = id;
-            this.title = title;
-            this.description = description;
-            this.observations = observations;
-            this.lastAtualization = lastAtualization;
-            this.products = products.stream().map(productId -> new Product(productId)).toList();
-            this.status = status;
-            this.imgExample = imgExample;
-            this.generateBudget = generateBudget;
-    }
+    @ManyToOne
+    @JoinColumn(name = "gallery_id")
+    private Gallery gallery;
 
     public Party(String title,
             String description, List<Long> products,
             Double budget,
-            String observations, String imageURL) {
+            String observations, String imageURL, Gallery gallery) {
         
         this.title = title;
         this.description = description;
@@ -83,7 +66,26 @@ public class Party {
         this.generateBudget = budget;
         this.observations = observations;
         this.imgExample = imageURL;
+        this.gallery = gallery;
+
     }
 
-
+    public Party(Long id,
+            String title,
+            String description,
+            String observations,
+            String status,
+            List<Product> products,
+            String imgExample,
+            Double generateBudget, 
+            User user
+        ) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.observations = observations;
+        this.products = products;
+        this.user = user;
+        this.generateBudget = generateBudget;
+    }
 }
