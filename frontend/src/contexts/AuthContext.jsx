@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { authService } from '../services/authService';
+import { useMemo } from 'react';
 
 const AuthContext = createContext(null);
 
@@ -18,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedUser = authService.getUser();
     const token = authService.getToken();
-    
+
     if (storedUser && token) {
       setUser(storedUser);
     }
@@ -69,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     return user?.roles?.includes(role) || false;
   };
 
-  const value = {
+  const value = useMemo(() => ({
     user,
     login,
     register,
@@ -77,7 +78,7 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated,
     hasRole,
     loading,
-  };
+  }), [user, loading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

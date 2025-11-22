@@ -3,7 +3,6 @@ import { Phone, Mail, Instagram, Facebook } from 'lucide-react';
 const Contact = () => {
   return (
     <div className="space-y-6">
-      {/* Page Title */}
       <h1 className="castello-title text-4xl mb-8">Contato</h1>
 
       {/* Grid Layout: 1 coluna no mobile, 2 colunas no desktop (lg) */}

@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Loader2, Plus } from 'lucide-react'; // Adicionei o Plus
+import { Loader2, Plus } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { partyService } from '../services/partyService';
-import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
+import { useNavigate } from 'react-router-dom'; 
 
 const Cart = () => {
   const { user } = useAuth();
-  const navigate = useNavigate(); // Hook para navegação
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [activeOrders, setActiveOrders] = useState([]);
   const [pastOrders, setPastOrders] = useState([]);
@@ -14,7 +14,6 @@ const Cart = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // Buscamos TODAS as festas
         const allParties = await partyService.getAll();
       
         const myParties = allParties.filter(party => 
@@ -44,7 +43,7 @@ const Cart = () => {
     switch (status) {
       case 'APPROVED': return 'bg-green-100 border-green-400 text-green-700';
       case 'REJECTED': return 'bg-red-100 border-red-400 text-red-700';
-      default: return 'bg-yellow-100 border-yellow-400 text-yellow-700'; // PENDING ou null
+      default: return 'bg-yellow-100 border-yellow-400 text-yellow-700'; 
     }
   };
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, X, Link as LinkIcon, Image as ImageIcon } from 'lucide-react'; // Mudei os ícones
+import { Check, X, Link as LinkIcon, Image as ImageIcon } from 'lucide-react'; 
 import { useNavigate } from 'react-router-dom';
 import { partyService } from '../../services/partyService';
 
@@ -13,7 +13,7 @@ const AddParty = () => {
     description: '',
     generateBudget: '',
     observations: '',
-    imageURL: '', // Agora isso será preenchido via texto
+    imageURL: '',
     products: []
   });
 
@@ -38,7 +38,6 @@ const AddParty = () => {
       const payload = {
         ...formData,
         generateBudget: parseFloat(formData.generateBudget),
-        // Enviamos a string da URL diretamente
         products: [] 
       };
 

@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Upload, Database, FileText, Trash2, Plus } from 'lucide-react';
+import { Upload, Database, FileText, Trash2, Plus, Package } from 'lucide-react';
 
 const AdminPanel = () => {
   const location = useLocation();
@@ -10,6 +10,7 @@ const AdminPanel = () => {
     { path: '/painel-adm/solicitacoes', label: 'Ver solicitações', icon: FileText },
     { path: '/painel-adm/apagar-avaliacao', label: 'Apagar avaliação', icon: Trash2 },
     { path: '/painel-adm/adicionar-festa', label: 'Adicionar festa', icon: Plus },
+    { path: '/painel-adm/gerenciar-produtos', label: 'Cadastrar Produtos', icon: Package },
   ];
 
   // Se estiver em uma subpágina, mostrar apenas o conteúdo da subpágina

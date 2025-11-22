@@ -63,7 +63,6 @@ const UserProfile = () => {
           <button
             onClick={() => {
               setIsOpen(false);
-              // navigate('/perfil');
             }}
             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
           >

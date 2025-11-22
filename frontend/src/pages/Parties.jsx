@@ -47,8 +47,6 @@ const Parties = () => {
         imageURL: '',
         products: [],
       });
-      // Recarregar festas
-      // loadParties();
     } catch (err) {
       setError(
         err.response?.data?.message || 'Erro ao criar festa'

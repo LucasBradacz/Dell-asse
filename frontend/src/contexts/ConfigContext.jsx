@@ -11,11 +11,25 @@ export const useConfig = () => {
 };
 
 export const ConfigProvider = ({ children }) => {
-  // Inicia o estado buscando do localStorage se existir
   const [logo, setLogo] = useState(() => {
     const savedLogo = localStorage.getItem('appLogo');
     return savedLogo || null;
   });
+
+  useEffect(() => {
+    if (logo) {
+      let link = document.querySelector("link[rel~='icon']");
+      
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'shortcut icon';
+        document.head.appendChild(link);
+      }
+
+      link.href = logo;
+    }
+  }, [logo]); 
+
 
   // Função para atualizar a logo
   const updateLogo = (newLogo) => {

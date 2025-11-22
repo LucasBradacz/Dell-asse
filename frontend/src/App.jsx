@@ -5,6 +5,7 @@ import { ConfigProvider } from './contexts/ConfigContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 
+
 // Pages principais
 import Home from './pages/Home';
 import Gallery from './pages/Gallery';
@@ -21,6 +22,7 @@ import ViewDatabase from './pages/admin/ViewDatabase';
 import AddParty from './pages/admin/AddParty';
 import DeleteReview from './pages/admin/DeleteReview';
 import UploadLogo from './pages/admin/UploadLogo';
+import ManageProducts from './pages/admin/ManageProducts';
 
 function App() {
   return (
@@ -36,7 +38,6 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
               
-              {/* 2. ADICIONE ESTA ROTA AQUI */}
               <Route 
                 path="criar-festa" 
                 element={
@@ -46,7 +47,6 @@ function App() {
                 } 
               />
               
-              {/* Admin Panel Routes */}
               <Route
                 path="painel-adm"
                 element={
@@ -60,6 +60,7 @@ function App() {
                 <Route path="solicitacoes" element={<ViewRequests />} />
                 <Route path="apagar-avaliacao" element={<DeleteReview />} />
                 <Route path="adicionar-festa" element={<AddParty />} />
+                <Route path="gerenciar-produtos" element={<ManageProducts />} />
               </Route>
 
               <Route path="*" element={<Navigate to="/" replace />} />

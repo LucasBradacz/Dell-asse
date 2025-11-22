@@ -45,8 +45,7 @@ const Products = () => {
         category: '',
         imageUrl: '',
       });
-      // Recarregar produtos
-      // loadProducts();
+
     } catch (err) {
       setError(
         err.response?.data?.message || 'Erro ao criar produto'

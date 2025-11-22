@@ -24,17 +24,14 @@ const Sidebar = () => {
   return (
     <div className="castello-sidebar w-64 min-h-screen fixed left-0 top-0 flex flex-col">
       
-      {/* Área da Logo Alterada */}
       <div className="bg-castello-darker w-full flex flex-col items-center justify-center py-8 transition-all duration-300">
         {logo ? (
           <img 
             src={logo} 
             alt="Logo Castello Del'asse" 
-            // Aumentei o tamanho (w-32), adicionei bordas arredondadas (rounded-xl) e sombra
             className="w-32 h-auto object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          // Layout padrão (quando não tem logo)
           <div className="flex items-center space-x-3">
             <div className="text-white text-2xl">🏰</div>
             <div className="text-white">
