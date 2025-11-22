@@ -1,7 +1,5 @@
 package com.dellasse.backend.models;
 
-import com.dellasse.backend.contracts.image.ImageCreateRequest;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

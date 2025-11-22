@@ -1,5 +1,18 @@
 package com.dellasse.backend.exceptions;
 
+/**
+ * Enumeração que define os erros de domínio utilizados em regras de negócio.
+ * <p>
+ * Cada constante representa um erro específico da aplicação, contendo
+ * uma mensagem descritiva e um código de status HTTP associado.
+ *
+ * <p>Usado principalmente em exceções de domínio para padronizar mensagens
+ * e códigos de retorno.</p>
+ *
+ * @author  Dell'Assa
+ * @version 1.0
+ * @since   2025-11-21
+ */
 public enum DomainError {
 
     USER_NOT_FOUND("User not found", 404),
@@ -35,11 +48,28 @@ public enum DomainError {
     private final String message;
     private final int status;
 
+    /**
+     * Cria uma nova instância de erro de domínio.
+     *
+     * @param message Mensagem descritiva do erro.
+     * @param status  Código de status HTTP associado ao erro.
+     */
     DomainError(String message, int status) {
         this.message = message;
         this.status = status;
     }
 
+    /**
+     * Retorna a mensagem descritiva do erro.
+     *
+     * @return Mensagem do erro.
+     */
     public String getMessage() { return message; }
+
+    /**
+     * Retorna o código de status HTTP associado ao erro.
+     *
+     * @return Código HTTP do erro.
+     */
     public int getStatus() { return status; }
 }

@@ -6,8 +6,21 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Representa o objeto de transferência de dados (DTO) para a criação de um usuário.
+ * <p>
+ * Este record encapsula os dados necessários que são enviados pela API
+ * para criar um novo usuário.
+ *
+ * @param name          O nome do usuário.
+ * @param email         O endereço de e-mail do usuário.
+ * @param username      O nome de usuário único.
+ * @param password      A senha do usuário.
+ * @param confirmPassword A confirmação da senha do usuário.
+ */
 @PasswordMatches
 public record UserCreateRequest(
+    
     @NotBlank(message = "Name is required") 
     String name, 
     

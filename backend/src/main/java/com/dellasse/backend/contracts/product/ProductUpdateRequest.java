@@ -14,6 +14,7 @@ package com.dellasse.backend.contracts.product;
  * @param category      A categoria à qual o produto pertence. Não pode estar em branco.
  * @param imageUrl      Uma URL opcional para a imagem do produto.
  */
+
 public record ProductUpdateRequest(
 
     String name,

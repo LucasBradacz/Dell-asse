@@ -19,6 +19,15 @@ import com.dellasse.backend.service.PartyService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controlador REST para gerenciar as Festas (Parties).
+ * <p>
+ * Este controlador fornece endpoints para criar, atualizar, consultar e listar festas.
+ *
+ * @author  Dell'Assa
+ * @version 1.0
+ * @since 2025-11-21
+ */
 @RestController
 @RequestMapping("party")
 public class PartyController {
@@ -26,21 +35,49 @@ public class PartyController {
     @Autowired
     private PartyService partyService;
 
+    /**
+     * Cria uma nova festa (Party).
+     *
+     * @param createRequest DTO contendo os dados da festa a ser criada.
+     * @param token         Token JWT do usuário autenticado.
+     * @return DTO contendo os dados da festa criada.
+     */
     @PostMapping("/create")
     public Party create(@Valid @RequestBody PartyCreateRequest createRequest, JwtAuthenticationToken token){
         return partyService.create(createRequest, token.getName());
     }
 
+    /**
+     * Atualiza os dados de uma festa existente.
+     *
+     * @param id            O ID da festa a ser atualizada.
+     * @param updateRequest DTO contendo os dados atualizados da festa.
+     * @param token         Token JWT do usuário autenticado.
+     * @return DTO contendo os dados da festa atualizada.
+     */
     @PatchMapping("/{id}")
     public PartyResponse update(@PathVariable Long id, @Valid @RequestBody PartyCreateRequest updateRequest, JwtAuthenticationToken token){
         return partyService.update(id, updateRequest, token.getName());
     }
 
+    /**
+     * Retorna os dados de uma festa (Party) pelo ID informado.
+     *
+     * @param id    ID da festa.
+     * @param token Token JWT do usuário autenticado.
+     * @return DTO contendo os dados da festa.
+     */
     @GetMapping("/{id}")
     public PartyResponse getById(@PathVariable Long id, JwtAuthenticationToken token){
         return partyService.getById(id, token.getName());
     }
 
+     /**
+     * Retorna uma lista com todas as festas (Party) cadastradas.
+     *
+     * @param token Token JWT do usuário autenticado.
+     * @return Lista de DTOs contendo os dados de todas as festas.
+     */
     @GetMapping("/all")
     public List<PartyResponse> getAll(JwtAuthenticationToken token){
         return partyService.getAll(token.getName());

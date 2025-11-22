@@ -1,6 +1,5 @@
 package com.dellasse.backend.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dellasse.backend.contracts.gallery.GalleryCreateRequest;
 import com.dellasse.backend.contracts.gallery.GalleryResponse;
-import com.dellasse.backend.contracts.image.ImageCreateRequest;
-import com.dellasse.backend.models.Gallery;
-import com.dellasse.backend.models.Image;
 import com.dellasse.backend.service.GalleryService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controlador REST para gerenciar a galeria de imagens.
+ * <p>
+ * Este controlador fornece endpoints para criar e recuperar imagens da galeria.
+ *
+ * @author  Dell'Assa
+ * @version 1.0
+ * @since 2025-11-21
+ */
 @RestController
 @RequestMapping("gallery")
 public class GalleryController {
@@ -27,11 +32,23 @@ public class GalleryController {
     @Autowired
     private GalleryService galleryService;
 
+    /**
+     * Cria uma nova galeria.
+     *
+     * @param request DTO contendo os dados da galeria a ser criada.
+     * @param token   Token JWT do usuário autenticado.
+     */
     @PostMapping("/create")
     public void create(@Valid @RequestBody GalleryCreateRequest request, JwtAuthenticationToken token) {
         galleryService.create(request, token.getName());
     }
 
+     /**
+     * Retorna todas as galeria.
+     *
+     * @param token Token JWT do usuário autenticado.
+     * @return Lista de DTOs contendo os dados das galeria.
+     */
     @GetMapping("/all")
     public List<GalleryResponse> getAll(JwtAuthenticationToken token) {
         return galleryService.findAll(token.getName());

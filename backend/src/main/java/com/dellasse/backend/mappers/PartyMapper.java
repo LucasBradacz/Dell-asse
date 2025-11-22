@@ -26,7 +26,10 @@ public class PartyMapper {
                 entity.getObservations(),
                 String.valueOf(entity.getGenerateBudget()),
                 entity.getImgExample(),
-                entity.getStatus()
+                entity.getStatus(),
+                entity.getProducts().stream()
+                    .map(ProductMapper::toResponse)
+                    .collect(Collectors.toList())
         );
     }
     

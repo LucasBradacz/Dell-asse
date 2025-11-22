@@ -17,6 +17,15 @@ import com.dellasse.backend.service.ProductService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controlador REST para gerenciar os Produtos.
+ * <p>
+ * Este controlador fornece endpoints para criar, atualizar e consultar produtos.
+ *
+ * @author  Dell'Assa
+ * @version 1.0
+ * @since 2025-11-21
+ */
 @RestController
 @RequestMapping("product")
 public class ProductContoller {
@@ -24,11 +33,26 @@ public class ProductContoller {
     @Autowired
     private ProductService productService;
 
+    /**
+     * Cria um novo Produto.
+     *
+     * @param createRequest DTO contendo os dados do Produto a ser criado.
+     * @param token         Token JWT do usuário autenticado.
+     * @return ResponseEntity com o resultado da operação.
+     */
     @PostMapping("/create")
     public ResponseEntity<?> create(@Valid @RequestBody ProductCreateRequest createRequest, JwtAuthenticationToken token){
         return productService.create(createRequest, token.getName());
     }
 
+     /**
+      * Atualiza os dados de um Produto existente.
+      *
+      * @param updateRequest DTO contendo os dados atualizados do Produto.
+      * @param id            O ID do Produto a ser atualizado.
+      * @param token         Token JWT do usuário autenticado.
+      * @return DTO contendo os dados do Produto atualizado.
+      */
     @PatchMapping("/update/{id}")
     public ProductUpdateResponse update(@Valid @RequestBody ProductUpdateRequest updateRequest, @PathVariable Long id, JwtAuthenticationToken token){
         return productService.update(updateRequest, id, token.getName());

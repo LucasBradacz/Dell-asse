@@ -36,4 +36,5 @@ public record ProductCreateRequest(
     String category,
     
     String imageUrl
+    
 ) {}

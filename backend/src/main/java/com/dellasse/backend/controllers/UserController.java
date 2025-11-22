@@ -18,6 +18,16 @@ import com.dellasse.backend.service.UserService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controlador REST para gerenciar os Usuários.
+ * <p>
+ * Este controlador fornece endpoints para criar, atualizar e consultar usuários.
+ *
+ * @author  Dell'Assa
+ * @version 1.0
+ * @since 2025-11-21
+ */
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -25,17 +35,38 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Cria um novo Usuário.
+     *
+     * @param request DTO contendo os dados do Usuário a ser criado.
+     * @param token   Token JWT do usuário autenticado.
+     * @return ResponseEntity com o resultado da operação.
+     */
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody @Valid UserCreateRequest request, JwtAuthenticationToken token) {
         String authenticatedUserId = (token != null) ? token.getName() : null;
         return userService.createUser(request, authenticatedUserId);
     }
 
+     /**
+     * Realiza o login de um Usuário.
+     *
+     * @param loginRequest DTO contendo os dados de login do Usuário.
+     * @return ResponseEntity com o resultado da operação.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody @Valid UserLoginRequest loginRequest) {
         return userService.loginUser(loginRequest);
     }
 
+     /**
+     * Atualiza os dados de um Usuário existente.
+     *
+     * @param request DTO contendo os dados atualizados do Usuário.
+     * @param userId  O ID do Usuário a ser atualizado.
+     * @param token   Token JWT do usuário autenticado.
+     * @return ResponseEntity com o resultado da operação.
+     */
     @PostMapping("/update/{userId}")
     public ResponseEntity<?> updateUser(@RequestBody @Valid UserUpdateRequest request, @PathVariable UUID userId, JwtAuthenticationToken token) {
         return userService.updateUser(request, userId, token.getName());

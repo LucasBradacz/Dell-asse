@@ -20,6 +20,17 @@ import com.dellasse.backend.service.EnterpriseService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controlador REST responsável por operações relacionadas a Empresas.
+ * <p>
+ * Possibilita criação, atualização, consulta individual e listagem de empresas.
+ * O acesso aos endpoints é restrito a usuários com as roles apropriadas.
+ *
+ * @author  Dell'Assa
+ * @version 1.0
+ * @since 2025-11-21
+ */
+
 @RestController
 @RequestMapping("enterprise")
 public class EnterpriseController {
@@ -27,24 +38,52 @@ public class EnterpriseController {
     @Autowired
     private EnterpriseService enterpriseService;
     
+    /**
+     * Cria uma nova Empresa.
+     *
+     * @param request DTO contendo os dados necessários para a criação da Empresa.
+     * @param token   Token JWT do usuário autenticado.
+     * @return ResponseEntity&lt;?&gt; representando o resultado da operação.
+     */
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid EnterpriseCreateRequest request, JwtAuthenticationToken token) {
         return enterpriseService.create(request, token.getName()); 
     }
 
+    /**
+     * Atualiza os dados de uma Empresa existente.
+     *
+     * @param request       DTO com os dados atualizados.
+     * @param enterpriseId  ID da Empresa a ser modificada.
+     * @param token         Token JWT do usuário autenticado.
+     * @return ResponseEntity com o resultado da operação.
+     */
     @PostMapping("/update/{enterpriseId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Valid EnterpriseUpdateRequest request, @PathVariable UUID enterpriseId, JwtAuthenticationToken token) {
         return enterpriseService.update(request, enterpriseId, token.getName());
     }
 
+    /**
+     * Retorna os dados de uma Empresa pelo ID informado.
+     *
+     * @param enterpriseId ID da Empresa.
+     * @param token        Token JWT do usuário autenticado.
+     * @return DTO contendo os dados da Empresa.
+     */
     @GetMapping("/{enterpriseId}")
     @PreAuthorize("hasRole('FUNCIONARIO') or hasRole('ADMIN')")
     public EnterpriseResponse findById(@PathVariable UUID enterpriseId, JwtAuthenticationToken token) {
         return enterpriseService.findById(enterpriseId, token.getName());
     }
 
+     /**
+     * Retorna uma lista com todos as Empresas cadastradas.
+     *
+     * @param token Token JWT do usuário autenticado.
+     * @return Lista de DTOs contendo os dados das Empresas.
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public List<EnterpriseResponse> findAll(JwtAuthenticationToken token){
