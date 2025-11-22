@@ -4,8 +4,7 @@
 
 **Ator principal:** Cliente (logado)
 
-Diagrama de Caso de Uso:  
-![Contratar Festa](./ContratarFesta.png)
+Diagrama de Caso de Uso:  [Contratar Festa](./ContratarFesta.png)
 
 **Fluxo principal (caso perfeito):**
 1. Usuário acessa o site.
@@ -28,8 +27,7 @@ Diagrama de Caso de Uso:
 
 **Ator principal:** Visitante
 
-Diagrama de Caso de Uso:  
-![Criar Conta](./CadastroDeUsuario.png)
+Diagrama de Caso de Uso:  [Criar Conta](./CadastroDeUsuario.png)
 
 **Fluxo principal (caso perfeito):**
 1. O Visitante acessa o site.
@@ -45,8 +43,7 @@ Diagrama de Caso de Uso:
 
 **Ator principal:** Cliente (logado)
 
-Diagrama de Caso de Uso:  
-![Cancelar Festa](./CancelarSolicitação.png)
+Diagrama de Caso de Uso:  [Cancelar Festa](./CancelarSolicitação.png)
 
 **Fluxo principal (caso perfeito):**
 1. O Cliente acessa a área **“Carrinho”**.
@@ -62,8 +59,7 @@ Diagrama de Caso de Uso:
 
 **Ator principal:** Gestor
 
-Diagrama de Caso de Uso:  
-![Cadastrar Festas](./CadastroDeFesta.png)
+Diagrama de Caso de Uso:  [Cadastrar Festas](./CadastroDeFesta.png)
 
 **Fluxo principal (caso perfeito):**
 1. O Gestor acessa o **Painel de Admin**.
@@ -77,8 +73,7 @@ Diagrama de Caso de Uso:
 
 **Atores principais:** Cliente, Gestor
 
-Diagrama de Caso de Uso:  
-![Efetuar Login](./RealizarLogin.png)
+Diagrama de Caso de Uso:  [Efetuar Login](./RealizarLogin.png)
 
 **Fluxo principal (caso perfeito):**
 1. O Usuário acessa a **página inicial** do sistema e seleciona a opção **“Login / Entrar”**.
