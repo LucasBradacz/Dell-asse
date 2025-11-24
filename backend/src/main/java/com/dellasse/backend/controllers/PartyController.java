@@ -82,4 +82,16 @@ public class PartyController {
     public List<PartyResponse> getAll(JwtAuthenticationToken token){
         return partyService.getAll(token.getName());
     }
+
+    /**
+     * Atualiza o status de uma festa (Party).
+     *
+     * @param id     ID da festa.
+     * @param status Novo status da festa.
+     * @param token  Token JWT do usuário autenticado.
+     */
+    @PatchMapping("/{id}/status")
+    public void updateStatus(@PathVariable Long id, @RequestBody String status, JwtAuthenticationToken token) {
+        partyService.updateStatus(id, status, token.getName());
+    }
 }

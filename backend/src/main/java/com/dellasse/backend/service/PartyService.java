@@ -104,4 +104,16 @@ public class PartyService {
         applyDefaultValues(party, userId, party.getEnterprise().getId());
         return PartyMapper.toResponse(partyRepository.save(party));
     }
+
+    public void updateStatus(Long id, String status, String token) {
+        UUID userId = ConvertString.toUUID(token);
+
+        Party party = partyRepository.findById(id)
+                .orElseThrow(() -> new DomainException(DomainError.PARTY_NOT_FOUND));
+        
+        String cleanStatus = status.replace("\"", "");
+        
+        party.setStatus(cleanStatus);
+        partyRepository.save(party);
+    }
 }
