@@ -1,11 +1,13 @@
 # Casos de Uso – Dell’Asse
 
-## Caso 1 – Contratar uma festa (Cliente logado)
+## Caso 1 – Efetuar cadastro
 
-**Ator principal:** Cliente (logado)
+**Ator principal:** Cliente
 
-Diagrama de Caso de Uso:  
-[Contratar Festa](../Diagramas/CasosDeUso/ContratarFesta.png)
+Diagrama de Caso de Uso: [Cadastro de Usuário](./CasosDeUso/CadastroDeUsuario.png)  
+Diagrama de Atividade: [Efetuar Cadastro](./Atividades/EfetuarCadastro.png)  
+Diagrama de Sequência: [Efetuar Cadastro](CAMINHO_DIAGRAMA_SEQUENCIA_CADASTRO_USUARIO)  
+Diagrama de Estados: [Efetuar Cadastro](CAMINHO_DIAGRAMA_ESTADOS_CADASTRO_USUARIO)
 
 **Fluxo principal (caso perfeito):**
 1. Usuário acessa o site.
@@ -24,12 +26,14 @@ Diagrama de Caso de Uso:
 
 ---
 
-## Caso 2 – Criar conta
+## Caso 2 – Cancelar solicitação de festa
 
-**Ator principal:** Visitante
+**Ator principal:** Cliente
 
-Diagrama de Caso de Uso:  
-[Criar Conta](../Diagramas/CasosDeUso/CadastroDeUsuario.png)
+Diagrama de Caso de Uso: [Cancelar Solicitação de Festa](./CasosDeUso/CancelarSolicitação.png)  
+Diagrama de Atividade: [Cancelar Pedido](./Atividades/CancelarPedido.png)  
+Diagrama de Sequência: [Cancelar Solicitação](CAMINHO_DIAGRAMA_SEQUENCIA_CANCELAR_SOLICITACAO)  
+Diagrama de Estados: [Cancelar Solicitação](CAMINHO_DIAGRAMA_ESTADOS_CANCELAR_SOLICITACAO)
 
 **Fluxo principal (caso perfeito):**
 1. O Visitante acessa o site.
@@ -41,12 +45,14 @@ Diagrama de Caso de Uso:
 
 ---
 
-## Caso 3 – Cancelar solicitação de festa (Cliente)
+## Caso 3 – Contratar festa
 
-**Ator principal:** Cliente (logado)
+**Ator principal:** Cliente
 
-Diagrama de Caso de Uso:  
-[Cancelar Festa](../Diagramas/CasosDeUso/CancelarSolicitação.png)
+Diagrama de Caso de Uso: [Contratar Festa](./CasosDeUso/ContratarFesta.png)  
+Diagrama de Atividade: [Contratar Festa](./Atividades/ContratarFesta.PNG)  
+Diagrama de Sequência: [Contratar Festa](CAMINHO_DIAGRAMA_SEQUENCIA_CONTRATAR_FESTA)  
+Diagrama de Estados: [Contratar Festa](CAMINHO_DIAGRAMA_ESTADOS_CONTRATAR_FESTA)
 
 **Fluxo principal (caso perfeito):**
 1. O Cliente acessa a área **“Carrinho”**.
@@ -62,8 +68,10 @@ Diagrama de Caso de Uso:
 
 **Ator principal:** Gestor
 
-Diagrama de Caso de Uso:  
-[Cadastrar Festas](../Diagramas/CasosDeUso/CadastroDeFesta.png)
+Diagrama de Caso de Uso: [Cadastrar Festas](./CasosDeUso/CadastroDeFesta.png)  
+Diagrama de Atividade: [Cadastrar Festas](./Atividades/CadastroDeFesta.png)  
+Diagrama de Sequência: [Cadastrar Festas](CAMINHO_DIAGRAMA_SEQUENCIA_CADASTRAR_FESTAS)  
+Diagrama de Estados: [Cadastrar Festas](CAMINHO_DIAGRAMA_ESTADOS_CADASTRAR_FESTAS)
 
 **Fluxo principal (caso perfeito):**
 1. O Gestor acessa o **Painel de Admin**.
@@ -77,8 +85,10 @@ Diagrama de Caso de Uso:
 
 **Atores principais:** Cliente, Gestor
 
-Diagrama de Caso de Uso:  
-[Efetuar Login](../Diagramas/CasosDeUso/RealizarLogin.png)
+Diagrama de Caso de Uso: [Efetuar Login](./CasosDeUso/RealizarLogin.png)  
+Diagrama de Atividade: [Efetuar Login](./Atividades/EfetuarLogin.png)  
+Diagrama de Sequência: [Efetuar Login](CAMINHO_DIAGRAMA_SEQUENCIA_EFETUAR_LOGIN)  
+Diagrama de Estados: [Efetuar Login](CAMINHO_DIAGRAMA_ESTADOS_EFETUAR_LOGIN)
 
 **Fluxo principal (caso perfeito):**
 1. O Usuário acessa a **página inicial** do sistema e seleciona a opção **“Login / Entrar”**.
