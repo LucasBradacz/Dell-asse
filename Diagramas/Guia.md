@@ -6,8 +6,8 @@
 
 Diagrama de Caso de Uso: [Cadastro de Usuário](./CasosDeUso/CadastroDeUsuario.png)  
 Diagrama de Atividade: [Efetuar Cadastro](./Atividades/EfetuarCadastro.png)  
-Diagrama de Sequência: [Efetuar Cadastro](CAMINHO_DIAGRAMA_SEQUENCIA_CADASTRO_USUARIO)  
-Diagrama de Estados: [Efetuar Cadastro](CAMINHO_DIAGRAMA_ESTADOS_CADASTRO_USUARIO)
+Diagrama de Sequência: [Efetuar Cadastro](./Sequencia/CriarConta.png)  
+Diagrama de Estados: [Efetuar Cadastro](./Estados/CriarConta.png)
 
 **Fluxo principal (caso perfeito):**
 1. Usuário acessa o site.
@@ -32,8 +32,8 @@ Diagrama de Estados: [Efetuar Cadastro](CAMINHO_DIAGRAMA_ESTADOS_CADASTRO_USUARI
 
 Diagrama de Caso de Uso: [Cancelar Solicitação de Festa](./CasosDeUso/CancelarSolicitação.png)  
 Diagrama de Atividade: [Cancelar Pedido](./Atividades/CancelarPedido.png)  
-Diagrama de Sequência: [Cancelar Solicitação](CAMINHO_DIAGRAMA_SEQUENCIA_CANCELAR_SOLICITACAO)  
-Diagrama de Estados: [Cancelar Solicitação](CAMINHO_DIAGRAMA_ESTADOS_CANCELAR_SOLICITACAO)
+Diagrama de Sequência: [Cancelar Solicitação](./Sequencia/CancelarFesta.png)  
+Diagrama de Estados: [Cancelar Solicitação](./Estados/CancelarFesta.png)
 
 **Fluxo principal (caso perfeito):**
 1. O Visitante acessa o site.
@@ -51,8 +51,8 @@ Diagrama de Estados: [Cancelar Solicitação](CAMINHO_DIAGRAMA_ESTADOS_CANCELAR_
 
 Diagrama de Caso de Uso: [Contratar Festa](./CasosDeUso/ContratarFesta.png)  
 Diagrama de Atividade: [Contratar Festa](./Atividades/ContratarFesta.PNG)  
-Diagrama de Sequência: [Contratar Festa](CAMINHO_DIAGRAMA_SEQUENCIA_CONTRATAR_FESTA)  
-Diagrama de Estados: [Contratar Festa](CAMINHO_DIAGRAMA_ESTADOS_CONTRATAR_FESTA)
+Diagrama de Sequência: [Contratar Festa](./Sequencia/ContratarFesta.png)  
+Diagrama de Estados: [Contratar Festa](./Estados/SolicitarFesta.png)
 
 **Fluxo principal (caso perfeito):**
 1. O Cliente acessa a área **“Carrinho”**.
@@ -70,8 +70,8 @@ Diagrama de Estados: [Contratar Festa](CAMINHO_DIAGRAMA_ESTADOS_CONTRATAR_FESTA)
 
 Diagrama de Caso de Uso: [Cadastrar Festas](./CasosDeUso/CadastroDeFesta.png)  
 Diagrama de Atividade: [Cadastrar Festas](./Atividades/CadastroDeFesta.png)  
-Diagrama de Sequência: [Cadastrar Festas](CAMINHO_DIAGRAMA_SEQUENCIA_CADASTRAR_FESTAS)  
-Diagrama de Estados: [Cadastrar Festas](CAMINHO_DIAGRAMA_ESTADOS_CADASTRAR_FESTAS)
+Diagrama de Sequência: [Cadastrar Festas](./Sequencia/Criarfesta.png)  
+Diagrama de Estados: [Cadastrar Festas](./Estados/CadastratFesta%20(gestor)%20.png)
 
 **Fluxo principal (caso perfeito):**
 1. O Gestor acessa o **Painel de Admin**.
@@ -87,8 +87,8 @@ Diagrama de Estados: [Cadastrar Festas](CAMINHO_DIAGRAMA_ESTADOS_CADASTRAR_FESTA
 
 Diagrama de Caso de Uso: [Efetuar Login](./CasosDeUso/RealizarLogin.png)  
 Diagrama de Atividade: [Efetuar Login](./Atividades/EfetuarLogin.png)  
-Diagrama de Sequência: [Efetuar Login](CAMINHO_DIAGRAMA_SEQUENCIA_EFETUAR_LOGIN)  
-Diagrama de Estados: [Efetuar Login](CAMINHO_DIAGRAMA_ESTADOS_EFETUAR_LOGIN)
+Diagrama de Sequência: [Efetuar Login](./Sequencia/EfetuarLogin.png)  
+Diagrama de Estados: [Efetuar Login](./Estados/EfetuarLogin.png)
 
 **Fluxo principal (caso perfeito):**
 1. O Usuário acessa a **página inicial** do sistema e seleciona a opção **“Login / Entrar”**.
