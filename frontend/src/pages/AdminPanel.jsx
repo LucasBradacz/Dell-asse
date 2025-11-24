@@ -8,7 +8,7 @@ const AdminPanel = () => {
     { path: '/painel-adm/upload-logo', label: 'Upload de imagem da logo', icon: Upload },
     { path: '/painel-adm/base-dados', label: 'Ver base de dados', icon: Database },
     { path: '/painel-adm/solicitacoes', label: 'Ver solicitações', icon: FileText },
-    { path: '/painel-adm/apagar-avaliacao', label: 'Apagar avaliação', icon: Trash2 },
+    { path: '/painel-adm/apagar-avaliacao', label: 'Apagar avaliação (aguarde...)', icon: Trash2 },
     { path: '/painel-adm/adicionar-festa', label: 'Adicionar festa', icon: Plus },
     { path: '/painel-adm/gerenciar-produtos', label: 'Cadastrar Produtos', icon: Package },
   ];

@@ -143,21 +143,28 @@ const CreateCustomParty = () => {
     try {
       const validItems = items.filter(i => i.name.trim() !== '');
       
-      let itemsDescription = "Nenhum item listado.";
+      let itemsList = "Nenhum item listado.";
       if (validItems.length > 0) {
-        itemsDescription = validItems.map(i => {
+        itemsList = validItems.map(i => {
             return `${i.quantity}x ${i.name} ${i.isDbItem ? '(Do Estoque)' : '(Personalizado)'}`;
         }).join(', ');
       }
 
-      // Pega IDs dos produtos do banco (seja novos ou importados)
+      const descriptionField = `[ITENS SOLICITADOS: ${itemsList}] ${formData.description ? '\n' + formData.description : ''}`;
+
+      // Pega IDs dos produtos do banco
       const productIds = validItems
         .filter(item => item.isDbItem && item.dbId)
         .map(item => item.dbId);
 
       const payload = {
-        ...formData,
-        description: `[ITENS SOLICITADOS: ${itemsDescription}] \n\nOBSERVAÇÕES: ${formData.description}\n${formData.observations}`,
+        ...formData, 
+        
+        
+        description: descriptionField, 
+        
+        observations: formData.observations, 
+        
         generateBudget: formData.generateBudget ? parseFloat(formData.generateBudget) : 0,
         products: productIds, 
         galleryId: location.state?.partyData?.id || null 

@@ -6,6 +6,11 @@ export const authService = {
     return response.data;
   },
 
+  async getAllUsers() {
+    const response = await api.get('/user/all');
+    return response.data;
+  },
+  
   async register(userData) {
     const response = await api.post('/user/create', userData);
     return response.data;

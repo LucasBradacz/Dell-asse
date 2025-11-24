@@ -65,14 +65,28 @@ public class PartyService {
     /// se meu usuario nao tiver um empresa vinculada a ele vai puxar somente a galeria dele
     public List<PartyResponse> getAll(String token){
         UUID userId = ConvertString.toUUID(token);
+        
+        // 1. Verifica as permissões do usuário antes de tudo
+        List<Role> roles = userService.getRoles(userId);
+        boolean isAdmin = roles.stream()
+                .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN") || role.getName().equalsIgnoreCase("ROLE_ADMIN"));
+
+        // 2. SE FOR ADMIN: Retorna TUDO (Inclusive as solicitações de clientes sem empresa)
+        if (isAdmin) {
+             return PartyMapper.toResponse(partyRepository.findAll());
+        }
+
+        // 3. SE NÃO FOR ADMIN (Lógica antiga):
         UUID enterpriseId = userService.validateUserEnterprise(userId);
         
+        // Se for cliente comum (sem empresa), vê só as dele
         if (enterpriseId == null) {
             return PartyMapper.toResponse(partyRepository.findAllByUser_Uuid(userId));
         }
-        List<Role> roles = userService.getRoles(userId);
+
+        // Se for funcionário, vê as da empresa
         boolean isStaff = roles.stream()
-                .anyMatch(role -> role.getName().equals(Role.Values.FUNCIONARIO.getName()) || role.getName().equals(Role.Values.ADMIN.getName()));
+                .anyMatch(role -> role.getName().equals(Role.Values.FUNCIONARIO.getName()));
 
         if (!isStaff) {
            throw new DomainException(DomainError.USER_NOT_AUTHENTICATED); 

@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.dellasse.backend.contracts.user.UserResponse;
 
 import com.dellasse.backend.contracts.user.UserCreateRequest;
 import com.dellasse.backend.contracts.user.UserLoginRequest;
@@ -240,5 +241,13 @@ public class UserService {
 
         return roles.stream()
                 .anyMatch(role -> role.getName().equals(Role.Values.ADMIN.getName()));
+    }
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserResponse> response = users.stream()
+                .map(UserMapper::toUserResponse)
+                .collect(Collectors.toList());
+        
+        return ResponseEntity.ok(response);
     }
 }

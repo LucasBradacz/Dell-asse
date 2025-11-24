@@ -1,6 +1,7 @@
 package com.dellasse.backend.mappers;
 
 import com.dellasse.backend.contracts.user.UserCreateRequest;
+import com.dellasse.backend.contracts.user.UserResponse;
 import com.dellasse.backend.contracts.user.UserUpdateResponse;
 import com.dellasse.backend.models.User;
 
@@ -27,5 +28,18 @@ public class UserMapper {
                 user.getUsername(),
                 user.isActive()
             );
+    }
+
+    public static UserResponse toUserResponse(User user) {
+        return new UserResponse(
+            user.getUuid(),
+            user.getName(),
+            user.getEmail(),
+            user.getUsername(),
+            user.getPhone(),
+            user.getBirthday(),
+            user.isActive(),
+            user.getRoles()
+        );
     }
 }

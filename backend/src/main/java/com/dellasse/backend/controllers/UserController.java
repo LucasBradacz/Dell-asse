@@ -1,10 +1,12 @@
 package com.dellasse.backend.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dellasse.backend.contracts.user.UserCreateRequest;
+import com.dellasse.backend.contracts.user.UserResponse;
 import com.dellasse.backend.contracts.user.UserLoginRequest;
 import com.dellasse.backend.contracts.user.UserUpdateRequest;
 import com.dellasse.backend.service.UserService;
@@ -70,5 +73,14 @@ public class UserController {
     @PostMapping("/update/{userId}")
     public ResponseEntity<?> updateUser(@RequestBody @Valid UserUpdateRequest request, @PathVariable UUID userId, JwtAuthenticationToken token) {
         return userService.updateUser(request, userId, token.getName());
+    }
+
+    /**
+     * Retorna uma lista com todos os usuários cadastrados.
+     * Deve ser acessado apenas por ADMIN.
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        return userService.getAllUsers();
     }
 }
