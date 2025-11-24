@@ -12,7 +12,7 @@ import com.dellasse.backend.contracts.product.ProductResponse;
  *
  * @param id          O id da party.
  * @param title       O título da party.
- * @param observation Uma observação opcional sobre a party.
+ * @param observations Uma observação opcional sobre a party.
  * @param budget      O orçamento associado à party.
  * @param imageUrl    A URL da imagem associada à party.
  * @param status      O status atual da party.
@@ -22,7 +22,7 @@ public record PartyResponse(
 
     Long id,
     String title,
-    String observation,
+    String observations,
     String budget,
     String imageUrl,
     String status,

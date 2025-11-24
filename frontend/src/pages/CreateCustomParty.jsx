@@ -46,7 +46,7 @@ const CreateCustomParty = () => {
         title: `Personalizando: ${sourceParty.title || sourceParty.name}`,
         description: sourceParty.description || '',
         generateBudget: sourceParty.generateBudget || '',
-        observations: '',
+        observations: sourceParty.observations || sourceParty.observation || '', 
         imageURL: getImageUrl(sourceParty), 
         products: []
       });
@@ -58,7 +58,8 @@ const CreateCustomParty = () => {
             name: prod.name,
             quantity: 1,
             price: prod.price || 0,
-            stockMax: prod.stockQuantity || 999 
+            stockMax: prod.stockQuantity || 999, 
+            isDbItem: true // Marca como item de banco
         }));
         setItems(mappedItems);
       }
@@ -149,11 +150,17 @@ const CreateCustomParty = () => {
         }).join(', ');
       }
 
+      // Pega IDs dos produtos do banco (seja novos ou importados)
+      const productIds = validItems
+        .filter(item => item.isDbItem && item.dbId)
+        .map(item => item.dbId);
+
       const payload = {
         ...formData,
         description: `[ITENS SOLICITADOS: ${itemsDescription}] \n\nOBSERVAÇÕES: ${formData.description}\n${formData.observations}`,
         generateBudget: formData.generateBudget ? parseFloat(formData.generateBudget) : 0,
-        products: [] 
+        products: productIds, 
+        galleryId: location.state?.partyData?.id || null 
       };
 
       await partyService.create(payload);

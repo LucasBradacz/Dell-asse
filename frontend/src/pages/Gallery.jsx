@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Filter, ChevronLeft, ChevronRight, Heart, Copy, MessageCircle, LogIn } from 'lucide-react';
+import { Filter, ChevronLeft, ChevronRight, Copy, MessageCircle, LogIn, Heart } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { partyService } from '../services/partyService'; 
 import { useNavigate } from 'react-router-dom';
@@ -74,13 +74,9 @@ const Gallery = () => {
     const title = item.title || item.name || "Sem Título";
     const id = item.id || "";
     
-    // Monta a mensagem: "Tenho interesse na festa {id} {titulo}"
     const message = `Tenho interesse na festa ${id} ${title}`;
-    
-    // Cria o link do WhatsApp
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     
-    // Abre em nova aba
     window.open(whatsappUrl, '_blank');
   };
 
@@ -202,8 +198,9 @@ const Gallery = () => {
                     <h3 className="font-bold text-xl text-gray-800 leading-tight mb-2">
                       {displayTitle}
                     </h3>
+                    {/* CORREÇÃO AQUI: Tenta ler observation (do backend) ou observations */}
                     <p className="text-sm text-gray-600 line-clamp-2">
-                      {item.description || "Uma festa inesquecível realizada pela Castello."}
+                      {item.observation || item.observations || "Uma festa inesquecível realizada pela Castello."}
                     </p>
                   </div>
 
