@@ -15,8 +15,7 @@ import com.dellasse.backend.models.Party;
  */
 public class PartyMapper {
     
-    /** 
-     * Converte um DTO de criação de festa para a entidade Party.
+    /** * Converte um DTO de criação de festa para a entidade Party.
      *
      * @param create O DTO contendo os dados para criar uma nova festa.
      * @return A entidade Party criada a partir do DTO.
@@ -38,8 +37,7 @@ public class PartyMapper {
         );
     }
 
-    /** 
-     * Converte uma entidade Party para o DTO de resposta.
+    /** * Converte uma entidade Party para o DTO de resposta.
      *
      * @param entity A entidade Party a ser convertida.
      * @return O DTO de resposta contendo os dados da festa.
@@ -49,11 +47,17 @@ public class PartyMapper {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getObservations(),
-                entity.getGenerateBudget(), // Passa Double direto (não converte para String)
+                entity.getGenerateBudget(),
                 entity.getImgExample(),
                 entity.getStatus(),
-                // Novos campos que adicionamos no DTO
+                
+                // Nome do Usuário
                 entity.getUser() != null ? entity.getUser().getName() : "Usuário Desconhecido",
+                
+                // --- NOVO CAMPO ADICIONADO: Telefone do Usuário ---
+                entity.getUser() != null ? entity.getUser().getPhone() : null,
+                // --------------------------------------------------
+
                 entity.getLastAtualization(),
                 entity.getProducts().stream()
                     .map(ProductMapper::toResponse)
@@ -61,8 +65,7 @@ public class PartyMapper {
         );
     }
     
-    /** 
-     * Converte uma lista de entidades Party para uma lista de DTOs de resposta.
+    /** * Converte uma lista de entidades Party para uma lista de DTOs de resposta.
      *
      * @param entity A lista de entidades Party a ser convertida.
      * @return A lista de DTOs de resposta contendo os dados das festas.
@@ -73,8 +76,7 @@ public class PartyMapper {
                 .collect(Collectors.toList());
     }
 
-    /** 
-     * Atualiza uma entidade Party existente com os dados de um DTO de atualização.
+    /** * Atualiza uma entidade Party existente com os dados de um DTO de atualização.
      *
      * @param entity A entidade Party a ser atualizada.
      * @param update O DTO contendo os dados atualizados da festa.

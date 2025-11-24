@@ -14,6 +14,7 @@ import com.dellasse.backend.contracts.product.ProductResponse;
  * @param imageUrl       A URL da imagem associada à party.
  * @param status         O status atual da party.
  * @param userName       Nome do usuário que solicitou (Novo).
+ * @param userPhone      Telefone do usuário que solicitou (Novo).
  * @param requestDate    Data da solicitação/atualização (Novo).
  * @param products       Lista de produtos associados à party.
  */
@@ -25,7 +26,8 @@ public record PartyResponse(
     Double generateBudget,     
     String imageUrl,
     String status,
-    String userName,           
+    String userName,  
+    String userPhone,         
     LocalDateTime requestDate, 
     List<ProductResponse> products
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronDown, FileText, Mail, RefreshCw } from 'lucide-react';
+import { ChevronDown, FileText, MessageCircle, RefreshCw } from 'lucide-react'; // Troquei Mail por MessageCircle
 import { partyService } from '../../services/partyService';
 
 const ViewRequests = () => {
@@ -30,6 +30,32 @@ const ViewRequests = () => {
     fetchRequests();
   }, []);
 
+  // --- FUNÇÃO WHATSAPP ---
+  const handleWhatsApp = (req) => {
+    const phone = req.userPhone;
+    const clientName = req.userName || "Cliente";
+
+    if (!phone) {
+        alert(`O cliente ${clientName} não possui telefone cadastrado.`);
+        return;
+    }
+
+    // Limpa o número (remove caracteres não numéricos)
+    const cleanPhone = phone.replace(/\D/g, '');
+    let finalPhone = cleanPhone;
+    
+    // Adiciona 55 se parecer um número BR sem DDI (10 ou 11 dígitos)
+    if (cleanPhone.length >= 10 && cleanPhone.length <= 11) {
+        finalPhone = `55${cleanPhone}`;
+    }
+
+    const message = `Olá ${clientName}, somos da Castello Eventos! Estamos entrando em contato sobre sua solicitação da festa "${req.title}".`;
+    const url = `https://wa.me/${finalPhone}?text=${encodeURIComponent(message)}`;
+    
+    window.open(url, '_blank');
+  };
+  // -----------------------
+
   const handleStatusChange = async (partyId, newStatus) => {
     try {
       setMenuOpen(null);
@@ -45,26 +71,19 @@ const ViewRequests = () => {
     }
   };
 
-  // --- FUNÇÃO ATUALIZADA COM O NOME CORRETO ---
   const handleDownloadContract = (req) => {
     if (req.status !== 'APPROVED') {
         alert("O contrato só está disponível para festas Aprovadas.");
         return;
     }
-
     const link = document.createElement('a');
-    // AQUI: Nome exato do seu ficheiro na pasta public
     link.href = '/Contrato Castello.pdf'; 
-    
-    // Mantém o nome do download dinâmico para organização
-    const clientName = req.userName || req.user?.name || 'Cliente';
+    const clientName = req.userName || 'Cliente';
     link.download = `Contrato_Festa_${req.id}_${clientName.replace(/\s+/g, '_')}.pdf`;
-    
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
-  // --------------------------------------------
 
   const getStatusColor = (statusVal) => {
     const found = statusOptions.find(s => s.value === statusVal);
@@ -127,8 +146,9 @@ const ViewRequests = () => {
                 
                 <td className="py-4 px-4 align-top">
                     <div className="flex flex-col">
-                        <span className="font-medium">{req.userName || (req.user ? req.user.name : 'Desconhecido')}</span>
-                        <span className="text-xs text-gray-500">Cliente</span>
+                        <span className="font-medium">{req.userName || 'Desconhecido'}</span>
+                        {/* Mostra o telefone logo abaixo do nome se quiser */}
+                        <span className="text-xs text-gray-500">{req.userPhone || "Sem tel"}</span>
                     </div>
                 </td>
 
@@ -180,6 +200,7 @@ const ViewRequests = () => {
 
                 <td className="py-4 px-4 align-top">
                   <div className="flex gap-2">
+                    {/* Botão Contrato */}
                     <button 
                         onClick={() => handleDownloadContract(req)}
                         disabled={req.status !== 'APPROVED'}
@@ -188,13 +209,18 @@ const ViewRequests = () => {
                             ? 'bg-blue-50 text-blue-600 hover:bg-blue-100 cursor-pointer' 
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                         }`}
-                        title={req.status === 'APPROVED' ? "Baixar Contrato" : "Aprovar para liberar contrato"}
+                        title="Baixar Contrato"
                     >
                         <FileText size={16} />
                     </button>
 
-                    <button className="p-1.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-100" title="Email">
-                        <Mail size={16} />
+                    {/* Botão WhatsApp (Antigo Email) */}
+                    <button 
+                        onClick={() => handleWhatsApp(req)}
+                        className="p-1.5 bg-green-50 text-green-600 rounded hover:bg-green-100 transition" 
+                        title="Contatar no WhatsApp"
+                    >
+                        <MessageCircle size={16} />
                     </button>
                   </div>
                 </td>

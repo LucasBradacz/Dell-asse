@@ -20,8 +20,7 @@ import com.dellasse.backend.models.Party;
  */
 public class GalleryMapper {
     
-    /** 
-     * Converte um DTO de criação de galeria para a entidade Gallery.
+    /** * Converte um DTO de criação de galeria para a entidade Gallery.
      *
      * @param request O DTO contendo os dados para criar uma nova galeria.
      * @return A entidade Gallery criada a partir do DTO.
@@ -32,8 +31,7 @@ public class GalleryMapper {
         return gallery;
     }
 
-    /** 
-     * Converte uma entidade Gallery para o DTO de resposta.
+    /** * Converte uma entidade Gallery para o DTO de resposta.
      *
      * @param gallery A entidade Gallery a ser convertida.
      * @return O DTO de resposta contendo os dados da galeria.
@@ -64,6 +62,7 @@ public class GalleryMapper {
                     party.getImgExample(),
                     party.getStatus(),
                     party.getUser() != null ? party.getUser().getName() : "Usuário Desconhecido",
+                    party.getUser() != null ? party.getUser().getPhone() : null,
                     party.getLastAtualization(),
                     products
                 ));
@@ -78,8 +77,7 @@ public class GalleryMapper {
         );
     }
 
-    /** 
-     * Converte uma lista de entidades Gallery para uma lista de DTOs de resposta.
+    /** * Converte uma lista de entidades Gallery para uma lista de DTOs de resposta.
      *
      * @param galleries A lista de entidades Gallery a ser convertida.
      * @return A lista de DTOs de resposta contendo os dados das galerias.
