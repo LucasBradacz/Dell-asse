@@ -62,7 +62,6 @@ src/
 │   ├── Home.jsx
 │   ├── Login.jsx
 │   ├── Register.jsx
-│   ├── Dashboard.jsx
 │   ├── Products.jsx
 │   ├── Parties.jsx
 │   └── Enterprises.jsx
