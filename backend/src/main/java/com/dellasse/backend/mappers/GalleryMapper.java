@@ -2,6 +2,7 @@ package com.dellasse.backend.mappers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.dellasse.backend.contracts.gallery.GalleryCreateRequest;
 import com.dellasse.backend.contracts.gallery.GalleryResponse;
@@ -32,26 +33,28 @@ public class GalleryMapper {
         
         List<PartyResponse> partys = new ArrayList<>();
         if (gallery.getPartys() != null) {
-        for (Party party : gallery.getPartys()) {
-            List<ProductResponse> products = new ArrayList<>();
-            if (party.getProducts() != null) {
-                for (Product p : party.getProducts()) {
-                    products.add(new ProductResponse(
-                        p.getId(), p.getName(), p.getDescription(), p.getPrice(), p.getStockQuantity(), p.getCategory(), p.getImageUrl()
-                    ));
+            for (Party party : gallery.getPartys()) {
+                List<ProductResponse> products = new ArrayList<>();
+                if (party.getProducts() != null) {
+                    products = party.getProducts().stream()
+                        .map(ProductMapper::toResponse)
+                        .collect(Collectors.toList());
                 }
+                
+                partys.add(new PartyResponse(
+                    party.getId(),
+                    party.getTitle(),
+                    party.getObservations(),
+                    party.getGenerateBudget(), 
+                    party.getImgExample(),
+                    party.getStatus(),
+                    party.getUser() != null ? party.getUser().getName() : "Usuário Desconhecido",
+                    party.getLastAtualization(),
+                    products
+                ));
             }
-            partys.add(new PartyResponse(
-                party.getId(),
-                party.getTitle(),
-                party.getObservations(),
-                party.getGenerateBudget() != null ? String.valueOf(party.getGenerateBudget()) : null,
-                party.getImgExample(),
-                party.getStatus(),
-                products
-            ));
         }
-        }
+        
         return new GalleryResponse(
             gallery.getId(),
             gallery.getName(),
