@@ -1,37 +1,40 @@
 import { useState, useEffect } from 'react';
-import { Filter, Edit, Heart, ChevronLeft, ChevronRight, LogIn } from 'lucide-react';
+import { Filter, ChevronLeft, ChevronRight, Heart, Copy, MessageCircle, LogIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { partyService } from '../services/partyService'; 
 import { useNavigate } from 'react-router-dom';
 
 const Gallery = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, hasRole } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState({});
   
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchParties = async () => {
-      if (!isAuthenticated()) {
-        setLoading(false);
-        return;
-      }
-
       try {
         const data = await partyService.getAll(); 
-        console.log("Festas carregadas:", data);
-        setItems(data);
+        
+        // FILTRAGEM NO FRONTEND: Apenas festas "COMPLETED"
+        const completedParties = Array.isArray(data) 
+            ? data.filter(p => p.status === 'COMPLETED') 
+            : [];
+            
+        console.log("Festas carregadas (Filtradas):", completedParties);
+        setItems(completedParties);
       } catch (error) {
         console.error("Erro ao buscar festas:", error);
+        setError(true);
       } finally {
         setLoading(false);
       }
     };
 
     fetchParties();
-  }, [isAuthenticated]); 
+  }, []); 
 
   // Funções de manipulação de imagem
   const getImageCount = (item) => {
@@ -65,63 +68,85 @@ const Gallery = () => {
     return null;
   };
 
+  // --- Ação: Tenho Interesse (WHATSAPP) ---
+  const handleInterest = (item) => {
+    const phoneNumber = "5549991995065"; // Código do país (55) + DDD + Número
+    const title = item.title || item.name || "Sem Título";
+    const id = item.id || "";
+    
+    // Monta a mensagem: "Tenho interesse na festa {id} {titulo}"
+    const message = `Tenho interesse na festa ${id} ${title}`;
+    
+    // Cria o link do WhatsApp
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Abre em nova aba
+    window.open(whatsappUrl, '_blank');
+  };
+
+  // --- Ação: Gostaria de uma parecida ---
+  const handleCopyParty = (item) => {
+    if (!isAuthenticated()) {
+      navigate('/login', { state: { from: '/criar-festa', partyData: item } });
+    } else {
+      navigate('/criar-festa', { state: { partyData: item } });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="text-castello-red font-bold animate-pulse">Carregando festas...</div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated()) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-        <div className="bg-gray-100 p-4 rounded-full">
-          <LogIn size={48} className="text-gray-400" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-800">Acesso Restrito</h2>
-        <p className="text-gray-600 max-w-md">
-          Para visualizar as festas registradas (Galeria), você precisa estar logado em sua conta.
-        </p>
-        <button 
-          onClick={() => navigate('/login')}
-          className="px-6 py-2 bg-castello-red text-white rounded-lg hover:bg-red-800 transition font-bold"
-        >
-          Fazer Login
-        </button>
+        <div className="text-castello-red font-bold animate-pulse">Carregando galeria...</div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 container mx-auto px-4 py-8">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <h1 className="castello-title text-4xl">
-           {hasRole('ADMIN') ? 'Todas as Festas' : 'Minhas Festas'}
-        </h1>
-        <button className="flex items-center space-x-2 px-4 py-2 bg-gray-200 border border-gray-300 rounded-lg hover:bg-gray-300 transition">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+          <h1 className="castello-title text-4xl">
+             Galeria de Inspirações
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Veja as festas incríveis que já realizamos
+          </p>
+        </div>
+        
+        <button className="flex items-center space-x-2 px-4 py-2 bg-gray-100 border border-gray-200 rounded-lg hover:bg-gray-200 transition text-gray-600">
           <Filter size={18} />
           <span>Filtro</span>
         </button>
       </div>
 
-      {/* Estado Vazio (Logado mas sem festas) */}
+      {/* Estado Vazio ou Erro */}
       {items.length === 0 ? (
-        <div className="text-center py-16 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-          <p className="text-gray-500 text-lg">Nenhuma festa encontrada.</p>
-          {!hasRole('ADMIN') && (
+        <div className="text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+          <div className="inline-block p-4 bg-white rounded-full shadow-sm mb-4">
+             {error ? <LogIn size={32} className="text-gray-400"/> : <Heart size={32} className="text-gray-400"/>}
+          </div>
+          <h3 className="text-xl font-bold text-gray-800 mb-2">
+            {error ? "Acesso Restrito" : "Nenhuma festa encontrada"}
+          </h3>
+          <p className="text-gray-500 max-w-md mx-auto mb-6">
+            {error 
+              ? "Não foi possível carregar a galeria pública." 
+              : "No momento não há festas concluídas na galeria."}
+          </p>
+          
+          {!isAuthenticated() && (
              <button 
-                onClick={() => navigate('/criar-festa')}
-                className="mt-4 text-castello-red hover:underline font-bold"
+                onClick={() => navigate('/login')}
+                className="px-6 py-2 bg-castello-red text-white rounded-lg hover:bg-red-800 transition font-bold shadow-md"
              >
-                Solicitar minha primeira festa
+                Fazer Login
              </button>
           )}
         </div>
       ) : (
         /* Grid de Cards */
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {items.map((item) => {
             const itemId = item.id || item.title || item.name;
             const currentIndex = currentImageIndex[itemId] || 0;
@@ -130,83 +155,92 @@ const Gallery = () => {
             const displayTitle = item.title || item.name || "Sem Título";
 
             return (
-              <div key={itemId} className="castello-card overflow-hidden flex flex-col h-full animate-in fade-in duration-500">
+              <div key={itemId} className="castello-card overflow-hidden flex flex-col h-full bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group/card">
                 
-                <div className="grid grid-cols-2 h-full">
-                  {/* Área da Imagem */}
-                  <div className="relative h-full min-h-[16rem] bg-gray-100 flex items-center justify-center group overflow-hidden">
-                    {currentImageUrl ? (
-                       <img 
-                         src={currentImageUrl} 
-                         alt={displayTitle} 
-                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                         onError={(e) => {
-                           e.target.onerror = null;
-                           e.target.src = "https://placehold.co/400x300?text=Sem+Imagem";
-                         }}
-                       />
-                    ) : (
-                      <div className="text-center z-10 p-4">
-                        <span className="text-4xl block mb-2">🎉</span>
-                        <span className="text-xs text-gray-500 font-medium">Sem prévia</span>
-                      </div>
-                    )}
+                {/* Área da Imagem */}
+                <div className="relative h-64 bg-gray-100 flex items-center justify-center overflow-hidden">
+                  {currentImageUrl ? (
+                     <img 
+                       src={currentImageUrl} 
+                       alt={displayTitle} 
+                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                       onError={(e) => {
+                         e.target.onerror = null;
+                         e.target.src = "https://placehold.co/400x300?text=Sem+Imagem";
+                       }}
+                     />
+                  ) : (
+                    <div className="text-center z-10 p-4">
+                      <span className="text-4xl block mb-2">🎉</span>
+                      <span className="text-xs text-gray-500 font-medium">Sem prévia</span>
+                    </div>
+                  )}
 
-                    {/* Controles de Carrossel */}
-                    {totalImages > 1 && (
-                      <>
-                        <button onClick={() => prevImage(itemId, totalImages)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-1.5 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                          <ChevronLeft size={18} />
-                        </button>
-                        <button onClick={() => nextImage(itemId, totalImages)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-1.5 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                          <ChevronRight size={18} />
-                        </button>
-                        <div className="absolute bottom-2 bg-black/60 px-2 py-0.5 rounded text-white text-[10px]">
-                          {currentIndex + 1}/{totalImages}
-                        </div>
-                      </>
-                    )}
-                    
-                    {/* Status Badge (Adicional para contexto de 'Meus Pedidos') */}
-                    {item.status && (
-                        <div className="absolute top-2 left-2 bg-white/90 px-2 py-1 rounded text-xs font-bold shadow-sm uppercase tracking-wide text-gray-700">
-                            {item.status}
-                        </div>
-                    )}
+                  <div className="absolute top-3 right-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                    Concluída
                   </div>
 
-                  {/* Conteúdo */}
-                  <div className="p-4 flex flex-col justify-between h-full bg-white">
-                    <div>
-                      <h3 className="font-bold text-lg text-gray-900 leading-tight mb-2">
-                        {displayTitle}
-                      </h3>
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-3">
-                        {item.description || "Sem descrição definida."}
-                      </p>
-                      
-                      {item.products && item.products.length > 0 && (
-                          <div className="mb-3">
-                              <span className="text-xs font-bold text-gray-400 uppercase">Inclui:</span>
-                              <ul className="text-xs text-gray-500 list-disc list-inside">
-                                  {item.products.slice(0, 2).map((p, i) => (
-                                      <li key={i} className="truncate">{p.name}</li>
-                                  ))}
-                                  {item.products.length > 2 && <li>+{item.products.length - 2} itens</li>}
-                              </ul>
-                          </div>
-                      )}
-                    </div>
+                  {/* Controles de Carrossel */}
+                  {totalImages > 1 && (
+                    <>
+                      <button onClick={() => prevImage(itemId, totalImages)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-sm opacity-0 group-hover/card:opacity-100 transition-opacity">
+                        <ChevronLeft size={16} />
+                      </button>
+                      <button onClick={() => nextImage(itemId, totalImages)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-sm opacity-0 group-hover/card:opacity-100 transition-opacity">
+                        <ChevronRight size={16} />
+                      </button>
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 px-2 py-0.5 rounded-full text-white text-[10px] backdrop-blur-sm">
+                        {currentIndex + 1}/{totalImages}
+                      </div>
+                    </>
+                  )}
+                </div>
 
-                    <div className="space-y-2 mt-2">
-                      {isAuthenticated() && (
-                        <button 
-                        onClick={() => navigate('/criar-festa', { state: { partyData: item } })}
-                          className="w-full px-3 py-2 bg-white border border-castello-red text-castello-red rounded-lg hover:bg-red-50 transition text-sm font-bold">
-                          {hasRole('ADMIN') ? 'Ver Detalhes' : 'Editar/Refazer'}
-                        </button>
-                      )}
-                    </div>
+                {/* Conteúdo */}
+                <div className="p-5 flex flex-col flex-1">
+                  <div className="mb-4">
+                    <h3 className="font-bold text-xl text-gray-800 leading-tight mb-2">
+                      {displayTitle}
+                    </h3>
+                    <p className="text-sm text-gray-600 line-clamp-2">
+                      {item.description || "Uma festa inesquecível realizada pela Castello."}
+                    </p>
+                  </div>
+
+                  {item.products && item.products.length > 0 && (
+                      <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 block">Destaques:</span>
+                          <div className="flex flex-wrap gap-1">
+                              {item.products.slice(0, 3).map((p, i) => (
+                                  <span key={i} className="text-xs bg-white border border-gray-200 px-2 py-0.5 rounded text-gray-600 truncate max-w-[100px]">
+                                    {p.name}
+                                  </span>
+                              ))}
+                              {item.products.length > 3 && <span className="text-xs text-gray-400 pl-1">+{item.products.length - 3}</span>}
+                          </div>
+                      </div>
+                  )}
+
+                  <div className="mt-auto grid grid-cols-2 gap-3 pt-2">
+                    {/* Botão Tenho Interesse (WhatsApp) */}
+                    <button 
+                      onClick={() => handleInterest(item)}
+                      className="flex items-center justify-center gap-2 px-3 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-xs font-bold uppercase tracking-wide shadow-sm"
+                      title="Falar no WhatsApp"
+                    >
+                      <MessageCircle size={16} />
+                      <span>Tenho Interesse</span>
+                    </button>
+
+                    {/* Botão Quero uma Parecida */}
+                    <button 
+                      onClick={() => handleCopyParty(item)}
+                      className="flex items-center justify-center gap-2 px-3 py-2.5 bg-castello-red text-white rounded-lg hover:bg-red-800 transition text-xs font-bold uppercase tracking-wide shadow-sm"
+                      title="Usar como base para minha festa"
+                    >
+                      <Copy size={16} />
+                      <span>Quero Igual</span>
+                    </button>
                   </div>
                 </div>
               </div>

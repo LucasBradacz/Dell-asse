@@ -54,11 +54,11 @@ const CreateCustomParty = () => {
       if (sourceParty.products && sourceParty.products.length > 0) {
         const mappedItems = sourceParty.products.map(prod => ({
             id: Date.now() + Math.random(),
-            dbId: prod.id || null, // Guarda ID do banco se existir
+            dbId: prod.id || null, 
             name: prod.name,
             quantity: 1,
             price: prod.price || 0,
-            stockMax: prod.stockQuantity || 999 // Limite de estoque
+            stockMax: prod.stockQuantity || 999 
         }));
         setItems(mappedItems);
       }
@@ -90,14 +90,13 @@ const CreateCustomParty = () => {
             quantity: 1, 
             price: product.price,
             stockMax: product.stockQuantity,
-            isDbItem: true // Marca que veio do banco
+            isDbItem: true 
         }
     ]);
     setIsProductModalOpen(false);
     setSearchTerm('');
   };
 
-  // Adicionar item manual (customizado)
   const handleAddManualItem = () => {
     setItems([
         ...items, 
@@ -113,7 +112,6 @@ const CreateCustomParty = () => {
     setItems(items.map(item => {
       if (item.id === id) {
         const newQty = item.quantity + delta;
-        // Validação de mínimo 1 e máximo (estoque)
         if (newQty < 1) return item;
         if (item.isDbItem && newQty > item.stockMax) {
             alert(`Estoque máximo disponível: ${item.stockMax}`);
@@ -155,7 +153,6 @@ const CreateCustomParty = () => {
         ...formData,
         description: `[ITENS SOLICITADOS: ${itemsDescription}] \n\nOBSERVAÇÕES: ${formData.description}\n${formData.observations}`,
         generateBudget: formData.generateBudget ? parseFloat(formData.generateBudget) : 0,
-        // Aqui você poderia enviar IDs dos produtos para o backend se ele suportasse relacionamento direto
         products: [] 
       };
 

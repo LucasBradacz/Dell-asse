@@ -50,7 +50,6 @@ const UploadLogo = () => {
       <div className="max-w-2xl space-y-6">
         <div className="castello-card p-6">
           <div className="space-y-4">
-            {/* Input invisível para selecionar arquivo */}
             <input
               type="file"
               ref={fileInputRef}

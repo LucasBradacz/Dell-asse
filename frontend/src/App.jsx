@@ -1,10 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-// Lembre-se do ConfigProvider se estiver usando ele
 import { ConfigProvider } from './contexts/ConfigContext'; 
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
-
 
 // Pages principais
 import Home from './pages/Home';
@@ -13,7 +11,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import CreateCustomParty from './pages/CreateCustomParty'; // <--- 1. IMPORTE AQUI
+import CreateCustomParty from './pages/CreateCustomParty';
 
 // Admin Pages
 import AdminPanel from './pages/AdminPanel';
