@@ -1,7 +1,20 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { UserPlus, AlertCircle, CheckCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle, User, Mail, Lock, Phone, Calendar } from 'lucide-react';
+
+// Correção: Componente movido para fora para evitar perda de foco ao digitar
+const InputIcon = ({ icon: Icon, ...props }) => (
+  <div className="relative">
+    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+      <Icon size={18} />
+    </div>
+    <input
+      {...props}
+      className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl leading-5 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 sm:text-sm"
+    />
+  </div>
+);
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +23,10 @@ const Register = () => {
     username: '',
     password: '',
     confirmPassword: '',
+    phone: '',
+    birthday: ''
   });
+  
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,19 +50,20 @@ const Register = () => {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('A senha deve ter pelo menos 6 caracteres');
-      return;
-    }
-
-    if (formData.username.length < 4 || formData.username.length > 20) {
-      setError('O usuário deve ter entre 4 e 20 caracteres');
-      return;
-    }
-
     setLoading(true);
 
-    const result = await register(formData);
+    let formattedDate = formData.birthday;
+    if (formData.birthday) {
+        const [year, month, day] = formData.birthday.split('-');
+        formattedDate = `${day}-${month}-${year}`;
+    }
+
+    const payload = {
+        ...formData,
+        birthday: formattedDate
+    };
+
+    const result = await register(payload);
 
     if (result.success) {
       setSuccess(true);
@@ -61,128 +78,95 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Criar nova conta
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-lg w-full bg-white rounded-2xl shadow-xl overflow-hidden p-8 space-y-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-800 tracking-tight">
+            Criar Conta
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Ou{' '}
-            <Link
-              to="/login"
-              className="font-medium text-primary-600 hover:text-primary-500"
-            >
-              faça login na sua conta existente
-            </Link>
+          <p className="mt-2 text-sm text-gray-500">
+            Preencha seus dados para começar
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+
+        <form className="space-y-5" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center space-x-2">
-              <AlertCircle size={20} />
-              <span>{error}</span>
+            <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-md flex items-center shadow-sm">
+              <AlertCircle size={20} className="mr-2" />
+              <span className="text-sm font-medium">{error}</span>
             </div>
           )}
           {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg flex items-center space-x-2">
-              <CheckCircle size={20} />
-              <span>Conta criada com sucesso! Redirecionando...</span>
+            <div className="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 rounded-md flex items-center shadow-sm">
+              <CheckCircle size={20} className="mr-2" />
+              <span className="text-sm font-medium">Conta criada com sucesso!</span>
             </div>
           )}
+
           <div className="space-y-4">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Nome Completo
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                placeholder="Seu nome completo"
-                value={formData.name}
-                onChange={handleChange}
-              />
+            <InputIcon 
+                icon={User}
+                id="name" name="name" type="text" placeholder="Nome Completo" required
+                value={formData.name} onChange={handleChange}
+            />
+             <InputIcon 
+                icon={User}
+                id="username" name="username" type="text" placeholder="Nome de Usuário (Login)" required
+                value={formData.username} onChange={handleChange}
+            />
+            <InputIcon 
+                icon={Mail}
+                id="email" name="email" type="email" placeholder="Email" required
+                value={formData.email} onChange={handleChange}
+            />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <InputIcon 
+                    icon={Phone}
+                    id="phone" name="phone" type="tel" placeholder="Telefone" required
+                    value={formData.phone} onChange={handleChange}
+                />
+                <InputIcon 
+                    icon={Calendar}
+                    id="birthday" name="birthday" type="date" required
+                    value={formData.birthday} onChange={handleChange}
+                />
             </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                placeholder="seu@email.com"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                Usuário
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                placeholder="nomeusuario"
-                value={formData.username}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Senha
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                placeholder="Mínimo 6 caracteres"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                Confirmar Senha
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                placeholder="Confirme sua senha"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-              />
+            
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <InputIcon 
+                    icon={Lock}
+                    id="password" name="password" type="password" placeholder="Senha" required
+                    value={formData.password} onChange={handleChange}
+                />
+                <InputIcon 
+                    icon={Lock}
+                    id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirmar Senha" required
+                    value={formData.confirmPassword} onChange={handleChange}
+                />
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading || success}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-              ) : (
-                <>
-                  <UserPlus className="mr-2" size={18} />
-                  Criar Conta
-                </>
-              )}
-            </button>
+          <button
+            type="submit"
+            disabled={loading || success}
+            className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 shadow-md transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+            ) : (
+              <>
+                Criar Conta
+              </>
+            )}
+          </button>
+
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-600">
+              Já tem uma conta?{' '}
+              <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-500 transition-colors">
+                Faça Login
+              </Link>
+            </p>
           </div>
         </form>
       </div>
@@ -191,4 +175,3 @@ const Register = () => {
 };
 
 export default Register;
-
