@@ -49,21 +49,30 @@ public class UserEnterpriseCheckFilter extends OncePerRequestFilter {
     private void doInternalFilter(HttpServletRequest request){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null || !auth.isAuthenticated()){
-            throw new DomainException(DomainError.USER_NOT_AUTHENTICATED);
+        // Se não tiver auth, ou não estiver autenticado, ou for o usuário "anonymousUser" (Visitante)
+        // Nós simplesmente retornamos e deixamos o Spring Security decidir se ele pode acessar a rota ou não.
+        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getName())){
+            return; 
         }
 
-        UUID userId = ConvertString.toUUID(auth.getName());
-        UUID enterpriseId = userService.validateUserEnterprise(userId);
+        try {
+            // Só tenta converter para UUID se tiver certeza que não é "anonymousUser"
+            UUID userId = ConvertString.toUUID(auth.getName());
+            UUID enterpriseId = userService.validateUserEnterprise(userId);
 
-        if (enterpriseId != null){
-            var enterprise = enterpriseRepository.findById(enterpriseId)
-                .orElseThrow(() -> new DomainException(DomainError.ENTERPRISE_NOT_FOUND));
+            if (enterpriseId != null){
+                var enterprise = enterpriseRepository.findById(enterpriseId)
+                    .orElseThrow(() -> new DomainException(DomainError.ENTERPRISE_NOT_FOUND));
 
-            var expiration = enterprise.getDateExpiration();
-            if (expiration != null && expiration.isBefore(LocalDateTime.now())){
-                throw new DomainException(DomainError.ENTERPRISE_EXPIRED);
+                var expiration = enterprise.getDateExpiration();
+                if (expiration != null && expiration.isBefore(LocalDateTime.now())){
+                    throw new DomainException(DomainError.ENTERPRISE_EXPIRED);
+                }
             }
+        } catch (IllegalArgumentException e) {
+            // Proteção extra: Se o token estiver malformado, ignora neste filtro 
+            // e deixa o Spring Security barrar depois se necessário.
+            return;
         }
     }
 }

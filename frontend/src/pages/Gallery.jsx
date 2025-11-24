@@ -197,7 +197,6 @@ const Gallery = () => {
                     <h3 className="font-bold text-xl text-gray-800 leading-tight mb-2">
                       {displayTitle}
                     </h3>
-                    {/* CORREÇÃO AQUI: Tenta ler observation (do backend) ou observations */}
                     <p className="text-sm text-gray-600 line-clamp-2">
                       {item.observation || item.observations || "Uma festa inesquecível realizada pela Castello."}
                     </p>
@@ -217,8 +216,9 @@ const Gallery = () => {
                       </div>
                   )}
 
-                  <div className="mt-auto grid grid-cols-2 gap-3 pt-2">
-                    {/* Botão Tenho Interesse (WhatsApp) */}
+                  <div className={`mt-auto grid gap-3 pt-2 ${isAuthenticated() ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                    
+                    {/* Botão Tenho Interesse (WhatsApp) - SEMPRE VISÍVEL */}
                     <button 
                       onClick={() => handleInterest(item)}
                       className="flex items-center justify-center gap-2 px-3 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-xs font-bold uppercase tracking-wide shadow-sm"
@@ -228,15 +228,17 @@ const Gallery = () => {
                       <span>Tenho Interesse</span>
                     </button>
 
-                    {/* Botão Quero uma Parecida */}
-                    <button 
-                      onClick={() => handleCopyParty(item)}
-                      className="flex items-center justify-center gap-2 px-3 py-2.5 bg-castello-red text-white rounded-lg hover:bg-red-800 transition text-xs font-bold uppercase tracking-wide shadow-sm"
-                      title="Usar como base para minha festa"
-                    >
-                      <Copy size={16} />
-                      <span>Quero Igual</span>
-                    </button>
+                    {/* Botão Quero uma Parecida - SÓ VISÍVEL SE LOGADO */}
+                    {isAuthenticated() && (
+                      <button 
+                        onClick={() => handleCopyParty(item)}
+                        className="flex items-center justify-center gap-2 px-3 py-2.5 bg-castello-red text-white rounded-lg hover:bg-red-800 transition text-xs font-bold uppercase tracking-wide shadow-sm"
+                        title="Usar como base para minha festa"
+                      >
+                        <Copy size={16} />
+                        <span>Quero Igual</span>
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
