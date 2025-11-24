@@ -45,6 +45,27 @@ const ViewRequests = () => {
     }
   };
 
+  // --- FUNÇÃO ATUALIZADA COM O NOME CORRETO ---
+  const handleDownloadContract = (req) => {
+    if (req.status !== 'APPROVED') {
+        alert("O contrato só está disponível para festas Aprovadas.");
+        return;
+    }
+
+    const link = document.createElement('a');
+    // AQUI: Nome exato do seu ficheiro na pasta public
+    link.href = '/Contrato Castello.pdf'; 
+    
+    // Mantém o nome do download dinâmico para organização
+    const clientName = req.userName || req.user?.name || 'Cliente';
+    link.download = `Contrato_Festa_${req.id}_${clientName.replace(/\s+/g, '_')}.pdf`;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  // --------------------------------------------
+
   const getStatusColor = (statusVal) => {
     const found = statusOptions.find(s => s.value === statusVal);
     return found ? found.color : 'bg-gray-500';
@@ -57,12 +78,9 @@ const ViewRequests = () => {
 
   const formatDate = (dateInput) => {
     if (!dateInput) return "-";
-    // Tenta converter string ISO ou array de data
     try {
         const date = new Date(dateInput);
         if (!isNaN(date)) return date.toLocaleDateString('pt-BR');
-        
-        // Fallback para array do Java [ano, mes, dia...]
         if (Array.isArray(dateInput)) {
              const [year, month, day] = dateInput;
              return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
@@ -107,20 +125,17 @@ const ViewRequests = () => {
                     <span>{req.title}</span>
                 </td>
                 
-                {/* CORREÇÃO: Usa o novo campo userName */}
                 <td className="py-4 px-4 align-top">
                     <div className="flex flex-col">
-                        <span className="font-medium">{req.userName}</span>
+                        <span className="font-medium">{req.userName || (req.user ? req.user.name : 'Desconhecido')}</span>
                         <span className="text-xs text-gray-500">Cliente</span>
                     </div>
                 </td>
 
-                {/* CORREÇÃO: Usa o novo campo requestDate */}
                 <td className="py-4 px-4 align-top">
-                    {formatDate(req.requestDate)}
+                    {formatDate(req.requestDate || req.lastAtualization)}
                 </td>
 
-                {/* CORREÇÃO: Usa o campo generateBudget corretamente tipado */}
                 <td className="py-4 px-4 align-top text-green-700 font-bold">
                     {typeof req.generateBudget === 'number' 
                         ? `R$ ${req.generateBudget.toFixed(2)}` 
@@ -165,9 +180,19 @@ const ViewRequests = () => {
 
                 <td className="py-4 px-4 align-top">
                   <div className="flex gap-2">
-                    <button className="p-1.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-100" title="Contrato">
+                    <button 
+                        onClick={() => handleDownloadContract(req)}
+                        disabled={req.status !== 'APPROVED'}
+                        className={`p-1.5 rounded transition ${
+                            req.status === 'APPROVED' 
+                            ? 'bg-blue-50 text-blue-600 hover:bg-blue-100 cursor-pointer' 
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        }`}
+                        title={req.status === 'APPROVED' ? "Baixar Contrato" : "Aprovar para liberar contrato"}
+                    >
                         <FileText size={16} />
                     </button>
+
                     <button className="p-1.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-100" title="Email">
                         <Mail size={16} />
                     </button>

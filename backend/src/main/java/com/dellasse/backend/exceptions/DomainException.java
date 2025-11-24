@@ -22,4 +22,8 @@ public class DomainException extends RuntimeException {
     public int getStatus() {
         return error.getStatus();
     }
+
+    public DomainError getError() {
+        return error;
+    }
 }
