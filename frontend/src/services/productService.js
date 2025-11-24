@@ -10,5 +10,10 @@ export const productService = {
     const response = await api.patch(`/product/update/${productId}`, productData);
     return response.data;
   },
+  async getAll() {
+    const response = await api.get('/product/all');
+    return response.data;
+  },
+  
 };
 

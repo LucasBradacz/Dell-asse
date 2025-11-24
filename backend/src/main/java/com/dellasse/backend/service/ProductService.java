@@ -1,13 +1,16 @@
 package com.dellasse.backend.service;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.dellasse.backend.contracts.product.ProductCreateRequest;
+import com.dellasse.backend.contracts.product.ProductResponse;
 import com.dellasse.backend.contracts.product.ProductUpdateRequest;
 import com.dellasse.backend.contracts.product.ProductUpdateResponse;
 import com.dellasse.backend.mappers.ProductMapper;
@@ -112,5 +115,12 @@ public class ProductService {
             entity.setImageUrl(request.imageUrl());
         }
         entity.setDateUpdate(DateUtils.now());
+    }
+
+    public List<ProductResponse> getAll() {
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                .map(ProductMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }

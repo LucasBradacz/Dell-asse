@@ -1,8 +1,11 @@
 package com.dellasse.backend.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dellasse.backend.contracts.product.ProductCreateRequest;
+import com.dellasse.backend.contracts.product.ProductResponse;
 import com.dellasse.backend.contracts.product.ProductUpdateRequest;
 import com.dellasse.backend.contracts.product.ProductUpdateResponse;
 import com.dellasse.backend.service.ProductService;
@@ -56,5 +60,10 @@ public class ProductContoller {
     @PatchMapping("/update/{id}")
     public ProductUpdateResponse update(@Valid @RequestBody ProductUpdateRequest updateRequest, @PathVariable Long id, JwtAuthenticationToken token){
         return productService.update(updateRequest, id, token.getName());
+    }
+
+    @GetMapping("/all")
+    public List<ProductResponse> getAll() {
+        return productService.getAll();
     }
 }

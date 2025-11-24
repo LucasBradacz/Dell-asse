@@ -12,6 +12,7 @@ import com.dellasse.backend.exceptions.DomainError;
 import com.dellasse.backend.exceptions.DomainException;
 import com.dellasse.backend.mappers.PartyMapper;
 import com.dellasse.backend.models.Enterprise;
+import com.dellasse.backend.models.Gallery;
 import com.dellasse.backend.models.Party;
 import com.dellasse.backend.models.Role;
 import com.dellasse.backend.models.User;
@@ -47,6 +48,12 @@ public class PartyService {
         boolean isStaff = userService.isStaff(roles);
         if (isStaff) {
             enterpriseId = userService.validateUserEnterprise(userId);
+        }
+        if (request.galleryId() != null) {
+            Gallery gallery = entityManager.find(Gallery.class, request.galleryId());
+            party.setGallery(gallery);
+        } else {
+            party.setGallery(null);
         }
         applyDefaultValues(party, userId, enterpriseId);
         

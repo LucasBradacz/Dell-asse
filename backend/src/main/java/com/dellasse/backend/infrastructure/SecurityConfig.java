@@ -48,6 +48,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/party/gallery").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/product/all").permitAll() //
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable()
