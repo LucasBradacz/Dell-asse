@@ -7,6 +7,9 @@ import java.lang.annotation.Target;
 
 import jakarta.validation.Constraint;
 
+/**
+ * Anotação personalizada para validar se as senhas coincidem.
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordMatchesValidator.class)

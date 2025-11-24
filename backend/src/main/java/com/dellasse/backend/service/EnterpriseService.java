@@ -19,6 +19,11 @@ import com.dellasse.backend.repositories.EnterpriseRepository;
 import com.dellasse.backend.repositories.UserRepository;
 import com.dellasse.backend.util.ConvertString;
 
+/**
+ * Serviço para a entidade Enterprise.
+ * <p>
+ * Fornece métodos para operações relacionadas às empresas.
+ */
 @Service
 public class EnterpriseService {
     
@@ -31,6 +36,13 @@ public class EnterpriseService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Cria uma nova empresa.
+     *
+     * @param request Dados da empresa a ser criada.
+     * @param id      ID do usuário que está criando a empresa.
+     * @return Resposta HTTP indicando o resultado da operação.
+     */
     public ResponseEntity<?> create(EnterpriseCreateRequest request, String id){
         UUID userId = ConvertString.toUUID(id);
 
@@ -54,6 +66,14 @@ public class EnterpriseService {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Atualiza uma empresa existente.
+     *
+     * @param request      Dados atualizados da empresa.
+     * @param enterpriseId ID da empresa a ser atualizada.
+     * @param id           ID do usuário que está realizando a atualização.
+     * @return Resposta HTTP indicando o resultado da operação.
+     */
     public ResponseEntity<?> update(EnterpriseUpdateRequest request, UUID enterpriseId, String id){
         UUID userId = ConvertString.toUUID(id);
 
@@ -74,6 +94,13 @@ public class EnterpriseService {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Busca uma empresa pelo ID.
+     *
+     * @param enterpriseId ID da empresa a ser buscada.
+     * @param token        Token do usuário que está realizando a busca.
+     * @return Dados da empresa encontrada.
+     */
     public EnterpriseResponse findById(UUID enterpriseId, String token){
         UUID userId = ConvertString.toUUID(token);
         UUID enterpriseUuid = userService.validateUserEnterprise(userId);
@@ -88,6 +115,12 @@ public class EnterpriseService {
         return EnterpriseMapper.toEnterpriseResponse(enterprise);
     }
 
+    /**
+     * Busca todas as empresas.
+     *
+     * @param token Token do usuário que está realizando a busca.
+     * @return Lista de empresas encontradas.
+     */
     public List<EnterpriseResponse> findAll(String token){
         UUID userId = ConvertString.toUUID(token);
         UUID enterpriseUuid = userService.validateUserEnterprise(userId);

@@ -10,8 +10,27 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Filtro de autenticação JWT via cookie.
+ * <p>
+ * Este filtro intercepta as requisições HTTP para extrair o token JWT
+ * armazenado em um cookie e adicioná-lo ao cabeçalho Authorization.
+ *
+ * @author  Dell'Asse
+ * @version 1.0
+ * @since 2025-11-21
+ */
 public class JwtCookieAuthenticationFilter extends OncePerRequestFilter {
 
+    /** 
+     * Processa a requisição HTTP para adicionar o token JWT do cookie ao cabeçalho Authorization.
+     *
+     * @param request     A requisição HTTP.
+     * @param response    A resposta HTTP.
+     * @param filterChain O filtro da cadeia de filtros.
+     * @throws ServletException Em caso de erro no servlet.
+     * @throws IOException      Em caso de erro de I/O.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,

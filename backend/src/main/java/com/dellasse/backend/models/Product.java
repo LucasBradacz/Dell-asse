@@ -12,7 +12,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/**
+ * Entidade que representa um produto no sistema.
+ * <p>
+ * Contém informações sobre o nome, descrição, preço,
+ * quantidade em estoque, categoria, URL da imagem,
+ * data de criação e atualização, empresa e usuário associados ao produto.
+ */
 @Entity
 @Getter
 @Setter

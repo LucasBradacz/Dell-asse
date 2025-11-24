@@ -17,6 +17,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidade que representa uma festa no sistema.
+ * <p>
+ * Contém informações sobre o título, descrição, observações,
+ * status, imagem de exemplo, orçamento gerado, usuário associado,
+ * empresa, produtos e galeria relacionados à festa.
+ */
 @Entity
 @Getter
 @Setter

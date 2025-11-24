@@ -9,7 +9,7 @@ package com.dellasse.backend.exceptions;
  * <p>Usado principalmente em exceções de domínio para padronizar mensagens
  * e códigos de retorno.</p>
  *
- * @author  Dell'Assa
+ * @author  Dell'Asse
  * @version 1.0
  * @since   2025-11-21
  */

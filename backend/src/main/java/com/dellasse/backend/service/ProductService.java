@@ -26,6 +26,11 @@ import jakarta.persistence.EntityManager;
 import com.dellasse.backend.exceptions.DomainError;
 import com.dellasse.backend.exceptions.DomainException;
 
+/**
+ * Serviço para a entidade Product.
+ * <p>
+ * Fornece métodos para operações relacionadas aos produtos.
+ */
 @Service
 public class ProductService {
     
@@ -38,6 +43,13 @@ public class ProductService {
     @Autowired
     private EntityManager entityManager;
 
+    /**
+     * Cria um novo produto.
+     *
+     * @param createRequest Dados do produto a ser criado.
+     * @param token         Token do usuário que está criando o produto.
+     * @return Resposta HTTP indicando o resultado da operação.
+     */
     public ResponseEntity<?> create(ProductCreateRequest createRequest, String token){
         UUID userId = ConvertString.toUUID(token);
 
@@ -53,6 +65,13 @@ public class ProductService {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+     * Define os valores padrão para um produto.
+     *
+     * @param product      O produto a ser configurado.
+     * @param userId       ID do usuário que está criando o produto.
+     * @param enterpriseId ID da empresa associada ao produto.
+     */
     private void setValueDefault(Product product, UUID userId, UUID enterpriseId){
         product.setUser(entityManager.getReference(User.class, userId));
         product.setEnterprise(entityManager.getReference(Enterprise.class, enterpriseId));
@@ -60,6 +79,14 @@ public class ProductService {
         product.setDateUpdate(DateUtils.now());
     }
 
+    /**
+     * Atualiza um produto existente.
+     *
+     * @param request   Dados atualizados do produto.
+     * @param productId ID do produto a ser atualizado.
+     * @param token     Token do usuário que está realizando a atualização.
+     * @return Dados do produto atualizado.
+     */
     public ProductUpdateResponse update(ProductUpdateRequest request, Long productId, String token) {
         
         if (productId == null){
@@ -81,6 +108,12 @@ public class ProductService {
         return ProductMapper.toContractUpdateResponse(entity);
     }
 
+    /**
+     * Verifica se o produto pertence à empresa do usuário.
+     *
+     * @param productId    ID do produto.
+     * @param enterpriseId ID da empresa.
+     */
     private void existsProductEnterprise(Long productId, UUID enterpriseId){
         if (enterpriseId == null || productId == null){
             throw new DomainException(DomainError.PRODUCT_OR_ENTERPRISE_NOT_FOUND_INTERNAL);
@@ -95,6 +128,12 @@ public class ProductService {
         }
     }
 
+    /**
+     * Define os valores atualizados para um produto.
+     *
+     * @param entity  O produto a ser atualizado.
+     * @param request Dados atualizados do produto.
+     */
     private void setValueUpdate(Product entity, ProductUpdateRequest request){
         if (request.name() != null){
             entity.setName(request.name());
@@ -117,6 +156,11 @@ public class ProductService {
         entity.setDateUpdate(DateUtils.now());
     }
 
+    /**
+     * Busca todos os produtos.
+     *
+     * @return Lista de produtos encontrados.
+     */
     public List<ProductResponse> getAll() {
         List<Product> products = productRepository.findAll();
         return products.stream()

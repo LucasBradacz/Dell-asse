@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
  * <p>
  * Este controlador fornece endpoints para criar, atualizar, consultar e listar festas.
  *
- * @author  Dell'Assa
+ * @author  Dell'Asse
  * @version 1.0
  * @since 2025-11-21
  */

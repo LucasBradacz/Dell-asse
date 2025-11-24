@@ -22,6 +22,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidade que representa um usuário no sistema.
+ * <p>
+ * Contém informações como nome, e-mail, nome de usuário,
+ * senha, telefone, data de nascimento, status ativo,
+ * papéis (roles) associados e a empresa vinculada ao usuário.
+ */
 @Entity
 @Getter
 @Setter

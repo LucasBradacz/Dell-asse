@@ -22,7 +22,11 @@ import com.dellasse.backend.util.ConvertString;
 
 import jakarta.persistence.EntityManager;
 
-
+/**
+ * Serviço para a entidade Gallery.
+ * <p>
+ * Fornece métodos para operações relacionadas às galerias de imagens.
+ */
 @Service
 public class GalleryService {
 
@@ -38,6 +42,12 @@ public class GalleryService {
     @Autowired
     private EntityManager entityManager;
 
+    /**
+     * Cria uma nova galeria.
+     *
+     * @param request Dados da galeria a ser criada.
+     * @param token   Token do usuário que está criando a galeria.
+     */
     public void create(GalleryCreateRequest request, String token) {
         UUID userId = ConvertString.toUUID(token);
         if (userId == null) {
@@ -60,6 +70,12 @@ public class GalleryService {
         }
     }
 
+    /**
+     * Busca todas as galerias.
+     *
+     * @param token Token do usuário que está realizando a busca.
+     * @return Lista de galerias encontradas.
+     */
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<GalleryResponse> findAll(String token) {
         List<Gallery> galleries = galleryRepository.findAllWithRelations();

@@ -18,6 +18,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidade que representa uma galeria de imagens no sistema.
+ * <p>
+ * Contém informações sobre o nome da galeria, as imagens associadas,
+ * a empresa proprietária e as festas relacionadas à galeria.
+ */
 @Entity
 @Getter
 @Setter

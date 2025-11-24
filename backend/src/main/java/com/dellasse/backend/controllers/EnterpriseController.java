@@ -26,7 +26,7 @@ import jakarta.validation.Valid;
  * Possibilita criação, atualização, consulta individual e listagem de empresas.
  * O acesso aos endpoints é restrito a usuários com as roles apropriadas.
  *
- * @author  Dell'Assa
+ * @author  Dell'Asse
  * @version 1.0
  * @since 2025-11-21
  */

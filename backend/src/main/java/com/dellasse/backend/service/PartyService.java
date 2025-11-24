@@ -23,6 +23,11 @@ import com.dellasse.backend.util.StatusUtils;
 
 import jakarta.persistence.EntityManager;
 
+/**
+ * Serviço para a entidade Party.
+ * <p>
+ * Fornece métodos para operações relacionadas às festas.
+ */
 @Service
 public class PartyService {
 
@@ -35,6 +40,13 @@ public class PartyService {
     @Autowired
     private EntityManager entityManager;
 
+    /**
+     * Cria uma nova festa.
+     *
+     * @param request Dados da festa a ser criada.
+     * @param token   Token do usuário que está criando a festa.
+     * @return A festa criada.
+     */
     public Party create(PartyCreateRequest request, String token){
         UUID enterpriseId = null;
         UUID userId = ConvertString.toUUID(token);
@@ -66,25 +78,20 @@ public class PartyService {
     public List<PartyResponse> getAll(String token){
         UUID userId = ConvertString.toUUID(token);
         
-        // 1. Verifica as permissões do usuário antes de tudo
         List<Role> roles = userService.getRoles(userId);
         boolean isAdmin = roles.stream()
                 .anyMatch(role -> role.getName().equalsIgnoreCase("ADMIN") || role.getName().equalsIgnoreCase("ROLE_ADMIN"));
 
-        // 2. SE FOR ADMIN: Retorna TUDO (Inclusive as solicitações de clientes sem empresa)
         if (isAdmin) {
              return PartyMapper.toResponse(partyRepository.findAll());
         }
 
-        // 3. SE NÃO FOR ADMIN (Lógica antiga):
         UUID enterpriseId = userService.validateUserEnterprise(userId);
         
-        // Se for cliente comum (sem empresa), vê só as dele
         if (enterpriseId == null) {
             return PartyMapper.toResponse(partyRepository.findAllByUser_Uuid(userId));
         }
 
-        // Se for funcionário, vê as da empresa
         boolean isStaff = roles.stream()
                 .anyMatch(role -> role.getName().equals(Role.Values.FUNCIONARIO.getName()));
 
@@ -95,6 +102,12 @@ public class PartyService {
         return PartyMapper.toResponse(partyRepository.findAllByEnterprise_Id(enterpriseId));
     }
 
+    /**
+     * Aplica valores padrão à festa.
+     * @param party
+     * @param userId
+     * @param enterpriseId
+     */
     private void applyDefaultValues(Party party, UUID userId, UUID enterpriseId){
         party.setUser(entityManager.find(User.class, userId));
         if (enterpriseId != null) {
@@ -104,6 +117,13 @@ public class PartyService {
         party.setStatus(StatusUtils.PENDING.getValue());
     }
 
+    /**
+     * Busca uma festa pelo ID.
+     *
+     * @param id    ID da festa a ser buscada.
+     * @param token Token do usuário que está realizando a busca.
+     * @return Dados da festa encontrada.
+     */
     public PartyResponse getById(Long id, String token){
         UUID userId = ConvertString.toUUID(token);
         Party party = partyRepository.findById(id)
@@ -114,6 +134,14 @@ public class PartyService {
         return PartyMapper.toResponse(party);
     }
 
+    /**
+     * Atualiza uma festa existente.
+     *
+     * @param id      ID da festa a ser atualizada.
+     * @param request Dados atualizados da festa.
+     * @param token   Token do usuário que está realizando a atualização.
+     * @return Dados da festa atualizada.
+     */
     public PartyResponse update(Long id, PartyCreateRequest request, String token){
         UUID userId = ConvertString.toUUID(token);
         Party party = partyRepository.findById(id)
@@ -126,6 +154,13 @@ public class PartyService {
         return PartyMapper.toResponse(partyRepository.save(party));
     }
 
+    /**
+     * Atualiza o status de uma festa.
+     *
+     * @param id     ID da festa a ser atualizada.
+     * @param status Novo status da festa.
+     * @param token  Token do usuário que está realizando a atualização.
+     */
     public void updateStatus(Long id, String status, String token) {
         UUID userId = ConvertString.toUUID(token);
 
@@ -137,6 +172,12 @@ public class PartyService {
         party.setStatus(cleanStatus);
         partyRepository.save(party);
     }
+
+    /**
+     * Busca todas as festas públicas.
+     *
+     * @return Lista de festas públicas encontradas.
+     */
     public List<PartyResponse> getPublicGallery() {
         List<Party> todasFestas = partyRepository.findAll();
         return PartyMapper.toResponse(todasFestas);

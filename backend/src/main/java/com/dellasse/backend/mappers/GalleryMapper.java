@@ -12,17 +12,32 @@ import com.dellasse.backend.contracts.product.ProductResponse;
 import com.dellasse.backend.models.Gallery;
 import com.dellasse.backend.models.Image;
 import com.dellasse.backend.models.Party;
-import com.dellasse.backend.models.Product;
 
+/**
+ * Classe responsável por mapear entre entidades Gallery e seus respectivos DTOs.
+ * <p>
+ * Fornece métodos para converter entre GalleryCreateRequest, GalleryResponse e a entidade Gallery.
+ */
 public class GalleryMapper {
     
-
+    /** 
+     * Converte um DTO de criação de galeria para a entidade Gallery.
+     *
+     * @param request O DTO contendo os dados para criar uma nova galeria.
+     * @return A entidade Gallery criada a partir do DTO.
+     */
     public static Gallery toEntity(GalleryCreateRequest request) {
         Gallery gallery = new Gallery();
         gallery.setName(request.name());
         return gallery;
     }
 
+    /** 
+     * Converte uma entidade Gallery para o DTO de resposta.
+     *
+     * @param gallery A entidade Gallery a ser convertida.
+     * @return O DTO de resposta contendo os dados da galeria.
+     */
     public static GalleryResponse toResponse(Gallery gallery) {
         List<ImageCreateRequest> images = new ArrayList<>();
         if (gallery.getImages() != null) {
@@ -63,6 +78,12 @@ public class GalleryMapper {
         );
     }
 
+    /** 
+     * Converte uma lista de entidades Gallery para uma lista de DTOs de resposta.
+     *
+     * @param galleries A lista de entidades Gallery a ser convertida.
+     * @return A lista de DTOs de resposta contendo os dados das galerias.
+     */
     public static List<GalleryResponse> toResponseList(List<Gallery> galleries) {
         List<GalleryResponse> list = new ArrayList<>();
         if (galleries != null) {

@@ -37,6 +37,11 @@ import com.dellasse.backend.util.ConvertString;
 
 import jakarta.persistence.EntityManager;
 
+/**
+ * Serviço para a entidade User.
+ * <p>
+ * Fornece métodos para operações relacionadas aos usuários.
+ */
 @Service
 public class UserService {
     
@@ -55,6 +60,13 @@ public class UserService {
     @Autowired
     private EntityManager entityManager;
 
+    /**
+     * Cria um novo usuário.
+     *
+     * @param request Dados do usuário a ser criado.
+     * @param token   Token do usuário que está criando o novo usuário (pode ser nulo).
+     * @return Resposta HTTP indicando o resultado da operação.
+     */
     public ResponseEntity<?> createUser(UserCreateRequest request, String token){
 
         if (userRepository.existsByUsername(request.username())) {
@@ -82,6 +94,12 @@ public class UserService {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Realiza o login de um usuário.
+     *
+     * @param loginRequest Dados de login do usuário.
+     * @return Resposta HTTP contendo o token JWT e os papéis do usuário.
+     */
     public ResponseEntity<?> loginUser(UserLoginRequest loginRequest){
         boolean userExists = userRepository.existsByUsername(loginRequest.username());
         if (!userExists){
@@ -139,6 +157,11 @@ public class UserService {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Define os valores padrão para um usuário.
+     *
+     * @param user O usuário a ser configurado.
+     */
     private void defaultValues(User user){
         user.setActive(true);
         Role role = roleRepository.findById(Role.Values.BASIC.getRoleId())
@@ -147,6 +170,14 @@ public class UserService {
 
     }
 
+    /**
+     * Atualiza um usuário existente.
+     *
+     * @param request  Dados atualizados do usuário.
+     * @param userId   ID do usuário a ser atualizado.
+     * @param token    Token do usuário que está realizando a atualização.
+     * @return Resposta HTTP indicando o resultado da operação.
+     */
     public  ResponseEntity<?>  updateUser(UserUpdateRequest request, UUID userId, String token){
         UUID userUUID = ConvertString.toUUID(token);
         
@@ -171,6 +202,12 @@ public class UserService {
         return ResponseEntity.ok(UserMapper.toResponse(userSaved));
     }
 
+    /**
+     * Valida a empresa associada ao usuário.
+     *
+     * @param userId ID do usuário.
+     * @return ID da empresa associada ao usuário.
+     */
     public UUID validateUserEnterprise(UUID userId){
 
         if (userId == null){
@@ -194,6 +231,12 @@ public class UserService {
         return enterpriseId;
     }
 
+    /**
+     * Busca os papéis de um usuário.
+     *
+     * @param userId ID do usuário.
+     * @return Lista de papéis do usuário.
+     */
     public List<Role> getRoles(UUID userId){
         if (userId == null){
             throw new DomainException(DomainError.USER_NOT_FOUND_INTERNAL);
@@ -207,6 +250,13 @@ public class UserService {
             .toList();
     }
 
+    /**
+     * Define os valores atualizados para um usuário.
+     *
+     * @param request Dados atualizados do usuário.
+     * @param user    O usuário a ser atualizado.
+     * @return O usuário atualizado.
+     */
     private User setValuesUpdate(UserUpdateRequest request, User user){
         if(request.username() != null){
             if (request.username().isBlank()){
@@ -234,6 +284,12 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Verifica se o usuário possui papel de staff (admin).
+     *
+     * @param roles Lista de papéis do usuário.
+     * @return true se o usuário for staff, false caso contrário.
+     */
     public boolean isStaff(List<Role> roles){
         if (roles == null || roles.isEmpty()){
             throw new NullArgumentException("Roles must contain at least one valid entry");
@@ -242,6 +298,12 @@ public class UserService {
         return roles.stream()
                 .anyMatch(role -> role.getName().equals(Role.Values.ADMIN.getName()));
     }
+
+    /**
+     * Busca todos os usuários.
+     *
+     * @return Resposta HTTP contendo a lista de usuários.
+     */
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<User> users = userRepository.findAll();
         List<UserResponse> response = users.stream()

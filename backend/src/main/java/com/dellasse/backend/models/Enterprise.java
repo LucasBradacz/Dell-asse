@@ -13,6 +13,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidade que representa uma empresa no sistema.
+ * <p>
+ * Contém informações como nome, documento, endereço, telefone,
+ * e-mail, URL da imagem e data de expiração da empresa.
+ */
 @Entity
 @Getter
 @Setter

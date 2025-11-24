@@ -27,6 +27,16 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 
+/**
+ * Configuração de segurança para a aplicação.
+ * <p>
+ * Esta configuração define os filtros de segurança, políticas de sessão,
+ * e configurações de autenticação JWT para proteger os endpoints da API.
+ *
+ * @author  Dell'Asse
+ * @version 1.0
+ * @since 2025-11-21
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -39,6 +49,13 @@ public class SecurityConfig {
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
 
+    /**
+     * Configura a cadeia de filtros de segurança.
+     * @param http
+     * @param userEnterpriseCheckFilter
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, UserEnterpriseCheckFilter userEnterpriseCheckFilter) throws Exception {
         var auth = UsernamePasswordAuthenticationFilter.class;
@@ -66,11 +83,21 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /** 
+     * Configura o decodificador JWT.
+     *
+     * @return JwtDecoder para decodificar tokens JWT.
+     */
     @Bean
     public JwtDecoder jwtDecoder(){
         return NimbusJwtDecoder.withPublicKey(publicKey).build();
     }
 
+    /** 
+     * Configura o codificador JWT.
+     *
+     * @return JwtEncoder para codificar tokens JWT.
+     */
     @Bean
     public JwtEncoder jwtEncoder(){
         JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(privateKey).build();
@@ -78,11 +105,21 @@ public class SecurityConfig {
         return new NimbusJwtEncoder(jwks);
     }
 
+    /** 
+     * Configura o codificador de senhas BCrypt.
+     *
+     * @return BCryptPasswordEncoder para codificação de senhas.
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    /** 
+     * Configura o conversor de autenticação JWT.
+     *
+     * @return JwtAuthenticationConverter para converter tokens JWT em autenticações.
+     */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();

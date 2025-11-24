@@ -10,6 +10,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidade que representa uma imagem no sistema.
+ * <p>
+ * Contém informações sobre a URL da imagem, texto alternativo
+ * e a galeria à qual a imagem pertence.
+ */
 @Entity
 @Getter
 @Setter

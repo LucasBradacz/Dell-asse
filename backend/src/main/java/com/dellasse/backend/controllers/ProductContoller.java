@@ -26,7 +26,7 @@ import jakarta.validation.Valid;
  * <p>
  * Este controlador fornece endpoints para criar, atualizar e consultar produtos.
  *
- * @author  Dell'Assa
+ * @author  Dell'Asse
  * @version 1.0
  * @since 2025-11-21
  */
@@ -62,6 +62,11 @@ public class ProductContoller {
         return productService.update(updateRequest, id, token.getName());
     }
 
+    /**
+     * Retorna todos os produtos.
+     *
+     * @return Lista de DTOs contendo os dados dos produtos.
+     */
     @GetMapping("/all")
     public List<ProductResponse> getAll() {
         return productService.getAll();

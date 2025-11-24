@@ -21,6 +21,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Filtro para verificar a validade da empresa associada ao usuário autenticado.
+ * <p>
+ * Este filtro intercepta as requisições HTTP para garantir que o usuário autenticado
+ * esteja associado a uma empresa válida e não expirada.
+ *
+ * @author  Dell'Asse
+ * @version 1.0
+ * @since 2025-11-21
+ */
 @Component
 public class UserEnterpriseCheckFilter extends OncePerRequestFilter {
 
@@ -30,12 +40,28 @@ public class UserEnterpriseCheckFilter extends OncePerRequestFilter {
     @Autowired
     private EnterpriseRepository enterpriseRepository;
     
+    /** 
+     * Processa a requisição HTTP para verificar a validade da empresa do usuário.
+     *
+     * @param request     A requisição HTTP.
+     * @param response    A resposta HTTP.
+     * @param filterChain O filtro da cadeia de filtros.
+     * @throws ServletException Em caso de erro no servlet.
+     * @throws IOException      Em caso de erro de I/O.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         doInternalFilter(request);
         filterChain.doFilter(request, response);
     }
 
+    /** 
+     * Define as condições para não aplicar este filtro.
+     *
+     * @param request A requisição HTTP.
+     * @return boolean indicando se o filtro deve ser ignorado.
+     * @throws ServletException Em caso de erro no servlet.
+     */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
@@ -46,6 +72,11 @@ public class UserEnterpriseCheckFilter extends OncePerRequestFilter {
         return false;
     }
 
+    /** 
+     * Lógica principal do filtro para verificar a validade da empresa do usuário.
+     *
+     * @param request A requisição HTTP.
+     */
     private void doInternalFilter(HttpServletRequest request){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

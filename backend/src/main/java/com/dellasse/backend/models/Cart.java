@@ -11,6 +11,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidade que representa um carrinho de compras no sistema.
+ * <p>
+ * Contém informações sobre o total do preço, o usuário associado,
+ * a empresa e a festa relacionada ao carrinho.
+ */
 @Entity
 @Getter
 @Setter

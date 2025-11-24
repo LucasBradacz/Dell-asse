@@ -10,6 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;  
 
+/**
+ * Repositório para a entidade User.
+ * <p>
+ * Fornece métodos para operações de CRUD e consultas relacionadas aos usuários.
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID>  {
     boolean existsByUsername(String username);
