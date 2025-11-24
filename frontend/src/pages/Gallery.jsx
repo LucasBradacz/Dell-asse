@@ -16,8 +16,7 @@ const Gallery = () => {
   useEffect(() => {
     const fetchParties = async () => {
       try {
-        const data = await partyService.getAll(); 
-        
+        const data = await partyService.getGallery();        
         // FILTRAGEM NO FRONTEND: Apenas festas "COMPLETED"
         const completedParties = Array.isArray(data) 
             ? data.filter(p => p.status === 'COMPLETED') 

@@ -94,4 +94,8 @@ public class PartyController {
     public void updateStatus(@PathVariable Long id, @RequestBody String status, JwtAuthenticationToken token) {
         partyService.updateStatus(id, status, token.getName());
     }
+    @GetMapping("/gallery")
+    public List<PartyResponse> getPublicGallery() {
+        return partyService.getPublicGallery();
+    }
 }

@@ -123,4 +123,8 @@ public class PartyService {
         party.setStatus(cleanStatus);
         partyRepository.save(party);
     }
+    public List<PartyResponse> getPublicGallery() {
+        List<Party> todasFestas = partyRepository.findAll();
+        return PartyMapper.toResponse(todasFestas);
+    }
 }
