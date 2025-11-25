@@ -1,6 +1,6 @@
 # Dell'Asse Frontend
 
-Frontend React para o sistema Dell'Asse - Sistema de Agendamento de Eventos.
+Frontend React para o sistema Dell'Asse
 
 ## Tecnologias
 
@@ -79,7 +79,6 @@ src/
 ## Funcionalidades
 
 - ✅ Autenticação (Login/Registro)
-- ✅ Dashboard com estatísticas
 - ✅ Gerenciamento de Produtos
 - ✅ Gerenciamento de Festas
 - ✅ Gerenciamento de Empresas (Admin)
@@ -92,9 +91,4 @@ O frontend está configurado para se comunicar com o backend Spring Boot na port
 
 A autenticação utiliza JWT tokens armazenados no localStorage e cookies.
 
-## Notas
-
-- O design foi criado como uma base moderna e pode ser adaptado conforme o design do Figma
-- As cores principais podem ser ajustadas no arquivo `tailwind.config.js`
-- A URL da API pode ser configurada via variável de ambiente `VITE_API_URL`
 
