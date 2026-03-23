@@ -38,7 +38,7 @@ Para ver os requisitos não funcionais e regras de negócio em detalhes, acesse 
 - **Linguagem:** Java  
 - **Framework:** Spring Boot   
 - **Banco de Dados:** PostgreSQL  
-- **Ferramentas:** Maven, Eclipse
+- **Ferramentas:** Maven, Intellij
 
 # Configuração do Ambiente
 
